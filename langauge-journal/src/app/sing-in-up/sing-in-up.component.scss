@@ -290,6 +290,17 @@ footer a {
 
 
 
+.sign-up-container{
+  input.ng-invalid.ng-touched {
+    border: 1px solid red;
+  }
+}
+
+
+
+
+
+
 
 
 //@use '../app.component' as v;
