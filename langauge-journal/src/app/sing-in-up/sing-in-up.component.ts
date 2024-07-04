@@ -3,17 +3,20 @@ import {
   AbstractControl,
   FormBuilder,
   FormControl,
-  FormGroup, NgForm, ReactiveFormsModule, Validators,
-  NgModel
+  FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators,
 } from "@angular/forms";
 
+import { CommonModule } from '@angular/common';
+import {NgClass} from "@angular/common";
+import {RouterLink, RouterLinkActive} from "@angular/router";
+import {Router} from "@angular/router";
 
 
 function createCompareValidator(controlOne: AbstractControl, controlTwo: AbstractControl) {
   return () => {
-    if (controlOne.value !== controlTwo.value)
-      return { match_error: 'Value does not match' };
-    return null;
+    const validationPassword = controlOne.value !== controlTwo.value;
+    return validationPassword ? {'passwordMismatch': {errorMessage: "Passwords are not the same"}} : null;
+
   };
 
 }
@@ -23,19 +26,19 @@ function createCompareValidator(controlOne: AbstractControl, controlTwo: Abstrac
   selector: 'app-sing-in-up',
   standalone: true,
   imports: [
-    ReactiveFormsModule
+    ReactiveFormsModule, CommonModule, RouterLink, RouterLinkActive, FormsModule
   ],
   templateUrl: './sing-in-up.component.html',
   styleUrl: './sing-in-up.component.scss'
 })
 export class SingInUpComponent implements AfterViewInit, OnInit{
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private router: Router) {
   }
 
   registrationForm: FormGroup;
 
-  username = new FormControl('', [Validators.required, Validators.min(5), Validators.max(15)])
+  username = new FormControl('', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(15)]))
   email = new FormControl('', [Validators.email, Validators.required])
   password = new FormControl('', [
     (c: AbstractControl) => Validators.required(c),
@@ -66,6 +69,42 @@ export class SingInUpComponent implements AfterViewInit, OnInit{
 
   }
 
+  get usernameControl(): AbstractControl {
+    return this.registrationForm.get('username')
+
+  }
+
+  get emailControl(): AbstractControl {
+    return this.registrationForm.get('email')
+  }
+
+  get passwordControl(): AbstractControl {
+    return this.registrationForm.get('password')
+  }
+
+  get confirmPasswordControl(): AbstractControl {
+    return this.registrationForm.get('confirmPassword')
+  }
+
+  get passwordForm(): FormGroup {
+    return this.registrationForm
+  }
+
+
+  onSubmit() {
+    console.log(this.registrationForm)
+  }
+
+  signInOnSubmit() {
+    this.router.navigate(['/layout/my-feed']).then(() => {
+      console.log('Navigation successful');
+    }).catch(err => {
+      console.error('Navigation error:', err);
+    });
+
+
+  }
+
   ngAfterViewInit() {
     console.log(this.container.nativeElement.classList)
 
@@ -85,9 +124,7 @@ export class SingInUpComponent implements AfterViewInit, OnInit{
   }
 
 
-  onSubmit() {
-    console.log(this.registrationForm)
-  }
+
 }
 
 

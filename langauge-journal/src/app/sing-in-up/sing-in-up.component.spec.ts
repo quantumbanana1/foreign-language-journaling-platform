@@ -11,7 +11,7 @@ describe('SingInUpComponent', () => {
       imports: [SingInUpComponent]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(SingInUpComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -21,3 +21,5 @@ describe('SingInUpComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+

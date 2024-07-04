@@ -1,0 +1,56 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+
+#global_var = ({
+  'color': #333'
+  'font-size': 16px
+  'font-family': Arial, sans-serif
+});
+
+
+
+$font-weights: (
+
+  'light': 300,
+  'regular': 400,
+  'medium': 500,
+  'bold': 700,
+  'black': 900,
+);
+
+
+.container {
+  font-family: 'Encode-Sans', sans-serif;
+}
+
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+
+
+
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+
+$primary-color: #e8bc11;
+$secondary-color: #d5a61d;
+$background-color: #d0cbcb;
+
+%buttons {
+  border-radius: 20px;
+  border: 1px solid #deda00;
+  background-color: #eccb37;
+  color: #FFFFFF;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 12px 45px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+
+}

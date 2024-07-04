@@ -117,11 +117,10 @@ form {
 
 input {
   background-color: #eee;
-  border: none;
   padding: 12px 15px;
-  margin: 8px 0;
+  margin: 4px 0;
   width: 100%;
-  margin-bottom:14px ;
+  border: 1px solid #eee;
 }
 
 .container {
@@ -134,7 +133,7 @@ input {
   width: 768px;
   max-width: 100%;
   min-height: 480px;
-  height: 70%;
+  height: 90%;
 }
 
 .form-container {
@@ -288,12 +287,43 @@ footer a {
   text-decoration: none;
 }
 
+.sign-up-container {
+  button {
+    margin-top: 1.5rem;
+  }
+}
 
 
-.sign-up-container{
+
+.sign-up-container, .sign-in-container {
   input.ng-invalid.ng-touched {
     border: 1px solid red;
   }
+
+  .form-header {
+    position: absolute;
+    top:2.5em
+  }
+
+
+
+  .invalidMsg {
+    color: red;
+    font-size: 0.8rem;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+  }
+
+
+
+
+  input.ng-dirty ng-touched ng-invalid {
+  }
+
+}
+
+.welcome-sing-in {
+  margin-bottom: 2rem;
 }
 
 
