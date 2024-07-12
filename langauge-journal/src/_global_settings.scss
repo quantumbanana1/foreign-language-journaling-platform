@@ -43,7 +43,7 @@ $font-weights: (
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
 
 $primary-color: #e8bc11;
-$secondary-color: rgba(255, 192, 46, 0.63);
+$secondary-color: rgb(234, 177, 50);
 $background-color: #d0cbcb;
 $font-stack: 'Encode-Sans', sans-serif;
 $margin-side-bar: 2.4em;
@@ -71,5 +71,26 @@ $margin-side-bar: 2.4em;
   padding: 0.9em 1.9em;
   letter-spacing: 1px;
   text-transform: uppercase;
+
+}
+
+%buttons-default-small {
+  border-radius: 20px;
+  border: 1px solid #f3f1e7;
+  background-color: rgba(236, 203, 55, 0);
+  color: #231f17;
+  font-size: 0.6rem;
+  font-weight: bold;
+  padding: 0.7em 1.1em;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+
+}
+
+
+%buttons-default-small:hover {
+  border: 1px solid #deda00;
+  background-color: #eccb37;
+  color: #FFFFFF;
 
 }

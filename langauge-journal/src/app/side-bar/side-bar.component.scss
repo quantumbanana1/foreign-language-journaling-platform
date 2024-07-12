@@ -1,0 +1,122 @@
+@import "../../global_settings";
+
+$margin-side-bar: 2.4em;
+
+
+aside {
+  height: 100vh;
+  position:fixed;
+  top:0;
+  z-index:99;
+  width: 230px;
+}
+
+.nav-wrapper {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  overflow-y: auto;
+
+
+
+  background-color:$primary-color ;
+  font-family: $font-stack
+
+}
+
+
+.nav-wrapper {
+  width: 100%;
+  //height: 100%;
+
+}
+
+.item-link {
+
+  line-height: 24px;
+  text-decoration: none;
+  width: 100%;
+  height: 74px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+
+  .item-container img {
+    width: 25px;
+    height: 25px;
+    filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7500%) hue-rotate(16deg) brightness(113%) contrast(106%);
+
+
+  }
+
+  .item-container {
+    display: flex;
+    margin-left: 1.3em;
+    span {
+      color: white;
+      font-size: 1.1rem;
+      font-weight: map-get($font-weights, 'regular');
+      margin-left: 0.4em;
+
+
+    }
+
+  }
+
+
+    //span {
+    //  color: white;
+    //  font-size: 1.2rem;
+    //  font-weight: map-get($font-weights, 'medium');
+    //  margin-left: 1em;
+    //
+    //
+    //}
+  }
+
+
+nav {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+}
+
+
+.nav-middle {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  gap: 0.6em;
+  //margin-top: $margin-side-bar/0.8;
+  margin-bottom: $margin-side-bar
+}
+
+.logout {
+  width: 70%;
+  align-self: center;
+}
+
+button {
+  margin-bottom: $margin-side-bar;
+  width: 100%;
+  @extend %buttons-transparent-large;
+  cursor: pointer;
+  transition: transform 0.2s;
+  align-self: center;
+  //position: fixed;
+  //bottom: 35px
+}
+
+button:hover {
+  transform: scale(1.05); /* Scale up the button */
+}
+
+.item-link:hover {
+  background-color: rgba(232, 219, 97, 0.38);
+  cursor: pointer;
+
+}
+
+
+

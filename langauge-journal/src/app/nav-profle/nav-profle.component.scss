@@ -1,0 +1,39 @@
+@import "../../global_settings";
+$margin-side-bar: 2.4em;
+
+.nav-top {
+  padding-top: $margin-side-bar;
+  padding-bottom: $margin-side-bar/0.8;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  flex-flow: column;
+  align-items: center;
+  gap: 0.9em;
+
+}
+
+
+.userAvatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+
+button {
+  @extend %buttons-transparent-large;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+button:hover {
+  transform: scale(1.1); /* Scale up the button */
+}
+
+.username {
+  color: white;
+  font-weight: map-get($font-weights, 'medium');
+
+}
