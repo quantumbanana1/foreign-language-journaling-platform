@@ -1,11 +1,298 @@
 
 @import "../../global_settings";
 
+$padding : 1.5em;
+
 .container {
   width: 100%;
   height: 100%;
   font-family: $font-stack;
   background-color: rgba(255, 165, 0, 0.14);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+
+  .left-side, .right-side {
+    height: 90vh;
+    width: 50%;
+    max-height: 1150px;
+    //flex-basis: 90%;
+    //max-height: 850px;
+    //height: 450px
+  }
+
+  .left-side {
+    padding: $padding $padding;
+    margin-left: 10px;
+    background: url('../../assets/images/background-profile.jpg') center center no-repeat;
+    background-size: cover;
+    position: relative;
+    z-index: 2;
+
+
+    .information {
+      color: white;
+      display: flex;
+      flex-flow: column;
+      gap: 10px;
+      margin-bottom: calc($padding*3.5);
+
+      .username {
+        font-size: 2em;
+        font-weight: 600;
+      }
+
+       p span {
+        font-weight: 500;
+      }
+    }
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-image: linear-gradient(to bottom right, #544607, #fadd56);
+      opacity: .6;
+      z-index: 1;
+    }
+
+    .information, .profile-img-description, .butt-stats-con {
+      z-index: 10;
+      position: relative;
+    }
+
+    .butt-stats-con {
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+
+
+      button {
+        @extend %buttons-default-small;
+        color: white;
+        font-weight: map-get($font-weights, 'bold');
+        border-color: $secondary-color;
+        cursor: pointer;
+
+      }
+    }
+
+    .profile-img-description{
+      display: flex;
+      flex-flow: column;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+
+      .container-img {
+        margin-bottom: $padding;
+      }
+
+      img {
+        width: 150px;
+        height: 150px;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
+        -o-object-fit: cover;
+        object-fit: cover;
+
+
+      }
+
+    }
+
+    .description {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      p {
+        color: white;
+      }
+    }
+
+  }
+
+  .right-side {
+    margin-right: 10px;
+    display:flex;
+    flex-flow: column;
+    //overflow: scroll;
+    background-color: white;
+    overflow: auto;
+
+
+    .header {
+      margin: $padding;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .text-container {
+        width: 50%;
+        background-color: $primary-color;
+        padding: 0.9em;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 127px 127px 127px 127px;
+        -webkit-border-radius: 127px 127px 127px 127px;
+        -moz-border-radius: 127px 127px 127px 127px;
+
+        .text {
+          color: white;
+          font-size: 18px;
+          line-height: 24px;
+          font-weight: 600;
+          border-radius: 127px 127px 127px 127px;
+          -webkit-border-radius: 127px 127px 127px 127px;
+          -moz-border-radius: 127px 127px 127px 127px;
+          padding: 4px 15px;
+
+        }
+
+
+      }
+
+
+    }
+
+
+    .post-img {
+      object-fit: cover;
+      //width: 125px !important;
+      height: 155px !important;
+      width: 45% !important;
+
+    }
+
+
+    .post-container {
+      padding: 9px;
+      display: flex;
+      flex-flow: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+
+
+      .post {
+        max-height: 155px;
+        max-width: 988px;
+        cursor: pointer;
+        margin-bottom: 25px;
+        margin-top: 25px;
+        //padding: $padding;
+        width: 100%;
+        display: flex;
+        gap: 10px;
+        //box-shadow: 0px 8px 10px #00000029;
+        -webkit-box-shadow: 0 0 15px -7px rgba(78, 78, 76, 1);
+        -moz-box-shadow: 0 0 15px -7px rgba(78, 78, 76, 1);
+        box-shadow: 0 0 15px -7px rgba(78, 78, 76, 1);
+
+
+        .information {
+          width: 100%;
+          display: flex;
+          flex-flow: column;
+          gap: 10px;
+          padding-top: 10px;
+          max-height: 155px;
+          padding-right: 10px;
+
+
+          .Title {
+            //font-size: 1.3em;
+            //font-weight: 500;
+            font-size: 24px;
+            font-weight: map-get($font-weights, "light");
+          }
+
+          .description {
+            //line-height: 19px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* number of lines to show */
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            //min-height: 50px;
+          }
+
+          .sub-text {
+
+            display: flex;
+            justify-content: space-between;
+            .text {
+              font-family: "Source Sans Pro", sans-serif;
+              font-size: 12px;
+              //line-height: 20px;
+              color: #95989a;
+              white-space: nowrap;
+            }
+
+            .read {
+              //display: block;
+              font-family: "Source Sans Pro", sans-serif;
+              font-size: 12px;
+              //line-height: 20px;
+              color: $primary-color;
+              text-transform: uppercase;
+            }
+          }
+        }
+
+
+      }
+
+
+
+    }
+
+
+    .post-stats {
+      span {
+        width: 19px !important;
+        height: 19px !important;
+      }
+
+      .post-stat-likes img,
+      .post-stat-com img {
+        width: 19px !important;
+        height: 19px !important;
+        filter: brightness(0) saturate(100%) invert(88%) sepia(80%) saturate(1375%) hue-rotate(333deg) brightness(91%) contrast(92%);
+      }
+    }
+
+    .post-stats {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+
+
+      .post-stat-com, .post-stat-likes {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+      }
+
+
+
+    }
+
+
+  }
+
 }
+
 
 
