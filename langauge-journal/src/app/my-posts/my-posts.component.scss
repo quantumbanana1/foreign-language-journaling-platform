@@ -1,0 +1,60 @@
+@import "../../global_settings";
+
+.container {
+  display: flex;
+  flex-flow: column;
+  gap: 30px;
+  width: 100%;
+  height: 100%;
+  font-family: $font-stack;
+  background-color: rgba(255, 165, 0, 0.14);
+
+  .header-title {
+    width: 100%;
+    font-size: 24px;
+    font-weight: 400;
+    text-align: center;
+
+  }
+
+  .container-buttons {
+    justify-self: center;
+    align-self: center;
+    width: 45%;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 13px;
+    background-color:#d5d9dc;
+    border-radius: 30px;
+    padding: 5px 5px;
+
+    div {
+      display: block;
+      padding: 12px 15px;
+      text-align: center;
+      cursor: pointer;
+      font-family: "Source Sans Pro", sans-serif;
+      font-size: 18px;
+      line-height: 24px;
+      font-weight: 600;
+      transition: color 150ms ease-in;
+      border-radius: 30px;
+      outline: 0;
+      z-index: 1;
+      color: #71767b;
+    }
+
+    div.active {
+      color: #FFFFFF;
+      background-color: $primary-color;
+      transition: color 150ms ease-in;
+    }
+
+  }
+
+
+
+
+
+}
