@@ -38,18 +38,31 @@
       font-size: 18px;
       line-height: 24px;
       font-weight: 600;
-      transition: color 150ms ease-in;
+      //transition: color 150ms ease-in;
+      transition: all 0.7s;
       border-radius: 30px;
       outline: 0;
       z-index: 1;
       color: #71767b;
     }
 
-    div.active {
-      color: #FFFFFF;
-      background-color: $primary-color;
-      transition: color 150ms ease-in;
+    .btn {
+      background-color:#fff;
+      border-radius: 44px;
+      height:calc(100% - 10px);
+      width: calc(100%/3);
+      position:absolute;
+      top:4px;
+      //left:4px;
+      transition:left 0.51s ease;
     }
+
+    .eff1 {left:6px;}
+    .eff2 {left:100px;}
+    .eff3 {left:200px;}
+
+
+
 
   }
 
