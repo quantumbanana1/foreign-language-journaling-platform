@@ -1,4 +1,6 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
+import {PostBlockComponent} from "../post-block/post-block.component";
+import {FiltersBlockComponent} from "../filters-block/filters-block.component";
 
 interface activeToggleButtons {
   published: boolean,
@@ -8,10 +10,19 @@ interface activeToggleButtons {
 }
 
 
+
+
 interface IactiveButtonClass {
   published: string,
   private: string,
   draft: string,
+
+}
+
+interface  IEffClassName {
+  eff1: boolean,
+  eff2: boolean,
+  eff3: boolean,
 
 }
 
@@ -25,7 +36,10 @@ function isActiveClass(element: any): element is activeToggleButtons {
 @Component({
   selector: 'app-my-posts',
   standalone: true,
-  imports: [],
+  imports: [
+    PostBlockComponent,
+    FiltersBlockComponent
+  ],
   templateUrl: './my-posts.component.html',
   styleUrl: './my-posts.component.scss'
 })
@@ -44,36 +58,34 @@ export class MyPostsComponent {
   }
 
 
-  activeButtonClass: IactiveButtonClass = {
+  activeButtonClassName: IactiveButtonClass = {
     published: 'eff1',
     private: 'eff2',
     draft: 'eff3',
   }
 
-
-
-
+  activeEffClassName: IEffClassName = {
+    eff1: true,
+    eff2: false,
+    eff3: false,
+  }
 
 
   setClass(event: Event) {
     // Add a class active to the element that triggered the event
     const target = event.target as HTMLElement;
-    if (target.classList.contains('active')) {
-      return;
-    }
+
+
     const classElement = target.classList[0];
-    const bttnClassElement = this.activeButtonClass[classElement];
-    this.checkButtonsState(target.classList)
-    this.removeClass(this.activeButtons, this.ContainerButtons.nativeElement.children, 'active')
-    this.removeClass('btn', this.activeBttn.nativeElement, bttnClassElement)
-    this.addClass(this.activeButtons, this.activeBttn.nativeElement.children, 'active')
-    this.addClass('btn', this.activeBttn.nativeElement, bttnClassElement)
+    const bttnClassElement = this.activeButtonClassName[classElement];
+    this.checkButtonsState(target.classList, bttnClassElement);
+    this.keepOnlyActiveClass(this.activeBttn.nativeElement, 'btn');
 
 
   }
 
 
-  checkButtonsState(classList: DOMTokenList) {
+  checkButtonsState(classList: DOMTokenList, classListEff: string) {
 
     const classElement = classList[0]
     Object.keys(this.activeButtons).forEach((key: string) => {
@@ -82,95 +94,37 @@ export class MyPostsComponent {
 
     });
 
-
-
+    Object.keys(this.activeEffClassName).forEach((key: string) => {
+      this.activeEffClassName[key] = key === classListEff;
+    });
 
 
   }
 
-  // removeActiveClass(activeButtons: activeToggleButtons) {
-  //   const buttons: HTMLCollection = this.ContainerButtons.nativeElement.children;
-  //   const activeElement = Object.keys(activeButtons).filter((key) => activeButtons[key] === true)[0];
-  //   console.log(buttons)
-  //
-  //   for (let i = 0; buttons.length > i; i++) {
-  //     const button = buttons[i]
-  //     if (button.classList.contains('active') && !button.classList.contains(activeElement)) {
-  //       button.classList.remove('active');
-  //     }
-  //
-  //   }
-  //
-  // }
 
-
-  removeClass<T extends HTMLCollection | HTMLElement>(activeButtons: activeToggleButtons| string, element: T, className: string) {
-    let activeElement: string;
-    if (isActiveClass(activeButtons)) {
-      activeElement = Object.keys(activeButtons).filter((key) => activeButtons[key] === true)[0];
-    }
-    else {
-      activeElement = activeButtons
-
-    }
-
-    if (element instanceof HTMLCollection) {
-
-      for (let i = 0; element.length > i; i++) {
-        const button = element[i]
-        if (button.classList.contains(className) && !button.classList.contains(activeElement)) {
-          button.classList.remove(className);
-        }
-
-
-
+  keepOnlyActiveClass(element: HTMLElement, defaultClass: string) {
+    const buttons = this.ContainerButtons.nativeElement;
+    let activeClass: string
+    Object.keys(this.activeEffClassName).forEach((key: string) => {
+      if (this.activeEffClassName[key]) {
+        activeClass = key;
       }
+    });
 
-    }
 
-    if (element instanceof HTMLElement) {
-      console.log(element.classList.contains(className), element.classList.contains(activeElement))
-      if (element.classList.contains(className) && !element.classList.contains(activeElement)) {
+    element.classList.forEach((className: string) => {
+      if (className !== activeClass && className !== defaultClass) {
         element.classList.remove(className);
       }
-    }
 
+    });
 
-  }
-
-  addClass<T extends HTMLCollection | HTMLElement>(activeButtons: activeToggleButtons | string, element: T, className: string) {
-    let activeElement: string;
-    if (isActiveClass(activeButtons)) {
-      activeElement = Object.keys(activeButtons).filter((key) => activeButtons[key] === true)[0];
-    }
-    else {
-      activeElement = activeButtons
-
-    }
-
-
-    if (element instanceof HTMLCollection) {
-
-      for (let i = 0; element.length > i; i++) {
-        const button = element[i]
-        if (button.classList.contains(activeElement) && !(button.classList.contains(className))) {
-          button.classList.add(className);
-        }
-
-
-
-
-
-      }
-
-    }
-
-    if (element instanceof HTMLElement) {
-      console.log(element.classList.contains(className), element.classList.contains(activeElement))
-      if (element.classList.contains(activeElement) && !element.classList.contains(className)) {
-        element.classList.add(className);
-      }
-    }
+    element.classList.add(activeClass);
 
   }
 }
+
+
+
+
+

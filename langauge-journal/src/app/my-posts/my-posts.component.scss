@@ -9,6 +9,15 @@
   font-family: $font-stack;
   background-color: rgba(255, 165, 0, 0.14);
 
+  .post-container {
+    padding: 9px;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
   .header-title {
     width: 100%;
     font-size: 24px;
@@ -28,6 +37,8 @@
     background-color:#d5d9dc;
     border-radius: 30px;
     padding: 5px 5px;
+    max-width: 460px;
+    min-width: 460px;
 
     div {
       display: block;
@@ -43,28 +54,36 @@
       border-radius: 30px;
       outline: 0;
       z-index: 1;
-      color: #71767b;
+      color: rgba(15, 8, 44, 0.87);
     }
 
     .btn {
-      background-color:#fff;
+
+      background-color: rgba(255, 216, 24, 0.52);
       border-radius: 44px;
       height:calc(100% - 10px);
       width: calc(100%/3);
       position:absolute;
       top:4px;
+
       //left:4px;
       transition:left 0.51s ease;
     }
 
     .eff1 {left:6px;}
-    .eff2 {left:100px;}
-    .eff3 {left:200px;}
+    .eff2 {left:147px;}
+    .eff3 {left:299px ;}
+
+
+
+
 
 
 
 
   }
+
+
 
 
 
