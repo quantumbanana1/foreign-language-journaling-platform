@@ -1,0 +1,243 @@
+@import "../../global_settings";
+
+$margin-row: 4px 8px 4px 0;
+
+.main-search-container {
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+
+  .search-container {
+    width: 60%;
+  }
+
+}
+
+
+//select default css
+.search-container select {
+  /* Reset */
+  appearance: none;
+  border: 0;
+  outline: 0;
+  font: inherit;
+  /* Personalize */
+  //width: 20rem;
+  width: 100%;
+  padding: 1rem 4rem 1rem 1rem;
+  background: $primary-color;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+  background-repeat: no-repeat;
+  background-position-x: 100%;
+  background-position-y: 12px;
+  color: white;
+  border-radius: 0.25em;
+  box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  margin-bottom: $margin-side-bar;
+  /* Remove IE arrow */
+  &::-ms-expand {
+    display: none;
+  }
+  /* Remove focus outline */
+  &:focus {
+    outline: none;
+  }
+  /* <option> colors */
+
+}
+
+option {
+  color: inherit;
+  background-color: var(--option-bg);
+}
+
+.selected-option-row, {
+  display: flex;
+  width: 100%;
+  list-style: none;
+  flex-wrap: wrap;
+
+  .selected-option {
+    margin: 4px 8px 4px 0;
+    border-radius: 16px;
+    background-color: $primary-color;
+
+    .selected-option-container {
+      display: flex;
+      padding: 4px 15px;
+
+      span {
+        color:white;
+        flex: 1;
+        margin-right: 4px;
+      }
+
+      button {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0px;
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+
+        svg {
+          fill: white;
+        }
+      }
+
+    }
+
+  }
+
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: $margin-side-bar;
+}
+
+.advanced-filters {
+  @extend %buttons-default;
+  align-self: center;
+  justify-self: center;
+  cursor: pointer;
+}
+
+.fa-search {
+  position: absolute;
+  height: 25px;
+  width: 25px;
+  right: 15px;
+  top: 10px;
+  img {
+    height: 25px;
+    width: 25px;
+  }
+}
+
+.search-post {
+  width: 100%;
+  border-radius: 20px;
+  box-shadow: 0px 8px 10px #00000029;
+  font-size: 16px;
+  background: white;
+  padding: 0.9em;
+  border: none;
+  //border-width: 1.02px;
+  //border-color: $secondary-color;
+
+}
+
+input[type=text]:focus {
+  outline: none;
+  border: $secondary-color;
+  border-width: 2px;
+}
+
+
+.container-input {
+  position: relative;
+  margin-bottom: $margin-side-bar
+
+}
+
+.button-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  ul {
+    display: flex;
+    width: 60%;
+    list-style: none;
+    flex-wrap: wrap;
+
+    li {
+      margin: $margin-row;
+
+      button {
+        @extend %buttons-default-small;
+        font-weight: map-get($font-weights, 'bold');
+        border-color: $secondary-color;
+        cursor: pointer;
+      }
+
+    }
+
+  }
+}
+
+
+
+.input-container {
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  gap: 3px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+
+  input[type='text'] {
+    border: 1px solid #95989a;
+    border-radius: 5px;
+    height: 50px;
+    padding: 0 12px;
+
+  }
+
+  input,select {
+    white-space: normal;
+    font-family: Source Sans Pro, sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    background: none;
+    background-color: #fff;
+  }
+
+
+  select {
+    /* Reset */
+    appearance: none;
+    border: 0;
+    outline: 0;
+    font: inherit;
+    /* Personalize */
+    //width: 20rem;
+    width: 100%;
+    padding: 1rem 4rem 1rem 1rem;
+    background: $primary-color;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+    background-repeat: no-repeat;
+    background-position-x: 100%;
+    background-position-y: 12px;
+    color: white;
+    border-radius: 0.25em;
+    box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    //margin-bottom: $margin-side-bar;
+    /* Remove IE arrow */
+    &::-ms-expand {
+      display: none;
+    }
+    /* Remove focus outline */
+    &:focus {
+      outline: none;
+    }
+    /* <option> colors */
+
+  }
+
+  option {
+    color: inherit;
+    background-color: var(--option-bg);
+  }
+
+
+
+
+}

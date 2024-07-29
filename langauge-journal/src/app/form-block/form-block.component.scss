@@ -1,0 +1,18 @@
+@import "../../global_settings";
+
+form {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+
+.form-container {
+
+}
+
+
+app-selection-block-post, header-post, post-buttons {
+  width: 100%;
+
+}
+

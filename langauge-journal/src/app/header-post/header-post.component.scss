@@ -1,0 +1,23 @@
+.header-post-container {
+  display: flex;
+  flex-flow: column;
+  background-color: #3c97bf;
+  padding: 10px;
+
+  .top-block {
+    display: flex;
+    justify-content: space-between;
+  }
+
+
+  .middle-block {
+    flex-flow: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+  }
+}
+
+
+
