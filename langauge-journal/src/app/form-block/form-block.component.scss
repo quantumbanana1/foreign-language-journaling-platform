@@ -4,6 +4,7 @@ form {
   display: flex;
   flex-flow: column;
   align-items: center;
+  width: 100%;
 }
 
 .form-container {
@@ -11,7 +12,7 @@ form {
 }
 
 
-app-selection-block-post, header-post, post-buttons {
+app-selection-block-post, app-header-post, app-post-buttons {
   width: 100%;
 
 }

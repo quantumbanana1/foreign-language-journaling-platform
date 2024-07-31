@@ -42,6 +42,25 @@ $font-weights: (
 
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
 
+@font-face {
+  font-family: playfair;
+  src: url("/assets/fonts/Playfair_Display/static/PlayfairDisplay-Regular.ttf");
+
+}
+
+@font-face {
+  font-family: playfair-italic;
+  src: url("/assets/fonts/Playfair_Display/static/PlayfairDisplay-Italic.ttf");
+
+}
+
+
+@font-face {
+  font-family: playfair-bold;
+  src: url("/assets/fonts/Playfair_Display/static/PlayfairDisplay-Bold.ttf");
+
+}
+
 $primary-color: #e8bc11;
 $secondary-color: rgb(234, 177, 50);
 $background-color: #d0cbcb;

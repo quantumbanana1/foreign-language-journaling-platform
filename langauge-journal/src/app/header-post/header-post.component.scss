@@ -1,12 +1,31 @@
+@import "../../global_settings";
+
 .header-post-container {
+  color: white;
   display: flex;
   flex-flow: column;
-  background-color: #3c97bf;
   padding: 10px;
+  background-image: url('../../assets/images/img-new-post/img3.jpg'), linear-gradient(rgba(0, 0, 0, 0.74), rgba(0,0,0,0.74));
+  background-blend-mode:overlay;
+  background-size: cover;
+  justify-content: space-between;
+  gap: 86px;
+  width: 100%;
+
+
+
+
 
   .top-block {
+    //position: relative;
+    //z-index: 2;
     display: flex;
     justify-content: space-between;
+
+
+    .button-img {
+      @extend %buttons-default;
+    }
   }
 
 
@@ -15,7 +34,36 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    align-self: center;
+    gap:0.3em;
+    width: 80%;
 
+
+    .title {
+      font-size: 1.9rem;
+      text-align: center;
+      line-height: 1.2;
+      font-family: playfair, sans-serif;
+
+    }
+
+    .author {
+      font-family: playfair-italic, sans-serif;
+      font-size: 1.2rem;
+      text-align: center;
+    }
+
+    .data {
+      font-family: playfair, sans-serif;
+      font-size: 1.2rem;
+      text-align: center;
+    }
+
+  }
+
+
+  app-interests-indicator {
+    width: 100%;
   }
 }
 
