@@ -1,0 +1,46 @@
+
+
+<div class="header-container">
+  <div class="options">
+    <div class="button-bold" [ngClass]="{ 'checked-parent': boldChecked}">
+      <input (click)="setBold()" [checked]="boldChecked"  type="checkbox" id="button-bold">
+      <label for="button-bold">
+        <img id="button-bold-img" src="assets/images/editor-imgages/bold-type-svgrepo-com.svg" />
+      </label>
+    </div>
+    <div class="button-italic" [ngClass]="{ 'checked-parent': italicChecked}">
+      <input (click)="setItalic()" [checked]="italicChecked"  type="checkbox" id="button-italic">
+      <label for="button-italic">
+        <img src="assets/images/editor-imgages/italic.svg" alt="Italic">
+      </label>
+    </div>
+    <div class="button-underline" [ngClass]="{ 'checked-parent': underlineChecked}">
+      <input (click)="setUnderline()" [checked]="underlineChecked"  type="checkbox" id="button-underline">
+      <label for="button-underline">
+        <img src="assets/images/editor-imgages/edit.svg" alt="Underline">
+      </label>
+    </div>
+    <div class="button-image" [ngClass]="{ 'checked-parent': imageChecked}">
+      <input type="checkbox"   id="button-image" [checked]="imageChecked">
+      <label for="button-image">
+        <img src="assets/images/editor-imgages/picture-svgrepo-com.svg" alt="Image">
+      </label>
+    </div>
+    <div class="button-quote" [ngClass]="{ 'checked-parent': quoteChecked}">
+      <input  (click)="setQuote()" [checked]="quoteChecked" type="checkbox" src="assets/img/media.svg" alt="Quote" id="button-quote">
+      <label for="button-quote">
+        <img src="assets/images/editor-imgages/media.svg" alt="Quote">
+      </label>
+    </div>
+    <div class="button-list" [ngClass]="{ 'checked-parent': listChecked}">
+      <input (click)="setBulletedList()" [checked]="listChecked" id="input-img" type="checkbox" src="assets/img/list.svg" alt="List" id=button-list>
+      <label for="button-list">
+        <img src="assets/images/editor-imgages/list.svg" alt="List">
+      </label>
+    </div>
+  </div>
+  <div class="footer">
+  </div>
+</div>
+
+

@@ -1,1 +1,3 @@
-<div class="language-badge">English</div>
+<ng-container *ngIf="languageIndicatorState">
+  <div class="language-badge">{{selectedLanguage}}</div>
+</ng-container>

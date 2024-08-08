@@ -1,0 +1,18 @@
+@import "../../global_settings";
+
+.container {
+  width: 100%;
+  display: flex;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  gap: 10px;
+  justify-content: center;
+}
+
+.container {
+  button {
+    @extend %buttons-default;
+    cursor: pointer;
+
+  }
+}

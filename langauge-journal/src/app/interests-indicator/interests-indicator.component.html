@@ -1,5 +1,3 @@
 <div class="interests-container">
-  <div class="language-badge">Programming</div>
-  <div class="language-badge">Cognitive Science</div>
-  <div class="language-badge">Math</div>
+  <div  *ngFor="let interest of arrayInterests" class="language-badge">{{interest}}</div>
 </div>

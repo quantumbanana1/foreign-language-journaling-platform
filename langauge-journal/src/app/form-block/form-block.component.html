@@ -1,8 +1,11 @@
 <div class="form-container">
   <form>
-    <app-selection-block-post></app-selection-block-post>
-    <app-header-post></app-header-post>
+    <app-selection-block-post (notifyParent)="getNotification($event)"></app-selection-block-post>
+    <app-header-post  [selectedLanguage]="selectedLanguage"></app-header-post>
+    <div class="editor-container">
+      <app-header-editor></app-header-editor>
+      <app-text-editor></app-text-editor>
+    </div>
     <app-post-buttons-block></app-post-buttons-block>
   </form>
-
 </div>

@@ -1,16 +1,18 @@
 <div class="header-post-container">
   <div class="top-block">
-    <app-language-indicator></app-language-indicator>
+    <app-language-indicator [selectedLanguage]="selectedLanguage"></app-language-indicator>
     <div class="container-bttn">
-      <button class="button-img">Choose Image</button>
-      <div class="x-icon"></div>
+      <button (click)="chooseImg($event)" class="button-img">Choose Image</button>
     </div>
   </div>
   <div class="middle-block">
-    <h1 #TitleElement class="title">{{title}}</h1>
+    <ng-container *ngIf="rowTitleState">
+      <h1 #TitleElement class="title">
+        <span>{{title}}</span></h1>
+    </ng-container>
     <span>-</span>
     <p class="author">By Author</p>
-    <p class="data">July 30, 2024</p>
+    <p class="data">{{formattedData}}</p>
   </div>
   <app-interests-indicator></app-interests-indicator>
 </div>

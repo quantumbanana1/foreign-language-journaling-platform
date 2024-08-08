@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {InputPostBindingService} from "../input-post-binding.service";
 import {FormsModule} from "@angular/forms";
@@ -16,6 +16,8 @@ export class SelectionBlockPostComponent  {
 
   public selectedInterests: string[] = []
   public titleValue: string = '';
+  public languageValue:string = ''
+  @Output() notifyParent : EventEmitter<any> = new EventEmitter();
 
   constructor(private inputBindingsService: InputPostBindingService) { }
 
@@ -27,4 +29,16 @@ export class SelectionBlockPostComponent  {
   }
 
 
+  selected(eventTarget: EventTarget) {
+    const selectedOption = (eventTarget as HTMLSelectElement).value
+    console.log(selectedOption)
+
+
+    if (this.languageValue !== selectedOption) {
+      this.languageValue = selectedOption;
+      this.notifyParent.emit(this.languageValue)
+    }
+
+
+  }
 }

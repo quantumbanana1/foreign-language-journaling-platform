@@ -5,11 +5,11 @@
 </div>
 <div class="input-container">
   <label for="language-options">Language</label>
-  <select id="language-options" name="search-select">
-    <option value="1">Languages</option>
-    <option value="2">German</option>
-    <option value="3">Ukrainian</option>
-    <option value="4">Spanish</option>
+  <select id="language-options" name="search-select" (change)="selected($event.target)">
+    <option value="" disabled selected>Select Language</option>
+    <option>German</option>
+    <option>Ukrainian</option>
+    <option>Spanish</option>
   </select>
 </div>
 <div class="input-container">
