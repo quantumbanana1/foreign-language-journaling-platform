@@ -1,6 +1,7 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { TextEditorService } from "../text-editor.service";
 import { IBreakContainerReplaceState, IState } from "../textEditorTypes";
+import {last} from "rxjs";
 
 
 interface ITextState {
@@ -328,14 +329,26 @@ export class TextEditorComponent implements AfterViewInit, OnInit {
     let leafText: HTMLElement;
     let baseNode: HTMLElement | null;
     const range = this.createRange();
-    if (container.className === "elementNull") {
-      this.replaceBreakContainerWithNewElement = true;
-    }
+
+   if (container) {
+     if (container.className === "elementNull") {
+       this.replaceBreakContainerWithNewElement = true;
+     }
+
+   }
 
     if (event.key === "Enter") {
       this.handleEnter(focusedNode, range);
       event.preventDefault();
       return;
+    }
+
+
+    if (event.key === "Backspace" || event.key === "Delete") {
+      this.handleBackspace(container,focusedNode, event);
+      return;
+
+
     }
 
     const isStateSame = this.isPrevStateSame(this.previousState, this.states);
@@ -458,6 +471,58 @@ export class TextEditorComponent implements AfterViewInit, OnInit {
     }
 
     this.updateRange(nullElement);
+  }
+
+  private handleBackspace(paragraphNode, focusedNode, event: KeyboardEvent) {
+    console.log(paragraphNode, focusedNode);
+    let isNodeText: boolean = false;
+    const children = paragraphNode.childNodes;
+    const length = children.length;
+
+
+    if (length === 1 && children[0].className === "nodeText") {
+
+      if (children[0].textContent.length > 1) {
+        isNodeText = true;
+      }
+
+    }
+
+    if (!isNodeText) {
+
+      if (paragraphNode.className !== 'elementNull')
+      {
+        const nodeContainer = this.nodeText();
+        const nullElement = this.handleNull("&zwnj;");
+        const nodeText = this.nodeText();
+        nodeText.appendChild(nullElement);
+        paragraphNode.replaceChild(nodeText, paragraphNode.firstChild);
+        paragraphNode.classList.remove('element');
+        paragraphNode.classList.add('elementNull');
+        const spanNode = this.findNode('null', paragraphNode);
+        this.updateRange(spanNode);
+      }
+      else {
+
+        const previousParagraph = paragraphNode.previousSibling as HTMLElement;
+        if (previousParagraph) {
+          this.TextAreaElement.nativeElement.removeChild(paragraphNode);
+          console.log(previousParagraph.lastChild)
+          this.updateRangeToLastElement(previousParagraph.lastChild)
+        }
+
+
+
+
+
+
+
+      }
+      event.preventDefault();
+    }
+
+
+
   }
 
   private swapElementWithinParagraph(
@@ -603,6 +668,7 @@ export class TextEditorComponent implements AfterViewInit, OnInit {
     const range = document.createRange();
     const container = this.findParagraphNode(element);
     selection.removeAllRanges();
+    console.log(container);
 
     if (container.className === "elementNull") {
       range.setStart(element, 0);
@@ -738,6 +804,73 @@ export class TextEditorComponent implements AfterViewInit, OnInit {
     return [leafText, baseNode];
   }
 
+
+
+  private updateRangeToLastElement(lastChild:ChildNode) {
+    const selection =window.getSelection();
+    const range = document.createRange();
+    let nullNode: ChildNode= lastChild
+    let isBreak: Boolean = false;
+    // when paragraph is empty, break element is always at the end of the node.
+    if (nullNode.lastChild.nodeName === "BR") {
+      isBreak = true;
+
+    }
+    nullNode = this.findTextNode(nullNode);
+
+    if (!nullNode) {
+      throw new Error("No text node found");
+    }
+
+    if (isBreak) {
+      this.handleRangeForBreakElement(range, nullNode, selection);
+    }
+    else
+    {
+      this.handleRangeForTextElement(range, nullNode, selection);
+    }
+
+
+
+
+  }
+
+  private findTextNode(node: Node) {
+    if (!node) {
+      return null;
+    }
+
+
+    if (node && node.nodeType === Node.TEXT_NODE) {
+      return node;
+
+    }
+
+
+    if ((node as HTMLElement).className !== "null" || !((node as HTMLElement).className)) {
+      return this.findTextNode(node.nextSibling);
+    }
+    else
+    {
+      this.findTextNode(node.firstChild)
+    }
+
+  }
+
+
+
+  private handleRangeForTextElement(range: Range, node: Node, selection: Selection) : void {
+
+    range.setStart(node, node.textContent.length);
+    range.setEnd(node, node.textContent.length);
+    selection.removeAllRanges();
+    selection.addRange(range);
+
+  }
+
+  private handleRangeForBreakElement(range: Range, node: Node, selection: Selection):void {
+  }
+
   ngOnInit() {
     this.textEditorService.notifyBoldTextChange.subscribe((value: IState) => {
       this.states.bold = value.values.includes("bold");
@@ -763,7 +896,6 @@ export class TextEditorComponent implements AfterViewInit, OnInit {
   ngAfterViewInit() {
     this.TextArea = this.TextAreaElement.nativeElement;
   }
-
 
 
 }
