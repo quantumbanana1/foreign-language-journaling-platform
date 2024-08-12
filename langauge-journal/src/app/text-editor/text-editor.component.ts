@@ -809,14 +809,13 @@ export class TextEditorComponent implements AfterViewInit, OnInit {
   private updateRangeToLastElement(lastChild:ChildNode) {
     const selection =window.getSelection();
     const range = document.createRange();
-    let nullNode: ChildNode= lastChild
-    let isBreak: Boolean = false;
-    // when paragraph is empty, break element is always at the end of the node.
-    if (nullNode.lastChild.nodeName === "BR") {
-      isBreak = true;
 
-    }
-    nullNode = this.findTextNode(nullNode);
+    // when paragraph is empty, break element is always at the end of the node.
+    const isBreak: Boolean = lastChild.lastChild.nodeName === "BR";
+
+    //Find Text Node
+    const nullNode = this.findTextNode(lastChild);
+    console.log(nullNode)
 
     if (!nullNode) {
       throw new Error("No text node found");
@@ -840,6 +839,9 @@ export class TextEditorComponent implements AfterViewInit, OnInit {
       return null;
     }
 
+    console.log(node.firstChild);
+    console.log((node as HTMLElement).className)
+
 
     if (node && node.nodeType === Node.TEXT_NODE) {
       return node;
@@ -847,13 +849,12 @@ export class TextEditorComponent implements AfterViewInit, OnInit {
     }
 
 
-    if ((node as HTMLElement).className !== "null" || !((node as HTMLElement).className)) {
+    if ((node as HTMLElement).className !== "null" &&  (node as HTMLElement).className !== "nodeText") {
       return this.findTextNode(node.nextSibling);
+    } else {
+      return this.findTextNode(node.firstChild);
     }
-    else
-    {
-      this.findTextNode(node.firstChild)
-    }
+
 
   }
 
