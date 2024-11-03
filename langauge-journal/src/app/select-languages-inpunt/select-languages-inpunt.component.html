@@ -1,0 +1,33 @@
+
+<div class="outer-container">
+  <ng-container *ngIf="selectedOptionRowState">
+    <ul class="selected-option-row">
+      <app-badge-button-from-selection  (notifyParent)="getNotification($event)" [selectedInterest]="selectedInterests"></app-badge-button-from-selection>
+
+    </ul>
+  </ng-container>
+<div class="container">
+
+  <div class="selection-container">
+    <label for="topic-options">Topics</label>
+    <select   id="topic-options" (change)="selected($event.target)">
+      <option value="" disabled selected>Select Language</option>
+      <option>English</option>
+      <option>German</option>
+      <option>Spanish</option>
+      <option>Ukrainian</option>
+      <option>Dutch</option>
+    </select>
+  </div>
+  <div class="selection-container">
+      <label for="lang-lvl">Level</label>
+      <select id="lang-lvl">
+        <option value="" disabled selected>Select Level</option>
+        <option>Beginner</option>
+        <option>Intermediate</option>
+        <option>Advanced</option>
+        <option>Native</option>
+    </select>
+  </div>
+</div>
+</div>

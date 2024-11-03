@@ -1,0 +1,17 @@
+<div class="container-form">
+  <form>
+    <div class="header">
+      <h1>Your Notifications</h1>
+    </div>
+    <div class="inner-container">
+      <p>Digest Email (Notifies you of all activity)</p>
+      <select   id="notify-options" (change)="selected($event.target)">
+        <option value="" disabled selected>How often would you like to receive digest email?</option>
+        <option>Daily</option>
+        <option>Weekly</option>
+        <option>Never</option>
+      </select>
+      <button>Update Interests</button>
+    </div>
+  </form>
+</div>

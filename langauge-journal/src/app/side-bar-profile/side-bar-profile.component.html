@@ -1,0 +1,17 @@
+<nav>
+  <ul>
+    <a routerLinkActive="active" [routerLink]="[{outlets: {settingsRouterOutlet: ['profile-settings']}}]">
+      <li class="active">Profile Info</li>
+    </a>
+  </ul>
+  <ul>
+    <a routerLinkActive="active" [routerLink]="[{outlets: {settingsRouterOutlet: ['account-settings']}}]">
+      <li>Account</li>
+    </a>
+  </ul>
+  <ul>
+    <a>
+      <li>Subscription</li>
+    </a>
+  </ul>
+</nav>

@@ -41,7 +41,7 @@
           Password confirmation is required
         </span>
         <input formControlName="confirmPassword" type="password" placeholder="Confirm password" required />
-        <button [disabled]="registrationForm.invalid">Sign Up</button>
+        <button type="submit" [disabled]="registrationForm.invalid">Sign Up</button>
       </form>
     </div>
     <div class="form-container sign-in-container">

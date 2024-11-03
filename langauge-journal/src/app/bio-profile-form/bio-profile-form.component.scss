@@ -1,0 +1,49 @@
+@import "../../global_settings";
+
+form {
+  @extend %form-settings
+}
+
+.container-form {
+  @extend %container-form;
+
+  .header{
+    @extend %header
+  }
+
+  .inner-container {
+    margin-left:25px;
+    display: flex;
+    flex-flow: column;
+    width: 100%;
+    gap:20px;
+
+
+    textarea {
+      width: 100%;
+      padding: 8px 12px;
+      resize: vertical;
+      font-size: 16px;
+      line-height: 24px;
+      background: none;
+      background-color: #fff;
+      min-height: 150px;
+      font-family: playfair, sans-serif;
+    }
+
+    button {
+      width: 30%;
+      @extend %buttons-transparent-large;
+      border: 1px solid $primary-color;
+      background-color: rgba(236, 203, 55, 0);
+      color: $primary-color;
+
+    }
+
+    .note {
+      font-size: 0.9rem;
+      color: #363632;
+    }
+
+  }
+}

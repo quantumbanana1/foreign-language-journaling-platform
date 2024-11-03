@@ -1,0 +1,100 @@
+
+@import "../../global_settings";
+
+.container-form {
+  box-shadow: 0 0 5px 3px rgba(0, 0, 0, .05);
+  font-family:  playfair, sans-serif;
+  font-weight: 200;
+  padding: 0px 50px 50px 0px;
+  width: 98%;
+  justify-content: center;
+  background-color: white;
+
+  .header {
+    padding: 10px 0px  10px 0px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-bottom: 50px;
+
+    h1 {
+      font-size:1.6rem;
+      margin-left: 25px;
+    }
+
+  }
+
+  form {
+    //width: 100%;
+
+
+    .inner-container {
+      margin-left:25px;
+      display: flex;
+      flex-flow: column;
+      width: 100%;
+      gap:50px;
+
+
+      button {
+        width: 30%;
+        @extend %buttons-transparent-large;
+        border: 1px solid $primary-color;
+        background-color: rgba(236, 203, 55, 0);
+        color: $primary-color;
+
+      }
+    }
+  }
+}
+
+
+
+input,select {
+  white-space: normal;
+  font-family: Source Sans Pro, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  background: none;
+  background-color: #fff;
+}
+
+label {
+  margin-bottom: 10px;
+}
+
+
+select {
+  /* Reset */
+  appearance: none;
+  border: 0;
+  outline: 0;
+  font: inherit;
+  /* Personalize */
+  //width: 20rem;
+  width: 100%;
+  padding: 1rem 4rem 1rem 1rem;
+  background: $primary-color;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+  background-repeat: no-repeat;
+  background-position-x: 100%;
+  background-position-y: 12px;
+  color: white;
+  border-radius: 0.25em;
+  box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  margin-top:5px;
+  //margin-bottom: $margin-side-bar;
+  /* Remove IE arrow */
+  &::-ms-expand {
+    display: none;
+  }
+  /* Remove focus outline */
+  &:focus {
+    outline: none;
+  }
+  /* <option> colors */
+
+}
+
+

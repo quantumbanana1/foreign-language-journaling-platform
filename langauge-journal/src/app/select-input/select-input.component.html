@@ -1,0 +1,15 @@
+<ng-container *ngIf="selectedOptionRowState">
+  <ul class="selected-option-row">
+    <app-badge-button-from-selection  (notifyParent)="getNotification($event)" [selectedInterest]="selectedInterests"></app-badge-button-from-selection>
+
+  </ul>
+</ng-container>
+<label for="topic-options">Topics</label>
+<select   id="topic-options" (change)="selected($event.target)">
+  <option value="" disabled selected>Select Interest</option>
+  <option>Art</option>
+  <option>Cognitive Science</option>
+  <option>Psychology</option>
+  <option>Math</option>
+  <option>Programming</option>
+</select>

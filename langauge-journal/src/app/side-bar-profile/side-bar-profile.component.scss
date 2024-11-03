@@ -1,0 +1,53 @@
+@import "../../global_settings";
+
+nav {
+
+
+  ul {
+    list-style: none;
+    margin-bottom: 10px;
+
+
+    a {
+      font-size: 16px;
+      line-height: 24px;
+      text-decoration: none;
+      color: #000;
+       ;
+
+      li {
+        padding-left: 10px;
+
+        border-left-width: 0px;
+        border-left-color:transparent ;
+        transition: all 0.1s ease-in;
+
+
+
+
+
+      }
+
+      li:hover {
+        //border-left: 12px solid $primary-color;
+        border-left-color: $primary-color;
+        border-left-width:12px;
+        border-left-style:solid ;
+      }
+
+       li.active {
+        border-left: 12px solid $primary-color
+
+      }
+
+    }
+
+  }
+
+
+
+
+}
+
+
+

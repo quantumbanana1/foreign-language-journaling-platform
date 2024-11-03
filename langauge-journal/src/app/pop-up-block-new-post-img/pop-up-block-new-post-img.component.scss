@@ -1,0 +1,128 @@
+@import "../../global_settings";
+
+
+.overlay {
+
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  transition: opacity 500ms;
+  visibility: hidden;
+  opacity: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.overlay.active {
+  visibility: visible;
+  opacity: 1;
+  z-index: 1000;
+
+}
+
+.container {
+  padding: 35px;
+  display: flex;
+  flex-flow: column;
+  font-family: playfair, sans-serif;
+  gap: 30px;
+  background-color: white;
+  position: relative;
+  width: 85%;
+  max-width: 966px;
+
+
+
+
+  .button-container {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    right: 0;
+    top: 0;
+
+    button {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0px;
+      border: none;
+      background-color: transparent;
+      cursor: pointer;
+
+      svg {
+        fill: black;
+        width: 50px;
+        height: 50px
+      }
+    }
+
+  }
+
+
+  .text {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    text-align-last: center;
+
+    p {
+      width: 60%;
+    }
+
+  }
+
+
+  .header {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    position: relative;
+
+    .h1 {
+      font-size: 1.5rem;
+    }
+
+
+    }
+
+
+
+
+
+  .uploadContainer {
+
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+
+    button {
+      display: inline;
+      color: $primary-color;
+      background-color: transparent;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      font-weight: 600;
+
+    }
+
+
+  }
+}
+
+  #uploadImg {
+    @extend %buttons-default;
+    cursor: pointer;
+  }
+
+
+
+
+
