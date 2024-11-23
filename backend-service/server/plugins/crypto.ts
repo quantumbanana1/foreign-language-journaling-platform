@@ -30,25 +30,11 @@ export default fp(async function decryption(app: FastifyInstance, opts) {
 
     try {
       const importedKey: CryptoKey = await prepareKey(app.config.PRIVATE_KEY);
-
-      try {
-        const unwrappedCryptoKey = await unwrappedKey(
-          importedKey,
-          encryptedKey,
-        );
-
-        try {
-          request.body = await DecryptData(unwrappedCryptoKey, iv, requestBody);
-        } catch (error) {
-          handleError(reply, error, 500);
-        }
-      } catch (error) {
-        handleError(reply, error, 500);
-      }
+      const unwrappedCryptoKey = await unwrappedKey(importedKey, encryptedKey);
+      request.body = await DecryptData(unwrappedCryptoKey, iv, requestBody);
     } catch (error) {
       handleError(reply, error, 500, "Error occuried");
     }
   }
-
   app.decorate("decryptBodyRequest", decrypt);
 });
