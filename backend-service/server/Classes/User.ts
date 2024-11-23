@@ -73,3 +73,62 @@ export default class NewUser {
     };
   }
 }
+
+// try {
+//   const privateKey: JsonWebKey = JSON.parse(app.config.PRIVATE_KEY);
+//   const importedPrivateKey = await crypto.subtle.importKey(
+//       "jwk",
+//       privateKey,
+//       {
+//         name: "RSA-OAEP",
+//         hash: { name: "SHA-256" },
+//       },
+//       true,
+//       ["decrypt", "unwrapKey"],
+//   );
+
+//   try {
+//     const arrayBuffer = base64ToArrayBuffer(
+//         (request.body as registrationRequestBody).encryptedKey,
+//     );
+//     const unwrappedKey = await crypto.subtle.unwrapKey(
+//         "raw",
+//         arrayBuffer,
+//         importedPrivateKey,
+//         { name: "RSA-OAEP" },
+//         { name: "AES-GCM" },
+//         true,
+//         ["encrypt", "decrypt"],
+//     );
+//
+//     try {
+//       const iv = toUint8Array((request.body as registrationRequestBody).iv);
+//       const data = base64ToArrayBuffer(request.body.requestBody);
+//       const decrypted = await crypto.subtle.decrypt(
+//           { name: "AES-GCM", iv },
+//           unwrappedKey,
+//           data,
+//       );
+//
+//       //decode to normal text
+//       const decoder = new TextDecoder();
+//       const plaintext = decoder.decode(decrypted);
+//       request.body = JSON.parse(plaintext);
+//     } catch (e) {
+//       console.error(e);
+//       return reply.status(500).send({
+//         message: e.message,
+//       });
+//     }
+//   } catch (e) {
+//     console.error(e);
+//     return reply.status(500).send({
+//       message: e.message,
+//     });
+//   }
+// } catch (e) {
+//   console.error(e);
+//   return reply.status(500).send({
+//     message: e.message,
+//   });
+// }
