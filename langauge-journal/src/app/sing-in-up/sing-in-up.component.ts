@@ -35,6 +35,11 @@ function createCompareValidator(
   };
 }
 
+interface respond {
+  message: string;
+  success: boolean;
+}
+
 @Component({
   selector: 'app-sing-in-up',
   standalone: true,
@@ -55,7 +60,9 @@ export class SingInUpComponent implements AfterViewInit, OnInit {
     private apiService: ApiService,
   ) {}
 
+  public messageFromServer: string = '';
   registrationForm: FormGroup;
+  loggingForm: FormGroup;
 
   username = new FormControl(
     '',
@@ -78,6 +85,13 @@ export class SingInUpComponent implements AfterViewInit, OnInit {
       /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*#?&^_-]).{8,}/,
     ),
   ]);
+
+  logInEmail = new FormControl(
+    '',
+    Validators.compose([Validators.required, Validators.email]),
+  );
+
+  logInPassword = new FormControl('', Validators.required);
 
   @ViewChild('container') container!: ElementRef;
 
@@ -110,23 +124,30 @@ export class SingInUpComponent implements AfterViewInit, OnInit {
     return this.registrationForm;
   }
 
+  get logInEmailControl() {
+    return this.loggingForm.get('email');
+  }
+
+  get logInPasswordControl() {
+    return this.loggingForm.get('userPassword');
+  }
+
   onSubmit() {
     this.apiService
       .createNewUser(this.registrationForm.value)
-      .subscribe((response) => {
-        console.log(response);
-      });
+      .subscribe((response) => {});
   }
 
   signInOnSubmit() {
-    this.router
-      .navigate(['/layout/my-feed'])
-      .then(() => {
-        console.log('Navigation successful');
-      })
-      .catch((err) => {
-        console.error('Navigation error:', err);
-      });
+    this.apiService.logInUser(this.loggingForm.value).subscribe({
+      next: (res: respond) => {
+        console.log(res);
+        this.messageFromServer = res.message;
+        if (res.success) {
+          this.router.navigate(['/layout/my-feed']);
+        }
+      },
+    });
   }
 
   ngAfterViewInit() {
@@ -143,5 +164,10 @@ export class SingInUpComponent implements AfterViewInit, OnInit {
     this.registrationForm.setValidators(
       createCompareValidator(this.password, this.confirmPassword),
     );
+
+    this.loggingForm = this.formBuilder.group({
+      email: this.logInEmail,
+      userPassword: this.logInPassword,
+    });
   }
 }

@@ -15,8 +15,6 @@ interface registrationRequestBody {
   encryptedKey: string;
 }
 
-type modifiedBody = Omit<registrationRequestBody, "iv" | "encryptedKey">;
-
 export default fp(async function decryption(app: FastifyInstance, opts) {
   async function decrypt(
     request: FastifyRequest<{ Body: registrationRequestBody }>,

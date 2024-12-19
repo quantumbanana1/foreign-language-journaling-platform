@@ -34,11 +34,7 @@ export class cryptoInterceptor implements HttpInterceptor {
       return from(this.encryptSymmetric(JSON.stringify(req.body), key)).pipe(
         switchMap((modifiedBody) => {
           const encryptedReq = req.clone({
-            body: {
-              requestBody: modifiedBody.ciphertext,
-              iv: modifiedBody.iv,
-              encryptedKey: modifiedBody.encryptedKey,
-            },
+            body: modifiedBody,
           });
           console.log(encryptedReq);
           return next.handle(encryptedReq);
@@ -82,7 +78,7 @@ export class cryptoInterceptor implements HttpInterceptor {
     );
 
     return {
-      ciphertext: Buffer.from(ciphertext).toString('base64'),
+      requestBody: Buffer.from(ciphertext).toString('base64'),
       iv: Buffer.from(iv).toString('base64'),
       encryptedKey: Buffer.from(wrappedKey).toString('base64'),
     };

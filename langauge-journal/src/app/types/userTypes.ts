@@ -5,3 +5,8 @@ export default interface IRUser {
   password: string;
   confirmPassword: string;
 }
+
+export interface ILUser {
+  email: string;
+  password: string;
+}

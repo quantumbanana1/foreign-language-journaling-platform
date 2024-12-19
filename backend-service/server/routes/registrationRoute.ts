@@ -10,10 +10,33 @@ interface RegisterBody {
   confirmPassword: string;
 }
 
+const registerUserSchema = {
+  body: {type: "object",
+    required: ["username", "password", "confirmPassword", "email"],
+    properties: {
+      username: { type: "string", minLength: 5, maxLength: 15 },
+      email: { type: "string", format: "email" },
+      password: {
+        type: "string",
+        minLength: 8,
+        pattern: "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*#?&^_-]).{8,}",
+        writeOnly: true,
+      },
+      confirmPassword: {
+        type: "string",
+        minLength: 8,
+        pattern: "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*#?&^_-]).{8,}",
+        writeOnly: true,
+      },
+    },
+  }
+};
+
 export default async function registerRoute(app: FastifyInstance) {
   app.route({
     method: "POST",
     url: "/registration",
+    schema: registerUserSchema,
     handler: app.registrationPlugin,
     preValidation: app.decryptBodyRequest,
   });

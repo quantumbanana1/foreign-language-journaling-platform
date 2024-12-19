@@ -1,10 +1,52 @@
 import postgres from "@fastify/postgres";
-import fastify, { FastifyReply, FastifyRequest } from "fastify";
+import fastify, { FastifyReply, FastifyRequest, Session } from "fastify";
 import Cors from "@fastify/cors";
 import AutoLoad from "@fastify/autoload";
 import { join } from "desm";
 import S from "fluent-json-schema";
 import fastifyEnv from "@fastify/env";
+import fastifyCookie from "@fastify/cookie";
+import fastifySession from "@fastify/session";
+import Redis, { Callback } from "ioredis";
+import { redisSessionStore } from "./helpers/redisStore";
+import { QueryResult } from "pg";
+import bycrpt from "bcrypt";
+import { RedisStore } from "./helpers/rs";
+
+const SESSION_TTL = 3600;
+
+interface logginUser {
+  email: string;
+  userPassword: string;
+}
+
+let redisClient = new Redis({ host: "localhost", port: 6379 });
+
+redisClient.on("connect", () => {
+  console.log("Connected to Redis");
+});
+
+redisClient.on("error", (err) => {
+  console.error("Redis connection error", err);
+});
+
+redisClient.connect().catch(console.error);
+
+const options = {
+  client: redisClient,
+  ttl: 3600000,
+  serializer: JSON,
+};
+
+// Initialize store.
+let redisStorage = new RedisStore(options);
+
+interface ISessionUser {
+  username: string;
+  userId: number;
+  sessionId: string;
+  role: string;
+}
 
 declare module "fastify" {
   interface FastifyInstance {
@@ -17,6 +59,14 @@ declare module "fastify" {
     };
     decryptBodyRequest: MyAsyncHandler;
     registrationPlugin: MyAsyncHandler;
+    loggingPlugin: MyAsyncHandler;
+    authorizeOnRequest: MyAsyncHandler;
+  }
+  interface Session {
+    username: string;
+    userId: number;
+    role: string;
+    sessionid: string;
   }
 }
 
@@ -24,7 +74,7 @@ interface MyAsyncHandler {
   (request: FastifyRequest, reply: FastifyReply): Promise<void>;
 }
 
-const app = fastify({ logger: false });
+const app = fastify({ logger: true });
 
 await app.register(fastifyEnv, {
   dotenv: {
@@ -45,7 +95,23 @@ app.register(postgres, {
 });
 
 app.register(Cors, {
-  origin: true,
+  origin: ["http://localhost:4200", "http://localhost:8080"],
+  credentials: true,
+});
+
+app.register(fastifyCookie);
+
+app.register(fastifySession, {
+  cookieName: "sessionId",
+  secret: "a secret with minimum length of 32 characters",
+  saveUninitialized: false,
+  cookie: {
+    secure: false,
+    maxAge: 3600000,
+    httpOnly: true,
+    sameSite: true,
+  },
+  store: redisStorage,
 });
 
 await app.register(AutoLoad, {
