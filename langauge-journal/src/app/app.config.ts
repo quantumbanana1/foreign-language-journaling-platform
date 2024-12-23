@@ -7,6 +7,7 @@ import {
   HTTP_INTERCEPTORS,
   HttpClientModule,
   provideHttpClient,
+  withFetch,
   withInterceptors,
   withInterceptorsFromDi,
 } from '@angular/common/http';
@@ -20,6 +21,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(
       // DI-based interceptors must be explicitly enabled.
       withInterceptorsFromDi(),
+      withFetch(),
     ),
     cryptoInterceptorProvider,
   ],

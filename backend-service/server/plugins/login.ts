@@ -46,11 +46,7 @@ export default fp(async function logging(app: FastifyInstance): Promise<void> {
     }
     request.session.userId = id;
     request.session.username = username;
-    // const sessionId = request.session.sessionId;
-    // reply.status(201).send({
-    //   sessionId: "ehhh i don't know yet",
-    // });
-    return reply.status(201).send({ msg: "co to" });
+    return reply.status(201).send({ success: true });
   }
 
   app.decorate("loggingPlugin", onLoggingRoute);

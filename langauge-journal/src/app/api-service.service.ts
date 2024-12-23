@@ -19,4 +19,14 @@ export class ApiService {
       withCredentials: true,
     });
   }
+
+  public logOut() {
+    return this.httpClient.post(
+      `${this.API_URL}/logout`,
+      { logOut: true },
+      {
+        withCredentials: true,
+      },
+    );
+  }
 }

@@ -22,6 +22,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Router } from '@angular/router';
 import { ApiService } from '../api-service.service';
 import { response } from 'express';
+import { AuthService } from '../auth.service';
 
 function createCompareValidator(
   controlOne: AbstractControl,
@@ -58,6 +59,7 @@ export class SingInUpComponent implements AfterViewInit, OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private apiService: ApiService,
+    private authService: AuthService,
   ) {}
 
   public messageFromServer: string = '';
@@ -144,7 +146,8 @@ export class SingInUpComponent implements AfterViewInit, OnInit {
         console.log(res);
         this.messageFromServer = res.message;
         if (res.success) {
-          this.router.navigate(['/layout/my-feed']);
+          this.authService.updateLoggedInState(true);
+          this.router.navigateByUrl('my-feed');
         }
       },
     });

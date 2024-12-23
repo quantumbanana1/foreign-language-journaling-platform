@@ -61,6 +61,7 @@ declare module "fastify" {
     registrationPlugin: MyAsyncHandler;
     loggingPlugin: MyAsyncHandler;
     authorizeOnRequest: MyAsyncHandler;
+    logOutPlugin: MyAsyncHandler;
   }
   interface Session {
     username: string;

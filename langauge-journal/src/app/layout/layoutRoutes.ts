@@ -4,6 +4,7 @@ import { ProfileComponent } from '../profile/profile.component';
 import { MyPostsComponent } from '../my-posts/my-posts.component';
 import { NewPostComponent } from '../new-post/new-post.component';
 import { SettingsComponent } from '../settings/settings.component';
+import { authGuard } from '../auth.guard';
 
 export const LAYOUT_ROUTS: Routes = [
   {
@@ -14,13 +15,13 @@ export const LAYOUT_ROUTS: Routes = [
       { path: 'profile', component: ProfileComponent },
       { path: 'my-posts', component: MyPostsComponent },
       { path: 'new-post', component: NewPostComponent },
-      {
-        path: 'settings',
-        component: SettingsComponent,
-
-        loadChildren: () =>
-          import('../settings/settingRoutes').then((m) => m.LAYOUT_ROUTS),
-      },
+      // {
+      //   path: 'settings',
+      //   component: SettingsComponent,
+      //
+      //   loadChildren: () =>
+      //     import('../settings/settingRoutes').then((m) => m.LAYOUT_ROUTS),
+      // },
     ],
   },
 ];
