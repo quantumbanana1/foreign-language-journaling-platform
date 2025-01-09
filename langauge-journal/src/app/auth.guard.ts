@@ -5,19 +5,25 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { inject } from '@angular/core';
-import { AuthService } from './auth.service';
-import { LAYOUT_ROUTS } from './layout/layoutRoutes';
+import { LoggedinService } from './loggedin.service';
 
 export const authGuard: CanActivateFn = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot,
 ) => {
-  const authService = inject(AuthService);
+  const authService = inject(LoggedinService);
   const router: Router = inject(Router);
   let isLoggedIn: boolean;
-
-  authService.isLoggedInState.subscribe((value) => {
-    isLoggedIn = value;
+  authService.authorized$.next();
+  authService.isLoggedIn$.subscribe((status) => {
+    console.log(status);
+    if (status === 'authenticated') {
+      isLoggedIn = true;
+      return true;
+    } else {
+      isLoggedIn = false;
+      return false;
+    }
   });
 
   return isLoggedIn;

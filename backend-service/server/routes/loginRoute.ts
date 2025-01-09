@@ -1,5 +1,4 @@
 import { FastifyInstance } from "fastify";
-import S from "fluent-json-schema";
 
 const loggingUserSchema = {
   body: {
@@ -12,6 +11,22 @@ const loggingUserSchema = {
         minLength: 8,
         pattern: "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*#?&^_-]).{8,}",
         writeOnly: true,
+      },
+    },
+  },
+  response: {
+    200: {
+      type: "object",
+      properties: {
+        success: { type: "boolean" },
+        message: { type: "string" },
+      },
+    },
+    401: {
+      type: "object",
+      properties: {
+        success: { type: "boolean" },
+        message: { type: "string" },
       },
     },
   },

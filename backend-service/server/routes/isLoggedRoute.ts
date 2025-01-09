@@ -1,25 +1,28 @@
 import { FastifyInstance } from "fastify";
 
-const logOutUserSchema = {
-  body: {
+const schema = {
+  headers: {
     type: "object",
     properties: {
-      logout: { type: "boolean" },
+      cookie: {
+        type: "string",
+        description: "Session cookie for authentication",
+      },
     },
+    required: ["cookie"],
   },
-
   response: {
     200: {
       type: "object",
       properties: {
-        logout: { type: "boolean" },
+        success: { type: "boolean" },
         message: { type: "string" },
       },
     },
     401: {
       type: "object",
       properties: {
-        logout: { type: "boolean" },
+        success: { type: "boolean" },
         message: { type: "string" },
       },
     },
@@ -28,11 +31,9 @@ const logOutUserSchema = {
 
 export default async function logOutRoute(app: FastifyInstance) {
   app.route({
-    method: "POST",
-    url: "/logout",
-    schema: logOutUserSchema,
-    handler: app.logOutPlugin,
-    preValidation: app.decryptBodyRequest,
-    preHandler: app.authorizeOnRequest,
+    method: "GET",
+    url: "/auth",
+    handler: app.isLogged,
+    schema: schema,
   });
 }

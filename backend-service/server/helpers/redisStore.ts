@@ -1,6 +1,5 @@
 // @ts-ignore
 import { SessionData, Store } from "express-session";
-import { EventEmitter } from "events";
 
 const noop = (_err?: unknown, _data?: any) => {};
 
@@ -18,7 +17,7 @@ interface Serializer {
   stringify(s: SessionData): string;
 }
 
-interface RedisStoreOptions {
+export interface RedisStoreOptions {
   client: any;
   prefix?: string;
   scanCount?: number;

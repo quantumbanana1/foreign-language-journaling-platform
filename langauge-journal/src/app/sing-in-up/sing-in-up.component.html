@@ -2,7 +2,7 @@
 <section>
   <div #container class="container" id="container">
     <div class="form-container sign-up-container">
-      <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" action="POST">
+      <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" method="POST">
         <div class="form-header">
           <h1>Join Our Community!</h1>
           <span class="welcome-sing-in">use your email for registration</span>
@@ -44,8 +44,8 @@
         <button type="submit" [disabled]="registrationForm.invalid">Sign Up</button>
       </form>
     </div>
-    <div class="form-container sign-in-container">
-      <form [formGroup]="loggingForm" (ngSubmit)="signInOnSubmit()">
+    <div  class="form-container sign-in-container">
+      <form [formGroup]="loggingForm"   (ngSubmit)="signInOnSubmit()">
         <h1>Sign in</h1>
         <span>and use your account to learn</span>
         <input formControlName="email" type="email" placeholder="Email" required/>

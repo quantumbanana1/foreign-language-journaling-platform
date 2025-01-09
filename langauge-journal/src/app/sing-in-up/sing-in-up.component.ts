@@ -11,17 +11,14 @@ import {
   FormControl,
   FormGroup,
   FormsModule,
-  NgForm,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 
 import { CommonModule } from '@angular/common';
-import { NgClass } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Router } from '@angular/router';
 import { ApiService } from '../api-service.service';
-import { response } from 'express';
 import { AuthService } from '../auth.service';
 
 function createCompareValidator(
@@ -34,11 +31,6 @@ function createCompareValidator(
       ? { passwordMismatch: { errorMessage: 'Passwords are not the same' } }
       : null;
   };
-}
-
-interface respond {
-  message: string;
-  success: boolean;
 }
 
 @Component({
@@ -141,16 +133,7 @@ export class SingInUpComponent implements AfterViewInit, OnInit {
   }
 
   signInOnSubmit() {
-    this.apiService.logInUser(this.loggingForm.value).subscribe({
-      next: (res: respond) => {
-        console.log(res);
-        this.messageFromServer = res.message;
-        if (res.success) {
-          this.authService.updateLoggedInState(true);
-          this.router.navigateByUrl('my-feed');
-        }
-      },
-    });
+    this.authService.login$.next(this.loggingForm.value);
   }
 
   ngAfterViewInit() {

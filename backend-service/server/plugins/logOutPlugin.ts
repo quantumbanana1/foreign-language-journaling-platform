@@ -1,17 +1,8 @@
 import fp from "fastify-plugin";
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
-import { QueryResult } from "pg";
-import bycrpt from "bcrypt";
-import NewUser from "../Classes/User";
-
-function callback(err?: any) {
-  if (err) {
-    throw new err();
-  }
-}
 
 interface loginOutBody {
-  logOut: boolean;
+  logout: boolean;
 }
 
 export default fp(async function loggingOut(app: FastifyInstance, opts) {
@@ -19,22 +10,19 @@ export default fp(async function loggingOut(app: FastifyInstance, opts) {
     request: FastifyRequest<{ Body: loginOutBody }>,
     reply: FastifyReply,
   ) {
-    if (!request.session && !request.session.userId) {
-      return reply.status(400).send({
-        mess: "You don't have access to this action",
-      });
-    }
-
-    if (request.body.logOut && request.cookies.sessionId) {
+    if (request.session.userId && request.body.logout) {
       try {
         await request.session.destroy();
-        return reply.status(200).send({ logOut: true });
+        reply.clearCookie("sessionId");
       } catch (err) {
         console.error(err);
-        return reply.status(400).send({ logOut: false });
+        return reply.status(401).send({ logout: false });
       }
+      return reply.status(200).send({ logout: true });
     } else {
-      console.log("logginOutStatus is set to false");
+      const error = new Error("session not found");
+      console.error(error);
+      return reply.status(401).send({ mess: "session not found" });
     }
   }
 

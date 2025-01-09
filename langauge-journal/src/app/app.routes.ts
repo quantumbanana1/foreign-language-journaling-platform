@@ -7,6 +7,7 @@ import { authGuard } from './auth.guard';
 import { ProfileComponent } from './profile/profile.component';
 import { MyPostsComponent } from './my-posts/my-posts.component';
 import { NewPostComponent } from './new-post/new-post.component';
+import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -27,6 +28,17 @@ export const routes: Routes = [
       { path: 'profile', component: ProfileComponent },
       { path: 'my-posts', component: MyPostsComponent },
       { path: 'new-post', component: NewPostComponent },
+      {
+        path: 'settings',
+        component: SettingsComponent,
+        children: [
+          {
+            path: 'profile-settings',
+            component: ProfileSettingsComponent,
+            outlet: 'settingsRouterOutlet',
+          },
+        ],
+      },
     ],
   },
 ];

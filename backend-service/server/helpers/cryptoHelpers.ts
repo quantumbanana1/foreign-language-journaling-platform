@@ -67,6 +67,7 @@ export function handleError(
 ) {
   console.error(error);
   return reply.status(status).send({
+    success: false,
     message:
       customMessage ||
       (error instanceof Error ? error.message : "Unknown error"),

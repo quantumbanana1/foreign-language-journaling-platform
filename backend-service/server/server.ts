@@ -1,5 +1,5 @@
 import postgres from "@fastify/postgres";
-import fastify, { FastifyReply, FastifyRequest, Session } from "fastify";
+import fastify, { FastifyReply, FastifyRequest } from "fastify";
 import Cors from "@fastify/cors";
 import AutoLoad from "@fastify/autoload";
 import { join } from "desm";
@@ -7,35 +7,27 @@ import S from "fluent-json-schema";
 import fastifyEnv from "@fastify/env";
 import fastifyCookie from "@fastify/cookie";
 import fastifySession from "@fastify/session";
-import Redis, { Callback } from "ioredis";
-import { redisSessionStore } from "./helpers/redisStore";
-import { QueryResult } from "pg";
-import bycrpt from "bcrypt";
-import { RedisStore } from "./helpers/rs";
-
-const SESSION_TTL = 3600;
-
-interface logginUser {
-  email: string;
-  userPassword: string;
-}
+import Redis from "ioredis";
+import { RedisStore } from "./helpers/redisStore";
+import { RedisStoreOptions } from "./helpers/redisStore";
 
 let redisClient = new Redis({ host: "localhost", port: 6379 });
 
-redisClient.on("connect", () => {
-  console.log("Connected to Redis");
-});
+// redisClient.on("connect", () => {
+//   console.log("Connected to Redis");
+// });
+//
+// redisClient.on("error", (err) => {
+//   console.error("Redis connection error", err);
+// });
+//
+// redisClient.connect().catch(console.error);
 
-redisClient.on("error", (err) => {
-  console.error("Redis connection error", err);
-});
-
-redisClient.connect().catch(console.error);
-
-const options = {
+const options: RedisStoreOptions = {
   client: redisClient,
   ttl: 3600000,
   serializer: JSON,
+  disableTTL: false,
 };
 
 // Initialize store.
@@ -62,12 +54,15 @@ declare module "fastify" {
     loggingPlugin: MyAsyncHandler;
     authorizeOnRequest: MyAsyncHandler;
     logOutPlugin: MyAsyncHandler;
+    authorizePlugin: MyAsyncHandler;
+    userPlugin: MyAsyncHandler;
+    isLogged: MyAsyncHandler;
   }
   interface Session {
     username: string;
     userId: number;
     role: string;
-    sessionid: string;
+    authorized: boolean;
   }
 }
 
@@ -80,7 +75,7 @@ const app = fastify({ logger: true });
 await app.register(fastifyEnv, {
   dotenv: {
     path: `../.env`,
-    debug: false,
+    debug: true,
   },
   schema: S.object()
     .prop("NODE_ENV", S.string().required())
