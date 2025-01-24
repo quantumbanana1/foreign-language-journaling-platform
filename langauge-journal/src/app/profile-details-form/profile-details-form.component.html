@@ -5,9 +5,10 @@
   </div>
   <div class="inner-container">
     <div class="left-panel">
+      <input type="file" class="file-input" multiple accept="image/*" (change)="onFileSelected($event)" #fileUpload>
       <div class="upload-img-container">
         <img src="https://e1.pxfuel.com/desktop-wallpaper/309/9/desktop-wallpaper-69318-anime-forum-avatars-cool-profile-anime.jpg" alt="Upload image">
-        <button type="button" class="img-upload-button">Upload Image</button>
+        <button type="button" class="img-upload-button" (click)="fileUpload.click()">Upload Image</button>
       </div>
     </div>
     <div class="right-panel">

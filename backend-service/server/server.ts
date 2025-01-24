@@ -10,6 +10,8 @@ import fastifySession from "@fastify/session";
 import Redis from "ioredis";
 import { RedisStore } from "./helpers/redisStore";
 import { RedisStoreOptions } from "./helpers/redisStore";
+import { fastifyCloudinaryWithAsync } from "./helpers/fastify-cloudinary";
+import Multipart from "@fastify/multipart";
 
 let redisClient = new Redis({ host: "localhost", port: 6379 });
 
@@ -48,6 +50,11 @@ declare module "fastify" {
       SECRET_KEY: string;
       CONNECTION_STRING: string;
       PRIVATE_KEY: string;
+      COOKIE_SECRET: string;
+      CLOUDINARY_CLOUDNAME: string;
+      CLOUDINARY_API_KEY: string;
+      CLOUDINARY_API_SECRET: string;
+      CLOUDINARY_URL: string;
     };
     decryptBodyRequest: MyAsyncHandler;
     registrationPlugin: MyAsyncHandler;
@@ -57,6 +64,7 @@ declare module "fastify" {
     authorizePlugin: MyAsyncHandler;
     userPlugin: MyAsyncHandler;
     isLogged: MyAsyncHandler;
+    uploadProfileImagePlugin: MyAsyncHandler;
   }
   interface Session {
     username: string;
@@ -83,6 +91,10 @@ await app.register(fastifyEnv, {
     .prop("SECRET_KEY", S.string().required())
     .prop("CONNECTION_STRING", S.string().required())
     .prop("PRIVATE_KEY", S.string().required())
+    .prop("CLOUDINARY_CLOUDNAME", S.string().required())
+    .prop("CLOUDINARY_API_KEY", S.string().required())
+    .prop("CLOUDINARY_API_SECRET", S.string().required())
+    .prop("CLOUDINARY_URL", S.string().required())
     .valueOf(),
 });
 
@@ -108,6 +120,24 @@ app.register(fastifySession, {
     sameSite: true,
   },
   store: redisStorage,
+});
+
+await app.register(fastifyCloudinaryWithAsync, {
+  cloud_name: app.config.CLOUDINARY_CLOUDNAME,
+  api_key: app.config.CLOUDINARY_API_KEY,
+  api_secret: app.config.CLOUDINARY_API_SECRET,
+});
+
+app.register(Multipart, {
+  limits: {
+    fieldNameSize: 100, // Max field name size in bytes
+    fieldSize: 100, // Max field value size in bytes
+    fields: 10, // Max number of non-file fields
+    fileSize: 1000000, // For multipart forms, the max file size in bytes
+    files: 1, // Max number of file fields
+    headerPairs: 2000, // Max number of header key=>value pairs
+    parts: 1000, // For multipart forms, the max number of parts (fields + files)
+  },
 });
 
 await app.register(AutoLoad, {

@@ -17,7 +17,6 @@ import {
 
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { Router } from '@angular/router';
 import { ApiService } from '../api-service.service';
 import { AuthService } from '../auth.service';
 
@@ -49,7 +48,6 @@ function createCompareValidator(
 export class SingInUpComponent implements AfterViewInit, OnInit {
   constructor(
     private formBuilder: FormBuilder,
-    private router: Router,
     private apiService: ApiService,
     private authService: AuthService,
   ) {}

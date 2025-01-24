@@ -52,4 +52,14 @@ export class ApiService {
       options,
     );
   }
+
+  public uploadProfileImage(img: File) {
+    const formData = new FormData();
+    formData.append('profile-image', img);
+    return this.httpClient.post(
+      `${this.API_URL}/upload/image/profile-image`,
+      formData,
+      { withCredentials: true },
+    );
+  }
 }
