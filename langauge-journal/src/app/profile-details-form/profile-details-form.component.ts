@@ -11,6 +11,7 @@ import { ApiService } from '../api-service.service';
 import { ImageUploadService } from '../image-upload.service';
 import { successUploadImageResponse } from '../types/Response/uploadImageResponse';
 import { NgIf, NgOptimizedImage } from '@angular/common';
+import { HelperService } from '../helper.service';
 
 @Component({
   selector: 'app-profile-details-form',
@@ -31,47 +32,12 @@ export class ProfileDetailsFormComponent implements OnInit {
     country: '',
   };
   public photoUrl = '';
-  //
-  // username = new FormControl(
-  //   '',
-  //   Validators.compose([Validators.minLength(5), Validators.maxLength(15)]),
-  // );
-  //
-  // email = new FormControl('', [Validators.email, Validators.required]);
-  //
-  // name = new FormControl(
-  //   '',
-  //   Validators.compose([
-  //     Validators.minLength(2),
-  //     Validators.maxLength(15),
-  //     Validators.pattern(/^[1-9]\d*$/),
-  //   ]),
-  // );
-  // city = new FormControl(
-  //   '',
-  //   Validators.compose([
-  //     Validators.maxLength(100),
-  //     Validators.pattern(/^[1-9]\d*$/),
-  //   ]),
-  // );
-  //
-  // country = new FormControl(
-  //   '',
-  //   Validators.compose([
-  //     Validators.maxLength(100),
-  //     Validators.pattern(/^[1-9]\d*$/),
-  //   ]),
-  // );
-  //
-  // description = new FormControl(
-  //   '',
-  //   Validators.compose([Validators.maxLength(200)]),
-  // );
 
   constructor(
     private formBuilder: FormBuilder,
     private apiService: ApiService,
     private imageService: ImageUploadService,
+    private helperService: HelperService,
   ) {}
 
   getUserInfo() {
@@ -144,7 +110,11 @@ export class ProfileDetailsFormComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.userInfoForm.value);
+    const filteredUserInfo = this.helperService.filterChangedPropertiesInObject(
+      this.userInfo,
+      this.userInfoForm.value,
+    );
+    console.log(filteredUserInfo);
   }
 
   ngOnInit() {

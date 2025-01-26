@@ -9,6 +9,9 @@ const queryStringJsonSchema = {
     profile_photo_url: { type: "boolean" },
     description: { type: "boolean" },
     friends: { type: "boolean" },
+    name: { type: "boolean" },
+    country: { type: "boolean" },
+    city: { type: "boolean" },
   },
   additionalProperties: false,
 };

@@ -19,7 +19,10 @@ export class HelperService {
     ) as Partial<T>;
   }
 
-  public filterChangedUserInfo<T extends Object>(newObject: T, oldObject: T) {
+  public filterChangedPropertiesInObject<T extends Object>(
+    newObject: T,
+    oldObject: T,
+  ) {
     const filteredUserInfo: Partial<T> = this.filterObject(
       newObject,
       ([k, v]: Entry<T>): boolean => v !== oldObject[k],
