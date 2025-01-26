@@ -38,6 +38,6 @@ export default async function loginRoute(app: FastifyInstance) {
     url: "/login",
     schema: loggingUserSchema,
     handler: app.loggingPlugin,
-    // preValidation: app.decryptBodyRequest,
+    preValidation: app.decryptBodyRequest,
   });
 }

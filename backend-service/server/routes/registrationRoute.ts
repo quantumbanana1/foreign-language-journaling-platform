@@ -11,7 +11,8 @@ interface RegisterBody {
 }
 
 const registerUserSchema = {
-  body: {type: "object",
+  body: {
+    type: "object",
     required: ["username", "password", "confirmPassword", "email"],
     properties: {
       username: { type: "string", minLength: 5, maxLength: 15 },
@@ -29,7 +30,7 @@ const registerUserSchema = {
         writeOnly: true,
       },
     },
-  }
+  },
 };
 
 export default async function registerRoute(app: FastifyInstance) {

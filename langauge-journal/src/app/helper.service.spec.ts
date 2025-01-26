@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { AppCryptoService } from './app-crypto.service';
+import { HelperService } from './helper.service';
 
-describe('AppCryptoService', () => {
-  let service: AppCryptoService;
+describe('HelperService', () => {
+  let service: HelperService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(AppCryptoService);
+    service = TestBed.inject(HelperService);
   });
 
   it('should be created', () => {

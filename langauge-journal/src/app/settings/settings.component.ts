@@ -17,5 +17,6 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './settings.component.scss',
 })
 export class SettingsComponent {
+  public errorMessage = '';
   destinationName: string = 'Edit your profile';
 }

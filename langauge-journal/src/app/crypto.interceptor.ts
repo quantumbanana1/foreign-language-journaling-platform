@@ -5,7 +5,7 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, from, Observable, of, switchMap } from 'rxjs';
 import { Buffer } from 'buffer';
 
 @Injectable({
@@ -26,25 +26,32 @@ export class cryptoInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler,
   ): Observable<HttpEvent<any>> {
-    // if (req.method === 'POST' && req.body) {
-    //   const key = Buffer.from(
-    //     crypto.getRandomValues(new Uint8Array(32)),
-    //   ).toString('base64');
-    //
-    //   return from(this.encryptSymmetric(JSON.stringify(req.body), key)).pipe(
-    //     switchMap((modifiedBody) => {
-    //       const encryptedReq = req.clone({
-    //         body: modifiedBody,
-    //       });
-    //       console.log(encryptedReq);
-    //       return next.handle(encryptedReq);
-    //     }),
-    //     catchError((error) => {
-    //       console.error('Encryption error:', error);
-    //       return of(error);
-    //     }),
-    //   );
-    // }
+    const isMultipart =
+      req.headers.has('X-Is-Multipart') ||
+      req.headers.get('Content-Type')?.includes('multipart/form-data');
+
+    if (req.method === 'POST' && !isMultipart) {
+      console.log('ecnryption jejejeje');
+      console.log(req.headers);
+      console.log(req.body);
+      const key = Buffer.from(
+        crypto.getRandomValues(new Uint8Array(32)),
+      ).toString('base64');
+
+      return from(this.encryptSymmetric(JSON.stringify(req.body), key)).pipe(
+        switchMap((modifiedBody) => {
+          const encryptedReq = req.clone({
+            body: modifiedBody,
+          });
+          console.log(encryptedReq);
+          return next.handle(encryptedReq);
+        }),
+        catchError((error) => {
+          console.error('Encryption error:', error);
+          return of(error);
+        }),
+      );
+    }
 
     return next.handle(req);
   }

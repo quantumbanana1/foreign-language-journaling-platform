@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../api-service.service';
+import { NgOptimizedImage } from '@angular/common';
+import { ImageUploadService } from '../image-upload.service';
+import { IUserAttributes } from '../types/User/userTypes';
 
 @Component({
   selector: 'app-nav-profle',
   standalone: true,
-  imports: [],
+  imports: [NgOptimizedImage],
   templateUrl: './nav-profle.component.html',
   styleUrl: './nav-profle.component.scss',
 })
@@ -16,6 +19,7 @@ export class NavProfleComponent implements OnInit {
   constructor(
     private router: Router,
     private apiService: ApiService,
+    private imageService: ImageUploadService,
   ) {}
 
   goToProfile() {
@@ -28,7 +32,23 @@ export class NavProfleComponent implements OnInit {
     });
   }
 
+  getNewProfilePhoto() {
+    this.imageService.notifyUrlPicturePhotoUrlChange.subscribe((url) => {
+      this.photo_url = url;
+    });
+  }
+
+  getProfilePhoto() {
+    this.apiService
+      .getUserInfo({ profile_photo_url: true })
+      .subscribe((response: IUserAttributes) => {
+        this.photo_url = response.profile_photo_url;
+      });
+  }
+
   ngOnInit() {
     this.getUsername();
+    this.getProfilePhoto();
+    this.getNewProfilePhoto();
   }
 }

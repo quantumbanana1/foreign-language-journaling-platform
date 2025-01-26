@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import IRUser, {
   ILUser,
   IUserAttributes,
   IUserAttrToFetch,
 } from './types/User/userTypes';
+import { catchError, Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
-  private API_URL = 'http://localhost:8080';
+  private API_URL: string = 'http://localhost:8080';
   constructor(private httpClient: HttpClient) {}
 
   public createNewUser(newUser: IRUser) {
@@ -47,19 +48,45 @@ export class ApiService {
       withCredentials: true,
       params: params,
     };
-    return this.httpClient.get<IUserAttributes>(
-      `${this.API_URL}/user`,
-      options,
-    );
+    return this.httpClient
+      .get<IUserAttributes>(`${this.API_URL}/user`, options)
+      .pipe(
+        catchError((error) => {
+          return throwError(
+            () => new Error('error occured while fetching data'),
+          );
+        }),
+      );
   }
 
   public uploadProfileImage(img: File) {
     const formData = new FormData();
     formData.append('profile-image', img);
-    return this.httpClient.post(
-      `${this.API_URL}/upload/image/profile-image`,
-      formData,
-      { withCredentials: true },
-    );
+    const headers = new HttpHeaders({
+      'X-Is-Multipart': 'true',
+    });
+
+    return this.httpClient
+      .post(`${this.API_URL}/upload/image/profile-image`, formData, {
+        withCredentials: true,
+        headers: headers,
+      })
+      .pipe(
+        catchError((error) => {
+          return throwError(() => new Error('uploading an image failed'));
+        }),
+      );
+  }
+
+  public updateUserInfo(
+    userInfo: IUserAttributes,
+  ): Observable<IUserAttributes> {
+    return this.httpClient
+      .patch<IUserAttributes>(`${this.API_URL}/update/user_info}`, userInfo)
+      .pipe(
+        catchError((error) => {
+          return throwError(() => new Error('updating an user info failed'));
+        }),
+      );
   }
 }

@@ -40,7 +40,7 @@ export default async function uploadProfileImageRoute(app: FastifyInstance) {
     method: "POST",
     url: "/upload/image/profile-image",
     handler: app.uploadProfileImagePlugin,
-    // preHandler: app.authorizeOnRequest,
+    preHandler: app.authorizeOnRequest,
     schema: schema,
   });
 }

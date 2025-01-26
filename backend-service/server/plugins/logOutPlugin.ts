@@ -16,13 +16,17 @@ export default fp(async function loggingOut(app: FastifyInstance, opts) {
         reply.clearCookie("sessionId");
       } catch (err) {
         console.error(err);
-        return reply.status(401).send({ logout: false });
+        return reply
+          .status(401)
+          .send({ logout: false, message: "logout failed" });
       }
-      return reply.status(200).send({ logout: true });
+      return reply
+        .status(200)
+        .send({ logout: true, message: "logout success" });
     } else {
       const error = new Error("session not found");
       console.error(error);
-      return reply.status(401).send({ mess: "session not found" });
+      return reply.status(401).send({ message: "session not found" });
     }
   }
 

@@ -17,7 +17,7 @@ export interface IUserAttributes {
   created_at?: Date;
   updated_at?: Date;
   profile_photo_url: string;
-  description: string;
+  description?: string;
   friends?: string[];
   city?: string;
   country?: string;
@@ -32,6 +32,9 @@ export interface IUserAttrToFetch {
   profile_photo_url?: boolean;
   description?: boolean;
   friends?: boolean;
+  city?: boolean;
+  country?: boolean;
+  name?: boolean;
 }
 
 export interface userLogging {

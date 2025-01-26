@@ -3,15 +3,19 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
+  ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { IUserAttributes } from '../types/User/userTypes';
 import { ApiService } from '../api-service.service';
+import { ImageUploadService } from '../image-upload.service';
+import { successUploadImageResponse } from '../types/Response/uploadImageResponse';
+import { NgIf, NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-profile-details-form',
   standalone: true,
-  imports: [],
+  imports: [NgOptimizedImage, ReactiveFormsModule, NgIf],
   templateUrl: './profile-details-form.component.html',
   styleUrl: './profile-details-form.component.scss',
 })
@@ -26,32 +30,124 @@ export class ProfileDetailsFormComponent implements OnInit {
     city: '',
     country: '',
   };
-
-  username = new FormControl(
-    '',
-    Validators.compose([Validators.minLength(5), Validators.maxLength(15)]),
-  );
-
-  email = new FormControl('', [Validators.email, Validators.required]);
-
-  name = new FormControl(
-    '',
-    Validators.compose([
-      Validators.minLength(2),
-      Validators.maxLength(15),
-      Validators.pattern(/^[1-9]\d*$/),
-    ]),
-  );
+  public photoUrl = '';
+  //
+  // username = new FormControl(
+  //   '',
+  //   Validators.compose([Validators.minLength(5), Validators.maxLength(15)]),
+  // );
+  //
+  // email = new FormControl('', [Validators.email, Validators.required]);
+  //
+  // name = new FormControl(
+  //   '',
+  //   Validators.compose([
+  //     Validators.minLength(2),
+  //     Validators.maxLength(15),
+  //     Validators.pattern(/^[1-9]\d*$/),
+  //   ]),
+  // );
+  // city = new FormControl(
+  //   '',
+  //   Validators.compose([
+  //     Validators.maxLength(100),
+  //     Validators.pattern(/^[1-9]\d*$/),
+  //   ]),
+  // );
+  //
+  // country = new FormControl(
+  //   '',
+  //   Validators.compose([
+  //     Validators.maxLength(100),
+  //     Validators.pattern(/^[1-9]\d*$/),
+  //   ]),
+  // );
+  //
+  // description = new FormControl(
+  //   '',
+  //   Validators.compose([Validators.maxLength(200)]),
+  // );
 
   constructor(
-    formBuilder: FormBuilder,
+    private formBuilder: FormBuilder,
     private apiService: ApiService,
+    private imageService: ImageUploadService,
   ) {}
 
-  ngOnInit() {}
+  getUserInfo() {
+    this.apiService
+      .getUserInfo({
+        username: true,
+        email: true,
+        city: true,
+        country: true,
+        description: true,
+        name: true,
+        profile_photo_url: true,
+      })
+      .subscribe((response: IUserAttributes) => {
+        this.userInfo = response;
+        this.photoUrl = response.profile_photo_url;
+        this.buildForm();
+      });
+  }
+  buildForm() {
+    console.log(this.userInfo);
+    this.userInfoForm = new FormGroup({
+      username: new FormControl(this.userInfo.username, [
+        Validators.minLength(5),
+        Validators.maxLength(15),
+      ]),
+      email: new FormControl(this.userInfo.email || '', [
+        Validators.email,
+        Validators.required,
+      ]),
+      name: new FormControl(this.userInfo.name || '', [
+        Validators.minLength(2),
+        Validators.maxLength(15),
+        Validators.pattern(/^[A-Za-z\s]*$/), // Updated pattern for names
+      ]),
+      city: new FormControl(this.userInfo.city || '', [
+        Validators.maxLength(100),
+        Validators.pattern(/^[A-Za-z\s]*$/), // Updated pattern for cities
+      ]),
+      country: new FormControl(this.userInfo.country || '', [
+        Validators.maxLength(100),
+        Validators.pattern(/^[A-Za-z\s]*$/), // Updated pattern for countries
+      ]),
+      description: new FormControl(this.userInfo.description || '', [
+        Validators.maxLength(200),
+      ]),
+    });
+  }
+
+  // populateForm() {
+  //   console.log(this.userInfo);
+  //   this.userInfoForm.setValue({
+  //     username: this.userInfo.username,
+  //     email: this.userInfo.email,
+  //     city: this.userInfo.city,
+  //     country: this.userInfo.country,
+  //     description: this.userInfo.country,
+  //     name: this.userInfo.name,
+  //   });
+  // }
 
   onFileSelected(event: Event) {
     const file: File = (event.target as HTMLInputElement).files[0];
-    this.apiService.uploadProfileImage(file).subscribe();
+    this.apiService
+      .uploadProfileImage(file)
+      .subscribe((response: successUploadImageResponse) => {
+        this.photoUrl = response.url;
+        this.imageService.setNewProfilePhotoUrl(response.url);
+      });
+  }
+
+  onSubmit() {
+    console.log(this.userInfoForm.value);
+  }
+
+  ngOnInit() {
+    this.getUserInfo();
   }
 }
