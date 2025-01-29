@@ -31,6 +31,9 @@ const resposneSchema = {
         type: "array",
         items: { type: "string" }, // Assuming friends are stored as strings (e.g., usernames or IDs)
       },
+      city: { type: "string" },
+      country: { type: "string" },
+      name: { type: "string" },
     },
     additionalProperties: false,
   },

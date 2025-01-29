@@ -6,7 +6,7 @@ const loggingUserSchema = {
     required: ["userPassword", "email"],
     properties: {
       email: { type: "string", format: "email" },
-      password: {
+      userPassword: {
         type: "string",
         minLength: 8,
         pattern: "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*#?&^_-]).{8,}",
@@ -38,6 +38,6 @@ export default async function loginRoute(app: FastifyInstance) {
     url: "/login",
     schema: loggingUserSchema,
     handler: app.loggingPlugin,
-    preValidation: app.decryptBodyRequest,
+    // preValidation: app.decryptBodyRequest,
   });
 }

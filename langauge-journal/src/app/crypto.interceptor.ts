@@ -26,32 +26,26 @@ export class cryptoInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler,
   ): Observable<HttpEvent<any>> {
-    const isMultipart =
-      req.headers.has('X-Is-Multipart') ||
-      req.headers.get('Content-Type')?.includes('multipart/form-data');
-
-    if (req.method === 'POST' && !isMultipart) {
-      console.log('ecnryption jejejeje');
-      console.log(req.headers);
-      console.log(req.body);
-      const key = Buffer.from(
-        crypto.getRandomValues(new Uint8Array(32)),
-      ).toString('base64');
-
-      return from(this.encryptSymmetric(JSON.stringify(req.body), key)).pipe(
-        switchMap((modifiedBody) => {
-          const encryptedReq = req.clone({
-            body: modifiedBody,
-          });
-          console.log(encryptedReq);
-          return next.handle(encryptedReq);
-        }),
-        catchError((error) => {
-          console.error('Encryption error:', error);
-          return of(error);
-        }),
-      );
-    }
+    // const x = this.shouldEncrypt(req, this.isMultipartRequest(req));
+    // console.log(x);
+    // if (this.shouldEncrypt(req, this.isMultipartRequest(req))) {
+    //   const key = Buffer.from(
+    //     crypto.getRandomValues(new Uint8Array(32)),
+    //   ).toString('base64');
+    //
+    //   return from(this.encryptSymmetric(JSON.stringify(req.body), key)).pipe(
+    //     switchMap((modifiedBody) => {
+    //       const encryptedReq = req.clone({
+    //         body: modifiedBody,
+    //       });
+    //       return next.handle(encryptedReq);
+    //     }),
+    //     // catchError((error) => {
+    //     //   console.error('Encryption error:', error);
+    //     //   return of(error);
+    //     // }),
+    //   );
+    // }
 
     return next.handle(req);
   }
@@ -72,8 +66,6 @@ export class cryptoInterceptor implements HttpInterceptor {
 
     const publicKey = await this.RSAPublicKey();
     const wrappedKey = await this.wrapKey('raw', secretKey, publicKey);
-
-    console.log(wrappedKey);
 
     const ciphertext = await crypto.subtle.encrypt(
       {
@@ -112,5 +104,16 @@ export class cryptoInterceptor implements HttpInterceptor {
     return crypto.subtle.wrapKey(format, key, wrappingKey, {
       name: 'RSA-OAEP',
     });
+  }
+
+  private isMultipartRequest(req: HttpRequest<any>): boolean {
+    return (
+      req.headers.has('X-Is-Multipart') ||
+      req.headers.get('Content-Type')?.includes('multipart/form-data')
+    );
+  }
+
+  private shouldEncrypt(req: HttpRequest<any>, isMultipart: boolean) {
+    return (req.method === 'POST' || req.method === 'PATCH') && !isMultipart;
   }
 }

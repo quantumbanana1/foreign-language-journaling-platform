@@ -16,7 +16,7 @@ export interface IUserAttributes {
   email: string;
   created_at?: Date;
   updated_at?: Date;
-  profile_photo_url: string;
+  profile_photo_url?: string;
   description?: string;
   friends?: string[];
   city?: string;

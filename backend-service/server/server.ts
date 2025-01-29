@@ -65,6 +65,7 @@ declare module "fastify" {
     userPlugin: MyAsyncHandler;
     isLogged: MyAsyncHandler;
     uploadProfileImagePlugin: MyAsyncHandler;
+    updateUserPlugin: MyAsyncHandler;
   }
   interface Session {
     username: string;

@@ -5,7 +5,9 @@ const resposneSchema = {
     type: "object",
     properties: {
       url: { type: "string" },
+      message: { type: "string" },
     },
+    additionalProperties: false,
   },
   500: {
     type: "object",
@@ -14,6 +16,7 @@ const resposneSchema = {
       message: { type: "string" },
       additionalProperties: false,
     },
+    additionalProperties: false,
   },
 };
 
@@ -22,16 +25,6 @@ const schema = {
   tags: ["File Manager"],
   summary: "Upload a profile picture to the server",
   consumes: ["multipart/form-data"],
-  // body: {
-  //   type: "object",
-  //   properties: {
-  //     image: {
-  //       type: "string",
-  //       format: "binary",
-  //     },
-  //   },
-  //   additionalProperties: false,
-  // },
   response: resposneSchema,
 };
 

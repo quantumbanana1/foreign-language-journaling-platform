@@ -29,4 +29,8 @@ export class HelperService {
     );
     return filteredUserInfo;
   }
+
+  public updateObjectWithNewValues<T extends object>(newObj: T, oldObj: T): T {
+    return Object.assign(newObj, oldObj);
+  }
 }

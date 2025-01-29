@@ -27,12 +27,12 @@ export default fp(async function uploadProfileImage(app: FastifyInstance) {
 
       return reply.status(200).send({
         url: dbresult.profile_photo_url,
+        message: "image upload successfully",
       });
     } catch (error) {
       console.error(error);
       reply.status(500).send({
         message: "Error uploading files",
-        uploadSuccess: false,
       });
     }
   }

@@ -1,6 +1,5 @@
 import fp from "fastify-plugin";
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
-import { queryObjects } from "v8";
 import { QueryResult } from "pg";
 
 interface IUserAttrToFetch {
@@ -11,31 +10,18 @@ interface IUserAttrToFetch {
   profile_photo_url?: boolean;
   description?: boolean;
   friends?: boolean;
+  city?: boolean;
+  country?: boolean;
+  name?: boolean;
 }
 
 type MyRequest = FastifyRequest<{
   Querystring: IUserAttrToFetch;
 }>;
 
-export default fp(async function user(app: FastifyInstance, opts) {
+export default fp(async function user(app: FastifyInstance) {
   async function onUserPlugin(request: MyRequest, reply: FastifyReply) {
-    // const client = await app.pg.connect();
-    // let result: QueryResult = await client.query(
-    //   "SELECT password,id, username FROM users WHERE email = $1",
-    //   [email],
-    // );
-    // client.release();
-    // const {
-    //   username,
-    //   email,
-    //   password,
-    //   created_at,
-    //   updated_at,
-    //   profile_photo_url,
-    //   description,
-    //   friends,
-    // } = request.query;
-    let sqlCommand = "SELECT ";
+    console.log(request.query);
     const selectedFields = Object.entries(request.query)
       .map(([key]) => key)
       .join(", ");
@@ -46,6 +32,7 @@ export default fp(async function user(app: FastifyInstance, opts) {
     );
 
     client.release();
+    console.log(result.rows[0]);
     return reply.status(200).send(result.rows[0]);
   }
 

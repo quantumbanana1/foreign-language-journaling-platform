@@ -65,7 +65,6 @@ export function handleError(
   status: number,
   customMessage?: string,
 ) {
-  console.error(error);
   return reply.status(status).send({
     success: false,
     message:

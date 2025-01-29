@@ -1,4 +1,4 @@
-import { ApplicationConfig, importProvidersFrom } from '@angular/core';
+import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -14,15 +14,17 @@ import {
 import { cryptoInterceptor } from './crypto.interceptor';
 import { cryptoInterceptorProvider } from './cryptoInterceptorProvider';
 
+import { provideAnimations } from '@angular/platform-browser/animations';
+
+import { provideToastr } from 'ngx-toastr';
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideClientHydration(),
-    provideHttpClient(
-      // DI-based interceptors must be explicitly enabled.
-      withInterceptorsFromDi(),
-      withFetch(),
-    ),
+    provideHttpClient(withInterceptorsFromDi(), withFetch()),
     cryptoInterceptorProvider,
+    provideAnimations(),
+    provideToastr(),
   ],
 };

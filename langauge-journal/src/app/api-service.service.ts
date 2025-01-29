@@ -1,11 +1,18 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+  HttpParams,
+} from '@angular/common/http';
 import IRUser, {
   ILUser,
   IUserAttributes,
   IUserAttrToFetch,
 } from './types/User/userTypes';
 import { catchError, Observable, throwError } from 'rxjs';
+import { IUserUpdateResponse } from './types/Response/updateUserInfoResponse';
+import { uploadImageResponse } from './types/Response/uploadImageResponse';
 
 @Injectable({
   providedIn: 'root',
@@ -51,15 +58,17 @@ export class ApiService {
     return this.httpClient
       .get<IUserAttributes>(`${this.API_URL}/user`, options)
       .pipe(
-        catchError((error) => {
+        catchError((error: HttpErrorResponse) => {
           return throwError(
-            () => new Error('error occured while fetching data'),
+            () =>
+              error.error.message ||
+              new Error('error occured while fetching data'),
           );
         }),
       );
   }
 
-  public uploadProfileImage(img: File) {
+  public uploadProfileImage(img: File): Observable<uploadImageResponse> {
     const formData = new FormData();
     formData.append('profile-image', img);
     const headers = new HttpHeaders({
@@ -67,25 +76,40 @@ export class ApiService {
     });
 
     return this.httpClient
-      .post(`${this.API_URL}/upload/image/profile-image`, formData, {
-        withCredentials: true,
-        headers: headers,
-      })
+      .post<uploadImageResponse>(
+        `${this.API_URL}/upload/image/profile-image`,
+        formData,
+        {
+          withCredentials: true,
+          headers: headers,
+        },
+      )
       .pipe(
-        catchError((error) => {
-          return throwError(() => new Error('uploading an image failed'));
+        catchError((error: HttpErrorResponse) => {
+          return throwError(
+            () =>
+              error.error.message || new Error('updating an user image failed'),
+          );
         }),
       );
   }
 
   public updateUserInfo(
-    userInfo: IUserAttributes,
-  ): Observable<IUserAttributes> {
+    userInfo: Partial<IUserAttributes>,
+  ): Observable<IUserUpdateResponse> {
     return this.httpClient
-      .patch<IUserAttributes>(`${this.API_URL}/update/user_info}`, userInfo)
+      .patch<IUserUpdateResponse>(
+        `${this.API_URL}/update/user-info`,
+        userInfo,
+        { withCredentials: true },
+      )
       .pipe(
-        catchError((error) => {
-          return throwError(() => new Error('updating an user info failed'));
+        catchError((error: HttpErrorResponse) => {
+          console.log(error);
+          return throwError(
+            () =>
+              error.error.message || new Error('updating an user info failed'),
+          );
         }),
       );
   }

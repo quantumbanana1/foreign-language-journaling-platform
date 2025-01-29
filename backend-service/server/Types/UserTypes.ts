@@ -12,3 +12,13 @@ export interface INewUser {
   password: string;
   unique_key: string;
 }
+
+export interface IUserAttributes {
+  username?: string;
+  email?: string;
+  profile_photo_url?: string;
+  description?: string;
+  city?: string;
+  country?: string;
+  name?: string;
+}
