@@ -4,7 +4,7 @@ const resposneSchema = {
   200: {
     type: "object",
     properties: {
-      response: {
+      data: {
         type: "object",
         properties: {
           username: { type: "string" },

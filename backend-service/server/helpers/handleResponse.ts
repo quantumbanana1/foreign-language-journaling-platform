@@ -5,7 +5,7 @@ export function handleResponse(
   status: number,
   error?: unknown,
   customMessage?: string,
-  responseObject?: object,
+  responseObject?: object | object[],
 ) {
   if (!responseObject && error) {
     console.log("error while updating");
@@ -16,7 +16,7 @@ export function handleResponse(
     });
   } else {
     return reply.status(status).send({
-      response: responseObject,
+      data: responseObject,
       message: customMessage,
     });
   }

@@ -1,13 +1,13 @@
 
 <div class="container-form">
-    <form>
+    <form (ngSubmit)="submitData()">
       <div class="header">
         <h1>Your Languages</h1>
       </div>
       <div class="inner-container">
         <p>Tell us your native languages(s) and which languages(s) you're learning</p>
-        <app-select-languages-inpunt></app-select-languages-inpunt>
-        <button>Add Langauge</button>
+        <app-select-languages-inpunt (languageEmitter)="getDataFromLanguageInput($event)" ></app-select-languages-inpunt>
+        <button type="submit">Add Langauge</button>
       </div>
 
   </form>

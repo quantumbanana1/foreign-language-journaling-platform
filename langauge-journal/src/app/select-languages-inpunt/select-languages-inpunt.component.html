@@ -2,7 +2,7 @@
 <div class="outer-container">
   <ng-container *ngIf="selectedOptionRowState">
     <ul class="selected-option-row">
-      <app-badge-button-from-selection  (notifyParent)="getNotification($event)" [selectedInterest]="selectedInterests"></app-badge-button-from-selection>
+      <app-badge-button-from-selection  (notifyParent)="getNotification($event)" [selectedInterest]="selectedLanguages"></app-badge-button-from-selection>
 
     </ul>
   </ng-container>
@@ -10,18 +10,16 @@
 
   <div class="selection-container">
     <label for="topic-options">Topics</label>
-    <select   id="topic-options" (change)="selected($event.target)">
+    <select (change)="selected()" [(ngModel)]="selectedLanguage"  id="topic-options">
       <option value="" disabled selected>Select Language</option>
-      <option>English</option>
-      <option>German</option>
-      <option>Spanish</option>
-      <option>Ukrainian</option>
-      <option>Dutch</option>
+      @for (language of arrayOfLanguages; track language.language_id;) {
+        <option  [ngValue]="language">{{language.name}}</option>
+      }
     </select>
   </div>
   <div class="selection-container">
       <label for="lang-lvl">Level</label>
-      <select id="lang-lvl">
+      <select id="lang-lvl" (change)="getSelectedLevel($event.target)">
         <option value="" disabled selected>Select Level</option>
         <option>Beginner</option>
         <option>Intermediate</option>
