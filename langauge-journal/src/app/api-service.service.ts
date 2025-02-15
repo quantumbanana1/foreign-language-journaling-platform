@@ -19,6 +19,10 @@ import {
   IDeleteLanguageResponse,
   IResponseUserLanguages,
 } from './types/Language/languageOptionTypes';
+import {
+  IGetInterestsResponse,
+  IInterest,
+} from './types/Response/getInterestsResponse';
 
 // ApiService: Handles all HTTP requests to the backend API.
 
@@ -163,7 +167,7 @@ export class ApiService {
   ): Observable<IDeleteLanguageResponse> {
     const params = new HttpParams().set('language_id', language.language_id);
     return this.httpClient
-      .delete<IDeleteLanguageResponse>(`${this.API_URL}/delete/language/`, {
+      .delete<IDeleteLanguageResponse>(`${this.API_URL}/delete/language`, {
         ...this.defaultOptions,
         params: params,
       })
@@ -181,12 +185,36 @@ export class ApiService {
     return of(null);
   }
 
+  public getInterests(): Observable<IGetInterestsResponse> {
+    return this.httpClient
+      .get<IGetInterestsResponse>(`${this.API_URL}/get/interests`, {
+        ...this.defaultOptions,
+      })
+      .pipe(
+        catchError((error: HttpErrorResponse) =>
+          this.handleError(error, 'Fetching interests failed'),
+        ),
+      );
+  }
+
+  public uploadUserInterest(interest: IInterest) {
+    return this.httpClient
+      .post(`${this.API_URL}/update/user-interests`, interest, {
+        ...this.defaultOptions,
+      })
+      .pipe(
+        catchError((error: HttpErrorResponse) =>
+          this.handleError(error, 'Updating interest failed'),
+        ),
+      );
+  }
+
   private handleError(
     error: HttpErrorResponse,
     defaultMessage: string,
   ): Observable<never> {
     return throwError(() => {
-      error.error.message || new Error(defaultMessage);
+      return error.error.message || new Error(defaultMessage);
     });
   }
 }

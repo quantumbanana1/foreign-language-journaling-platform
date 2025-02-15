@@ -70,6 +70,8 @@ declare module "fastify" {
     uploadLanguages: MyAsyncHandler;
     userLanguagesPlugin: MyAsyncHandler;
     deleteLanguagePlugin: MyAsyncHandler;
+    getInterestsPlugin: MyAsyncHandler;
+    updateUserInterestsPlugin: MyAsyncHandler;
   }
   interface Session {
     username: string;

@@ -1,12 +1,13 @@
 <div class="container-form">
-  <form>
+  <form [formGroup]="interestForm" (ngSubmit)="onSubmit()" >
     <div class="header">
       <h1>Your Hobbies</h1>
     </div>
     <div class="inner-container">
       <p>Tell us about the topics you're interested in! This will help us show you posts you'll like and find people with similar interests to you</p>
-      <app-select-input></app-select-input>
-      <button>Update Interests</button>
+      <app-select-interests-input></app-select-interests-input>
+      <button type="submit" class="button" [disabled]="!interestForm.valid" [ngClass]="{'button--loading': isLoading, 'active-submit-button': interestForm.valid}">
+        <span class="button_text">Update Interests</span></button>
     </div>
   </form>
 </div>

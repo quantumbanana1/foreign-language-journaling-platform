@@ -1,5 +1,4 @@
 import { FastifyInstance } from "fastify";
-
 const languageResponseSchema = {
   type: "object",
   properties: {
@@ -8,11 +7,10 @@ const languageResponseSchema = {
       items: {
         type: "object",
         properties: {
-          language_id: { type: "number" },
+          interest_id: { type: "number" },
           name: { type: "string" },
-          proficiency: { type: "string" },
         },
-        required: ["language_id", "name", "proficiency"],
+        required: ["interest_id", "name"],
       },
     },
     message: { type: "string" },
@@ -38,11 +36,11 @@ const schema = {
   response: responseSchema,
 };
 
-export default async function userLanguagesRoute(app: FastifyInstance) {
+export default async function interestRoute(app: FastifyInstance) {
   app.route({
     method: "GET",
-    url: "/get/user/languages",
-    handler: app.userLanguagesPlugin,
+    url: "/get/interests",
+    handler: app.getInterestsPlugin,
     preHandler: app.authorizeOnRequest,
     schema: schema,
   });

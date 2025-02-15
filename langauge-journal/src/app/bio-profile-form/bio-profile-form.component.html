@@ -1,14 +1,14 @@
 
 <div class="container-form">
-  <form>
+  <form [formGroup]="bioForm" (ngSubmit)="onSubmit()">
     <div class="header">
       <h1>Your Languages</h1>
     </div>
     <div class="inner-container">
       <p>Tell us about yourself!</p>
-      <textarea></textarea>
+      <textarea formControlName="description"></textarea>
       <p class="note">Maximum 400 characters</p>
-      <button>Update</button>
+      <button type="submit">Update</button>
     </div>
 
   </form>

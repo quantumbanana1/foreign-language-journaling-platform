@@ -10,6 +10,7 @@ import { NgForOf } from '@angular/common';
 import { EventEmitter } from '@angular/core';
 import { InputPostBindingService } from '../input-post-binding.service';
 import { IChooseLanguageWithLevel } from '../types/Language/languageOptionTypes';
+import { ApiService } from '../api-service.service';
 
 @Component({
   selector: 'app-badge-button-from-selection',
@@ -25,7 +26,10 @@ export class BadgeButtonFromSelectionComponent implements OnInit, OnChanges {
   @Output() notifyParent: EventEmitter<IChooseLanguageWithLevel[]> =
     new EventEmitter();
 
-  constructor(private inputBindingsService: InputPostBindingService) {}
+  constructor(
+    private inputBindingsService: InputPostBindingService,
+    private apiService: ApiService,
+  ) {}
 
   ngOnInit() {}
 
@@ -46,6 +50,14 @@ export class BadgeButtonFromSelectionComponent implements OnInit, OnChanges {
       .map((item) => item.name)
       .indexOf(id);
     const itemToDelete = this.selectedInterest[removeIndex];
+    this.apiService.deleteLanguage(itemToDelete).subscribe({
+      next: (value) => {
+        console.log(value);
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
     removeIndex >= 0 && this.selectedInterest.splice(removeIndex, 1);
     this.notifyParent.emit(this.selectedInterest);
   }
