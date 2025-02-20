@@ -23,6 +23,7 @@ import {
   IGetInterestsResponse,
   IInterest,
 } from './types/Response/getInterestsResponse';
+import { IDeleteInterestResponse } from './types/Interests/interestTypes';
 
 // ApiService: Handles all HTTP requests to the backend API.
 
@@ -207,6 +208,28 @@ export class ApiService {
           this.handleError(error, 'Updating interest failed'),
         ),
       );
+  }
+
+  public getUserInterests(): Observable<IGetInterestsResponse> {
+    return this.httpClient
+      .get<IGetInterestsResponse>(`${this.API_URL}/get/user/interests`, {
+        ...this.defaultOptions,
+      })
+      .pipe(
+        catchError((error: HttpErrorResponse) =>
+          this.handleError(error, 'Fetching user interests failed'),
+        ),
+      );
+  }
+
+  public deleteUserInterest(
+    language_id: number,
+  ): Observable<IDeleteInterestResponse> {
+    const params = new HttpParams().set('interest_id', language_id);
+    return this.httpClient.delete<IDeleteInterestResponse>(
+      `${this.API_URL}/delete/user/interest`,
+      { ...this.defaultOptions, params: params },
+    );
   }
 
   private handleError(

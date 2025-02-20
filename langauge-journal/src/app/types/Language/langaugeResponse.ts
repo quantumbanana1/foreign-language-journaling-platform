@@ -7,3 +7,9 @@ export interface ILanguage {
   name: string;
   code?: string;
 }
+
+export interface IUserLanguage {
+  language_id: number;
+  name: string;
+  proficiency: string;
+}

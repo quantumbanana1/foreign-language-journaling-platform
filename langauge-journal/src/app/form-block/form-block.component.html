@@ -1,6 +1,6 @@
 <div class="form-container">
-  <form>
-    <app-selection-block-post (notifyParent)="getNotification($event)"></app-selection-block-post>
+  <form [formGroup]="newPostForm" (ngSubmit)="onSubmit()">
+    <app-selection-block-post formGroupName="basicInfo" (notifyParent)="getNotification($event)"></app-selection-block-post>
     <app-header-post  [selectedLanguage]="selectedLanguage"></app-header-post>
     <div class="editor-container">
       <app-header-editor></app-header-editor>

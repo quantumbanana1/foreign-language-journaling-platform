@@ -1,4 +1,20 @@
 import { Injectable } from '@angular/core';
+import {
+  IChooseLanguageWithLevel,
+  LevelLanguage,
+} from './types/Language/languageOptionTypes';
+import { IInterest } from './types/Response/getInterestsResponse';
+
+type ItemFromBadge =
+  | {
+      type: 'language';
+      name: string;
+      language_id: number;
+      proficiency: LevelLanguage;
+    }
+  | { type: 'interest'; name: string; interest_id: number };
+
+type arrayOfInterest = Array<IChooseLanguageWithLevel | IInterest>;
 
 type Entry<T> = {
   [K in keyof T]: [K, T[K]];
@@ -32,5 +48,19 @@ export class HelperService {
 
   public updateObjectWithNewValues<T extends object>(newObj: T, oldObj: T): T {
     return Object.assign(newObj, oldObj);
+  }
+
+  public removeItemFromArray(
+    arrOfObj: arrayOfInterest,
+    name: string,
+  ): ItemFromBadge {
+    const removeIndex = arrOfObj.map((item) => item.name).indexOf(name);
+    const itemToDelete = arrOfObj[removeIndex];
+    removeIndex >= 0 && arrOfObj.splice(removeIndex, 1);
+    return itemToDelete;
+  }
+
+  public getPropertyFromArray(arr: object[], property: string) {
+    return arr.map((object) => object[property]);
   }
 }

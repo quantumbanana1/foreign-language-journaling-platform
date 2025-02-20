@@ -1,15 +1,14 @@
 <ng-container *ngIf="selectedOptionRowState">
   <ul class="selected-option-row">
-    <app-badge-button-from-selection  (notifyParent)="getNotification($event)" [selectedInterest]=""></app-badge-button-from-selection>
+    <app-badge-button-for-new-post (notifyParent)="getNotification($event)" [selectedInterest]="selectedInterests"></app-badge-button-for-new-post>
 
   </ul>
 </ng-container>
 <label for="topic-options">Topics</label>
-<select   id="topic-options" (change)="selected($event.target)">
+<select [disabled]="isSelectActive" [ngClass]="{'disabled': isSelectActive}"  id="topic-options" (change)="selected($event.target)">
   <option value="" disabled selected>Select Interest</option>
-  <option>Art</option>
-  <option>Cognitive Science</option>
-  <option>Psychology</option>
-  <option>Math</option>
-  <option>Programming</option>
+  @for (interest of arrayOfInterest; track interest.interest_id) {
+    <option  [value]="interest.interest_id" >{{interest.name}}</option>
+  }
 </select>
+

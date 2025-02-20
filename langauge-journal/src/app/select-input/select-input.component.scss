@@ -45,4 +45,9 @@ select {
   }
   /* <option> colors */
 
+  .disabled {
+    background: $disabled-color;
+
+  }
+
 }

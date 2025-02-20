@@ -13,6 +13,7 @@ import {
 import { NgClass } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { toastrService } from '../toastr.service';
+import { InterestService } from '../interest.service';
 
 @Component({
   selector: 'app-profile-interests-form',
@@ -36,6 +37,7 @@ export class ProfileInterestsFormComponent implements OnInit {
     private apiService: ApiService,
     private fb: FormBuilder,
     private toastrs: ToastrService,
+    private interestService: InterestService,
   ) {
     this.toastr = new toastrService(this.toastrs);
   }
@@ -56,12 +58,15 @@ export class ProfileInterestsFormComponent implements OnInit {
   onSubmit() {
     console.log(this.interestForm.value.interest);
     this.isLoading = true;
-    const request = {
+    const request: IInterest = {
       interest_id: this.interestForm.value.interest.interest_id,
       name: this.interestForm.value.interest.name,
+      type: 'interest',
     };
     this.apiService.uploadUserInterest(request).subscribe({
       next: (response) => {
+        this.interestService.setNewInterestToList(request);
+        this.interestForm.reset();
         this.isLoading = false;
       },
       error: (error) => {
@@ -70,8 +75,6 @@ export class ProfileInterestsFormComponent implements OnInit {
       },
     });
   }
-
-  public getUserInterests() {}
 
   ngOnInit() {
     this.interestForm = this.fb.group({

@@ -1,18 +1,20 @@
 
+<ng-container [formGroup]="form">
 <div class="input-container">
   <label for="post-title">Title</label>
-  <input id="post-title" type="text" required [(ngModel)]="titleValue"  (input)="onChangeInput($event.target)">
+  <input  id="post-title" type="text" required   (input)="onChangeInput($event.target)" formControlName="title">
 </div>
 <div class="input-container">
   <label for="language-options">Language</label>
-  <select id="language-options" name="search-select" (change)="selected($event.target)">
-    <option value="" disabled selected>Select Language</option>
-    <option>German</option>
-    <option>Ukrainian</option>
-    <option>Spanish</option>
+  <select id="language-options" name="search-select" formControlName="language" (change)="selected($event.target)">
+    <option value="" disabled selected>{{withoutSelectedLanguages ? 'You need to first choose languages you are learning in profile settings' : 'Select Language'}}</option>
+    @for (language of userLanguages; track language.language_id) {
+      <option [value]="language.language_id">{{language.name}} | {{language.proficiency.toLocaleUpperCase()}} </option>
+    }
   </select>
 </div>
 <div class="input-container">
-  <app-select-input></app-select-input>
+  <app-select-input formGroupName="basicInfo"></app-select-input>
 </div>
+</ng-container>
 

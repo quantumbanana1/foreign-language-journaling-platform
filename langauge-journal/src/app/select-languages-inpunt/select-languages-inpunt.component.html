@@ -12,7 +12,7 @@
     <label for="topic-options">Topics</label>
     <select (change)="selected()" [(ngModel)]="selectedLanguage"  id="topic-options">
       <option value="" disabled selected>Select Language</option>
-      @for (language of arrayOfLanguages; track language.language_id;) {
+      @for  (language of arrayOfLanguages; track language.language_id;) {
         <option  [ngValue]="language">{{language.name}}</option>
       }
     </select>

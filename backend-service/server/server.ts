@@ -72,6 +72,8 @@ declare module "fastify" {
     deleteLanguagePlugin: MyAsyncHandler;
     getInterestsPlugin: MyAsyncHandler;
     updateUserInterestsPlugin: MyAsyncHandler;
+    getUserInterestsPlugin: MyAsyncHandler;
+    deleteUserInterestPlugin: MyAsyncHandler;
   }
   interface Session {
     username: string;

@@ -2,7 +2,7 @@
 <div class="outer-container">
   <ng-container *ngIf="selectedOptionRowState">
     <ul class="selected-option-row">
-      <app-badge-button-from-selection></app-badge-button-from-selection>
+      <app-badge-button-from-selection [selectedInterest]="userInterests"></app-badge-button-from-selection>
 
     </ul>
   </ng-container>
@@ -11,7 +11,7 @@
     <div class="selection-container">
       <label for="topic-options">Topics</label>
       <ng-container [formGroup]="form">
-      <select (change)="selected()" [(ngModel)]="selectedInterest" formControlName="interest"  id="topic-options">
+      <select  (change)="selected()" [(ngModel)]="selectedInterest" formControlName="interest"  id="topic-options">
         <option value="" disabled selected>Select Interest</option>
         @for (interest of arrayOfInterests; track interest.interest_id;) {
           <option  [ngValue]="interest">{{interest.name}}</option>
