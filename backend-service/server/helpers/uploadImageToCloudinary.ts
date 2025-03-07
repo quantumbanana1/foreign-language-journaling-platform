@@ -10,15 +10,16 @@ export default interface cloudinaryResponseImage {
 export async function uploadToCloudinary(
   app: FastifyInstance,
   data: MultipartFile,
+  folderName: string,
 ): Promise<cloudinaryResponseImage> {
   return new Promise((resolve, reject) => {
     const stream = app.cloudinary.uploader.upload_stream(
       {
-        folder: "profile-pictures",
+        folder: folderName,
         resource_type: "image",
         use_filename: false,
         unique_filename: false,
-        asset_folder: "profile-picture",
+        asset_folder: folderName,
         overwrite: true,
         invalidate: true,
       },

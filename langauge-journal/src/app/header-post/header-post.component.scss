@@ -5,12 +5,13 @@
   display: flex;
   flex-flow: column;
   padding: 10px;
-  background-image: url('../../assets/images/img-new-post/img3.jpg'), linear-gradient(rgba(0, 0, 0, 0.74), rgba(0,0,0,0.74));
+  //background-image: url('../../assets/images/img-new-post/img3.jpg'), linear-gradient(rgba(0, 0, 0, 0.74), rgba(0,0,0,0.74));
   background-blend-mode:overlay;
   background-size: cover;
   justify-content: space-between;
   gap: 86px;
   width: 100%;
+  background-position: center;
 
 
 

@@ -6,7 +6,13 @@ import { PostButtonsBlockComponent } from '../post-buttons-block/post-buttons-bl
 import { HeaderEditorComponent } from '../header-editor/header-editor.component';
 import { TextEditorComponent } from '../text-editor/text-editor.component';
 import { PopUpBlockNewPostImgComponent } from '../pop-up-block-new-post-img/pop-up-block-new-post-img.component';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-form-block',
@@ -39,17 +45,16 @@ export class FormBlockComponent implements OnInit {
   private buildForm() {
     this.newPostForm = this.fb.group({
       basicInfo: this.fb.group({
-        title: [],
+        title: ['', [Validators.maxLength(5), Validators.required]],
         language: [],
-        interests: this.fb.array([]),
+        interests: this.fb.array([], Validators.maxLength(5)),
       }),
       post_info: this.fb.group({
         data: [],
-        user_id: [],
         image: [],
       }),
-      post_content: this.fb.group({
-        post_content: [],
+      postContent: this.fb.group({
+        content: new FormControl('', [Validators.required]),
       }),
     });
   }

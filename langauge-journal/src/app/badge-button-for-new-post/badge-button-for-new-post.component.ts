@@ -9,7 +9,6 @@ import {
 } from '@angular/core';
 import { NgForOf } from '@angular/common';
 import { InputPostBindingService } from '../input-post-binding.service';
-import { ApiService } from '../api-service.service';
 import { HelperService } from '../helper.service';
 import { InterestService } from '../interest.service';
 import { IInterest } from '../types/Response/getInterestsResponse';
@@ -28,8 +27,8 @@ export class BadgeButtonForNewPostComponent implements OnInit, OnChanges {
 
   constructor(
     private inputBindingsService: InputPostBindingService,
-    private apiService: ApiService,
     private helperService: HelperService,
+    private interestService: InterestService,
   ) {}
 
   ngOnInit() {}
@@ -55,6 +54,7 @@ export class BadgeButtonForNewPostComponent implements OnInit, OnChanges {
     if (this.isInterest(itemToDelete)) {
       // this.interestService.deleteInterest(itemToDelete);
       this.notifyParent.emit(this.selectedInterest);
+      this.interestService.deleteInterest(itemToDelete);
       this.updateIndicatorInterest();
     }
   }

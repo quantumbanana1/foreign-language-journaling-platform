@@ -9,14 +9,37 @@
       <h1>Choose an image</h1>
     </div>
     <div class="uploadContainer">
-      <button>Upload</button>
-      <button>Search Unsplash</button>
+      <input type="hidden" type="file" class="file-input" multiple accept="image/*" (change)="onFileSelected($event)" #fileUpload>
+<!--      <button>Upload</button>-->
+      <button (click)="updateUnsplashPopUpState(true)">Search Unsplash</button>
+      <button (click)="updateUnsplashPopUpState(false)">Upload Image</button>
     </div>
-    <div class="text">
-      <p>Choose an image to upload from your device or search for an image on Unsplash</p>
+    <div *ngIf="!unsplashPopUpState" class="uploadImageContainer">
+      <div class="text">
+        <p>Choose an image to upload from your device or search for an image on Unsplash</p>
+      </div>
+      <div class="submit-button-container">
+      <button (click)="fileUpload.click()"  class="button" [ngClass]="{'button--loading': isLoading, 'active-submit-button': !isLoading}">
+        <span>Choose image to upload</span>
+      </button>
+      </div>
     </div>
-    <button id="uploadImg">Choose image to upload</button>
-    <div class="imgContainer"></div>
+    <div *ngIf="unsplashPopUpState" class="unsplash-container">
+      <input [formControl]="searchControl"   type="text" placeholder="Search Images" maxlength="50">
+      <div class="listOfImages">
+        <ul>
+          @for (image of imageObj; track image.id) {
+            <li>
+              <button (click)="selectImage(image)">
+                <img src="{{image.imageUrl}}}" alt="image">
+              </button>
+            </li>
+
+          }
+
+        </ul>
+      </div>
+    </div>
   </div>
 </div>
 

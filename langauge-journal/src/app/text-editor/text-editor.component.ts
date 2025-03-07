@@ -2,12 +2,20 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  Input,
   OnInit,
+  Renderer2,
   ViewChild,
 } from '@angular/core';
 import { TextEditorService } from '../text-editor.service';
-import { IBreakContainerReplaceState, IState } from '../textEditorTypes';
-import { last } from 'rxjs';
+import { IState } from '../textEditorTypes';
+import { debounceTime, distinctUntilChanged, fromEvent, map } from 'rxjs';
+import {
+  FormControl,
+  FormGroup,
+  FormGroupDirective,
+  ReactiveFormsModule,
+} from '@angular/forms';
 
 interface ITextState {
   null: boolean;
@@ -20,7 +28,7 @@ interface ITextState {
 @Component({
   selector: 'app-text-editor',
   standalone: true,
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './text-editor.component.html',
   styleUrl: './text-editor.component.scss',
 })
@@ -29,6 +37,10 @@ export class TextEditorComponent implements AfterViewInit, OnInit {
   @ViewChild('TextArea') public TextAreaElement: ElementRef;
   private TextArea: ElementRef;
   private previousState: ITextState;
+  @Input() formGroupName!: string;
+  form!: FormGroup;
+
+  public content = new FormControl({ value: '', disabled: true });
 
   private states: ITextState = {
     null: true,
@@ -38,7 +50,10 @@ export class TextEditorComponent implements AfterViewInit, OnInit {
     bulletedList: false,
   };
 
-  constructor(private textEditorService: TextEditorService) {}
+  constructor(
+    private textEditorService: TextEditorService,
+    private rootFormGroup: FormGroupDirective,
+  ) {}
 
   handleSelection() {
     const selection = window.getSelection();
@@ -867,9 +882,28 @@ export class TextEditorComponent implements AfterViewInit, OnInit {
         this.states.bulletedList = value.values.includes('bulletedList');
       },
     );
+
+    this.form = this.rootFormGroup.control.get(this.formGroupName) as FormGroup;
+
+    // this.form.get('post_content').valueChanges.subscribe((value) => {
+    //   console.log(value);
+    // });
   }
+
+  private get observeKeyDownEventFroTextArea() {
+    return fromEvent(this.TextAreaElement.nativeElement, 'keydown').pipe(
+      map((event: KeyboardEvent) => event.key),
+      debounceTime(5000),
+      distinctUntilChanged(),
+    );
+  }
+
+  private sendHTMLToForm() {}
 
   ngAfterViewInit() {
     this.TextArea = this.TextAreaElement.nativeElement;
+    this.observeKeyDownEventFroTextArea.subscribe((value) => {
+      this.sendHTMLToForm();
+    });
   }
 }

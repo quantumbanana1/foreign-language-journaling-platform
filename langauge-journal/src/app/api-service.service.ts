@@ -103,6 +103,29 @@ export class ApiService {
       );
   }
 
+  public uploadPostImage(img: File): Observable<uploadImageResponse> {
+    const formData = new FormData();
+    formData.append('post-image', img);
+    const headers = new HttpHeaders({
+      'X-Is-Multipart': 'true',
+    });
+
+    return this.httpClient
+      .post<uploadImageResponse>(
+        `${this.API_URL}/upload/image/post-image`,
+        formData,
+        {
+          ...this.defaultOptions,
+          headers: headers,
+        },
+      )
+      .pipe(
+        catchError((error: HttpErrorResponse) =>
+          this.handleError(error, 'Uploading post image  failed'),
+        ),
+      );
+  }
+
   // Updates user information by sending a PATCH request with the provided data.
   public updateUserInfo(
     userInfo: Partial<IUserAttributes>,

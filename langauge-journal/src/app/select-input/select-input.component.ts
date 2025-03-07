@@ -1,9 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BadgeButtonFromSelectionComponent } from '../badge-button-from-selection/badge-button-from-selection.component';
 import { ApiService } from '../api-service.service';
 import { IInterest } from '../types/Response/getInterestsResponse';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { BadgeButtonForNewPostComponent } from '../badge-button-for-new-post/badge-button-for-new-post.component';
 import { InterestService } from '../interest.service';
 
@@ -24,8 +24,6 @@ export class SelectInputComponent implements OnInit {
   public selectedInterests: IInterest[] = [];
   public arrayOfInterest: IInterest[] = [];
   isSelectActive: boolean = false;
-  @Input() formGroupName!: string;
-  form!: FormGroup;
 
   constructor(
     private apiService: ApiService,
