@@ -3,7 +3,7 @@ import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { QueryResult } from "pg";
 
 import bycrpt from "bcrypt";
-import { randomBytes } from "crypto";
+import { randomBytes } from "server/plugins/crypto";
 interface logginUser {
   email: string;
   userPassword: string;

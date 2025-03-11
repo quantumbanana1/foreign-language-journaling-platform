@@ -3,8 +3,8 @@ import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { MultipartFile } from "@fastify/multipart";
 import cloudinaryResponseImage, {
   uploadToCloudinary,
-} from "../helpers/uploadImageToCloudinary";
-import { updateUserProfilePhoto } from "../helpers/updateProfileUrl";
+} from "../../helpers/uploadImageToCloudinary";
+import { updateUserProfilePhoto } from "../../helpers/updateProfileUrl";
 
 export default fp(async function uploadProfileImage(app: FastifyInstance) {
   async function onUploadProfileImage(

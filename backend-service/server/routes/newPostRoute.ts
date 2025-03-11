@@ -65,7 +65,7 @@ const newPostSchema = {
 export default async function newPostPlugin(app: FastifyInstance) {
   app.route({
     method: "POST",
-    url: "/create-new-post",
+    url: "/upload/new-post",
     schema: newPostSchema,
     handler: app.uploadNewPostPlugin,
     // preValidation: app.decryptBodyRequest,

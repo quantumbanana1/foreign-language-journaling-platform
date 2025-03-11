@@ -1,7 +1,7 @@
 import fp from "fastify-plugin";
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { PoolClient, QueryResult } from "pg";
-import { handleResponse } from "../helpers/handleResponse";
+import { handleResponse } from "../../helpers/handleResponse";
 
 export default fp(async function interestsPlugin(app: FastifyInstance) {
   async function onInterestsPlugin(

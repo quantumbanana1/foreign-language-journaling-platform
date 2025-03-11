@@ -14,6 +14,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ApiService } from '../api-service.service';
 
 @Component({
   selector: 'app-form-block',
@@ -39,6 +40,7 @@ export class FormBlockComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private sanitize: DomSanitizer,
+    private apiService: ApiService,
   ) {}
 
   getNotification(emittedData: string) {
@@ -75,7 +77,14 @@ export class FormBlockComponent implements OnInit {
       },
     };
 
-    console.log(request);
+    this.apiService.uploadNewPost(request).subscribe({
+      next: (response) => {
+        console.log(response);
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
   }
 
   ngOnInit() {

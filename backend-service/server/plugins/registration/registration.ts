@@ -1,10 +1,10 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 
 import { PoolClient, QueryResult } from "pg";
-import { randomBytes } from "crypto";
 import bycrpt from "bcrypt";
-import NewUser from "../Classes/User";
+import NewUser from "../../Classes/User";
 import fp from "fastify-plugin";
+import { randomBytes } from "node:crypto";
 interface RegisterBody {
   username: string;
   email: string;

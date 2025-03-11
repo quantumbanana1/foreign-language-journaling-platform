@@ -1,7 +1,7 @@
 import fp from "fastify-plugin";
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
-import { handleResponse } from "../helpers/handleResponse";
-import { IUserInterest } from "../Types/interestsTypes";
+import { handleResponse } from "../../helpers/handleResponse";
+import { IUserInterest } from "../../Types/interestsTypes";
 
 export default fp(async function updateUserInterests(app: FastifyInstance) {
   async function onUpdateUserInterests(

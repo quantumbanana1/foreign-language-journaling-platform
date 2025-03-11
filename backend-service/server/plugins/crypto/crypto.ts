@@ -7,7 +7,7 @@ import {
   handleError,
   prepareKey,
   unwrappedKey,
-} from "../helpers/cryptoHelpers";
+} from "../../helpers/cryptoHelpers";
 
 interface registrationRequestBody {
   requestBody: string;

@@ -1,7 +1,7 @@
 import fp from "fastify-plugin";
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
-import { handleResponse } from "../helpers/handleResponse";
-import { IUploadLanguageRequest } from "../Types/languageTypes";
+import { handleResponse } from "../../helpers/handleResponse";
+import { IUploadLanguageRequest } from "../../Types/languageTypes";
 
 export default fp(async function updateLanguagesPlugin(app: FastifyInstance) {
   async function onUpdateLanguagesPlugin(

@@ -1,7 +1,7 @@
 import fp from "fastify-plugin";
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { PoolClient, QueryResult } from "pg";
-import { handleResponse } from "../helpers/handleResponse";
+import { handleResponse } from "../../helpers/handleResponse";
 
 interface IDeleteLanguageRequest {
   interest_id: number;

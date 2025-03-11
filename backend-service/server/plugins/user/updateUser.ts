@@ -1,7 +1,7 @@
 import fp from "fastify-plugin";
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
-import { IUserAttributes } from "../Types/UserTypes";
-import { handleResponse } from "../helpers/handleResponse";
+import { IUserAttributes } from "../../Types/UserTypes";
+import { handleResponse } from "../../helpers/handleResponse";
 
 export default fp(async function updateUser(app: FastifyInstance) {
   async function onUpdateUser(

@@ -1,18 +1,21 @@
 import fp from "fastify-plugin";
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { PoolClient, QueryResult } from "pg";
-import { handleResponse } from "../helpers/handleResponse";
+import { handleResponse } from "../../helpers/handleResponse";
 
-export default fp(async function languagesPlugin(app: FastifyInstance) {
-  async function onLanguagesPlugin(
+export default fp(async function userLanguagesPlugin(app: FastifyInstance) {
+  async function onUserLanguagesPlugin(
     request: FastifyRequest,
     reply: FastifyReply,
   ) {
     const client: PoolClient = await app.pg.connect();
     try {
-      const result: QueryResult<any> = await client.query(
-        `SELECT language_id, name from languages ORDER BY language_id ASC`,
-      );
+      const queryString = `SELECT ul.user_id, ul.language_id, ul.proficiency, l.language_id, l.name
+       FROM user_learns AS ul INNER JOIN languages AS l  ON l.language_id = ul.language_id WHERE ul.user_id = $1;
+`;
+      const result: QueryResult<any> = await client.query(queryString, [
+        request.session.userId,
+      ]);
 
       console.log(result.rows);
       return handleResponse(
@@ -23,11 +26,12 @@ export default fp(async function languagesPlugin(app: FastifyInstance) {
         result.rows,
       );
     } catch (error) {
+      console.error(error);
       return handleResponse(reply, 500, error, "Internal Server Error", null);
     } finally {
       client.release();
     }
   }
 
-  app.decorate("languagesPlugin", onLanguagesPlugin);
+  app.decorate("userLanguagesPlugin", onUserLanguagesPlugin);
 });

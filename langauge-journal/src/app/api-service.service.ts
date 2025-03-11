@@ -24,6 +24,10 @@ import {
   IInterest,
 } from './types/Response/getInterestsResponse';
 import { IDeleteInterestResponse } from './types/Interests/interestTypes';
+import {
+  INewPostRequest,
+  INewPostResponse,
+} from './types/Response/newPostTypes';
 
 // ApiService: Handles all HTTP requests to the backend API.
 
@@ -249,10 +253,28 @@ export class ApiService {
     language_id: number,
   ): Observable<IDeleteInterestResponse> {
     const params = new HttpParams().set('interest_id', language_id);
-    return this.httpClient.delete<IDeleteInterestResponse>(
-      `${this.API_URL}/delete/user/interest`,
-      { ...this.defaultOptions, params: params },
-    );
+    return this.httpClient
+      .delete<IDeleteInterestResponse>(`${this.API_URL}/delete/user/interest`, {
+        ...this.defaultOptions,
+        params: params,
+      })
+      .pipe(
+        catchError((error: HttpErrorResponse) =>
+          this.handleError(error, 'Deleting user interest failed.'),
+        ),
+      );
+  }
+
+  public uploadNewPost(newPost: INewPostRequest): Observable<INewPostResponse> {
+    return this.httpClient
+      .post<INewPostResponse>(`${this.API_URL}/upload/new-post`, newPost, {
+        ...this.defaultOptions,
+      })
+      .pipe(
+        catchError((error: HttpErrorResponse) =>
+          this.handleError(error, 'Uloading new post failed.'),
+        ),
+      );
   }
 
   private handleError(
