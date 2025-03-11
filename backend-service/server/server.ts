@@ -75,6 +75,7 @@ declare module "fastify" {
     getUserInterestsPlugin: MyAsyncHandler;
     deleteUserInterestPlugin: MyAsyncHandler;
     uploadPostImagePlugin: MyAsyncHandler;
+    uploadNewPostPlugin: MyAsyncHandler;
   }
   interface Session {
     username: string;

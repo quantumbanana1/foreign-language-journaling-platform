@@ -13,6 +13,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-form-block',
@@ -35,7 +36,10 @@ export class FormBlockComponent implements OnInit {
 
   public selectedLanguage: string = '';
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private sanitize: DomSanitizer,
+  ) {}
 
   getNotification(emittedData: string) {
     this.selectedLanguage = emittedData;
@@ -60,7 +64,18 @@ export class FormBlockComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.newPostForm.value);
+    const sanitizedHTML = this.sanitize.bypassSecurityTrustHtml(
+      this.newPostForm.value.postContent.content,
+    );
+    const request = {
+      ...this.newPostForm.value,
+      postContent: {
+        ...this.newPostForm.value.postContent,
+        content: sanitizedHTML,
+      },
+    };
+
+    console.log(request);
   }
 
   ngOnInit() {

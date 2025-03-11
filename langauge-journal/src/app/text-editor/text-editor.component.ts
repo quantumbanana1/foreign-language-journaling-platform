@@ -3,13 +3,20 @@ import {
   Component,
   ElementRef,
   Input,
+  OnDestroy,
   OnInit,
-  Renderer2,
   ViewChild,
 } from '@angular/core';
 import { TextEditorService } from '../text-editor.service';
 import { IState } from '../textEditorTypes';
-import { debounceTime, distinctUntilChanged, fromEvent, map } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  fromEvent,
+  map,
+  Subject,
+  takeUntil,
+} from 'rxjs';
 import {
   FormControl,
   FormGroup,
@@ -32,14 +39,14 @@ interface ITextState {
   templateUrl: './text-editor.component.html',
   styleUrl: './text-editor.component.scss',
 })
-export class TextEditorComponent implements AfterViewInit, OnInit {
+export class TextEditorComponent implements AfterViewInit, OnInit, OnDestroy {
   private replaceBreakContainerWithNewElement: boolean = false;
   @ViewChild('TextArea') public TextAreaElement: ElementRef;
   private TextArea: ElementRef;
   private previousState: ITextState;
   @Input() formGroupName!: string;
   form!: FormGroup;
-
+  private destroy$ = new Subject<void>();
   public content = new FormControl({ value: '', disabled: true });
 
   private states: ITextState = {
@@ -895,15 +902,26 @@ export class TextEditorComponent implements AfterViewInit, OnInit {
       map((event: KeyboardEvent) => event.key),
       debounceTime(5000),
       distinctUntilChanged(),
+      takeUntil(this.destroy$),
     );
   }
 
-  private sendHTMLToForm() {}
+  private sendHTMLToForm() {
+    this.form
+      .get('content')
+      .setValue(this.TextAreaElement.nativeElement.innerHTML);
+  }
 
   ngAfterViewInit() {
     this.TextArea = this.TextAreaElement.nativeElement;
     this.observeKeyDownEventFroTextArea.subscribe((value) => {
+      console.log(value);
       this.sendHTMLToForm();
     });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
