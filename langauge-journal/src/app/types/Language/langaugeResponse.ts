@@ -12,4 +12,6 @@ export interface IUserLanguage {
   language_id: number;
   name: string;
   proficiency: string;
+  type?: string;
+  code?: string;
 }

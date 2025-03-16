@@ -1,7 +1,7 @@
 <div class="form-container">
   <form [formGroup]="newPostForm" (ngSubmit)="onSubmit()">
     <app-selection-block-post formGroupName="basicInfo" (notifyParent)="getNotification($event)"></app-selection-block-post>
-    <app-header-post  [selectedLanguage]="selectedLanguage"></app-header-post>
+    <app-header-post [isButtonActive]="true"  [selectedLanguage]="selectedLanguage"></app-header-post>
     <div class="editor-container">
       <app-header-editor></app-header-editor>
       <app-text-editor formGroupName="postContent"></app-text-editor>

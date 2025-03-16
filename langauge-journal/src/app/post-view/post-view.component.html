@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="header-post-container"  [ngStyle]="{'background-image': 'url(' + postInfo.image_url+ ')' + ', linear-gradient(rgba(0, 0, 0, 0.74), rgba(0,0,0,0.74))'}">
+    <div class="top-block">
+      <app-language-indicator [selectedLanguage]="postInfo.language_object.name"></app-language-indicator>
+    </div>
+    <div class="middle-block">
+        <h1 #TitleElement class="title">
+          <span>{{postInfo.title}}</span></h1>
+      <span>-</span>
+      <p class="author">By {{postInfo.username}}</p>
+      <p class="data">{{datePipe.transform(this.postDate, 'MMMM d, yyyy')}}</p>
+    </div>
+    <app-interest-indicator-static [arrayOfInterests]="postInfo.interests"></app-interest-indicator-static>
+  </div>
+  <div class="post-content-container">
+    <div class="content" #postContent></div>
+    <app-likes></app-likes>
+
+  </div>
+</div>
+

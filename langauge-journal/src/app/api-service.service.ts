@@ -24,10 +24,8 @@ import {
   IInterest,
 } from './types/Response/getInterestsResponse';
 import { IDeleteInterestResponse } from './types/Interests/interestTypes';
-import {
-  INewPostRequest,
-  INewPostResponse,
-} from './types/Response/newPostTypes';
+import { INewPostRequest, NewPostResponse } from './types/newPost/newPostTypes';
+import { PostResponse } from './types/Response/postTypes';
 
 // ApiService: Handles all HTTP requests to the backend API.
 
@@ -265,14 +263,28 @@ export class ApiService {
       );
   }
 
-  public uploadNewPost(newPost: INewPostRequest): Observable<INewPostResponse> {
+  public uploadNewPost(newPost: INewPostRequest): Observable<NewPostResponse> {
     return this.httpClient
-      .post<INewPostResponse>(`${this.API_URL}/upload/new-post`, newPost, {
+      .post<NewPostResponse>(`${this.API_URL}/upload/new-post`, newPost, {
         ...this.defaultOptions,
       })
       .pipe(
         catchError((error: HttpErrorResponse) =>
           this.handleError(error, 'Uloading new post failed.'),
+        ),
+      );
+  }
+
+  public getPost(postId: number): Observable<PostResponse> {
+    const params = new HttpParams().set('post_id', postId);
+    return this.httpClient
+      .get<PostResponse>(`${this.API_URL}/get/post`, {
+        ...this.defaultOptions,
+        params: params,
+      })
+      .pipe(
+        catchError((error: HttpErrorResponse) =>
+          this.handleError(error, 'Fetching a post failed.'),
         ),
       );
   }

@@ -17,23 +17,65 @@ export default fp(async function uploadNewPostPlugin(app: FastifyInstance) {
       await client.query("BEGIN");
 
       const postRes = await client.query(
-        `INSERT INTO posts (user_id, language_id, post_content, title) 
-       VALUES ($1, $2, $3, $4) RETURNING id`,
+        `INSERT INTO posts (user_id, language_id, post_content, title, image_url) 
+         VALUES ($1, $2, $3, $4, $5) RETURNING post_id, time_created`,
         [
           userId,
           basicInfo.language,
           postContent.content.changingThisBreaksApplicationSecurity,
           basicInfo.title,
+          post_info.image,
         ],
       );
+
       const postId = postRes.rows[0].post_id;
       const interestValues = basicInfo.interests.map((interest) => [
         postId,
         interest.interest_id,
       ]);
-      console.log(interestValues);
-      const queryText = `INSERT INTO post_interests (post_id, interest_id) VALUES ${interestValues}`;
+      const $interestValues = interestValues
+        .map((_, index) => `($${index * 2 + 1}, $${index * 2 + 2})`)
+        .join(", ");
+      const flattedInterestValues = interestValues.flat();
+      const queryText = `INSERT INTO post_interests (post_id, interest_id) VALUES ${$interestValues}`;
+
+      await client.query(queryText, flattedInterestValues);
+      await client.query("COMMIT");
+
+      const languageResponse = await client.query(
+        `select l.language_id, l.name, l.code, u.language_id, u.proficiency from languages as l INNER JOIN user_learns as u on l.language_id = u.language_id where u.language_id = $1;
+`,
+        [basicInfo.language],
+      );
+      const usernameResponse = await client.query(
+        `SELECT username FROM users WHERE id = $1`,
+        [userId],
+      );
+
+      const responseData = {
+        post: {
+          post_id: postId,
+          language: languageResponse.rows[0],
+          post_content:
+            postContent.content.changingThisBreaksApplicationSecurity,
+          title: basicInfo.title,
+          data: postRes.rows[0].time_created,
+        },
+        interests: basicInfo.interests,
+        user: {
+          username: usernameResponse.rows[0].username,
+        },
+      };
+
+      return handleResponse(
+        reply,
+        200,
+        null,
+        "Post uploaded correctly",
+        responseData,
+      );
     } catch (error) {
+      await client.query("ROLLBACK");
       console.error(error);
       return handleResponse(
         reply,

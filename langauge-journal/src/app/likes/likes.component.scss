@@ -1,0 +1,39 @@
+.post-data {
+  display: flex;
+  flex-flow: column;
+
+  .post-stats {
+    display: flex;
+    align-items: center;
+    gap: 2.8125em;
+
+    .post-stat-com, .post-stat-likes {
+      display: flex;
+      align-items: center;
+      align-content: center;
+      text-align: center;
+      gap: 0.625em;
+    }
+  }
+}
+
+.post-stat-likes, .post-stat-com {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  text-align: center;
+  gap: 0.325em;
+}
+
+ ::ng-deep .post-stats {
+  display: flex;
+  gap: 0.6em;
+  padding: 1.8em  3em;
+
+  .post-stat-likes img,
+  .post-stat-com img {
+    width: 1.5625em !important;
+    height: 1.5625em !important;
+    filter: brightness(0) saturate(100%) invert(88%) sepia(80%) saturate(1375%) hue-rotate(333deg) brightness(91%) contrast(92%);
+  }
+}

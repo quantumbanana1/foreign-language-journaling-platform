@@ -31,10 +31,14 @@ import { FormArray, FormGroup, FormGroupDirective } from '@angular/forms';
 export class HeaderPostComponent implements OnInit, OnDestroy {
   public title: string = '';
   @ViewChild('TitleElement') titleElement: ElementRef;
+  @Input() isButtonActive!: boolean;
   @Input() selectedLanguage!: string;
   rowTitleState: boolean = false;
   public formattedData: string;
   private currentDate: Date = new Date();
+  private currentDataWithoutTimeZone = this.currentDate.setMinutes(
+    this.currentDate.getMinutes() + this.currentDate.getTimezoneOffset(),
+  );
   public postImageUrl: string = encodeURI(
     '../../assets/images/img-new-post/img3.jpg',
   );
@@ -52,7 +56,7 @@ export class HeaderPostComponent implements OnInit, OnDestroy {
     private rootFormGroup: FormGroupDirective,
   ) {
     this.formattedData = this.datePipe.transform(
-      this.currentDate,
+      this.currentDataWithoutTimeZone,
       'MMMM d, yyyy',
     );
   }
@@ -83,7 +87,7 @@ export class HeaderPostComponent implements OnInit, OnDestroy {
   }
 
   private setPostData() {
-    this.form.patchValue({ data: this.currentDate.toString() });
+    this.form.patchValue({ data: this.currentDataWithoutTimeZone });
   }
 
   private setUrlImageInForm() {

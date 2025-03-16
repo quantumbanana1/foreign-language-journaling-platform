@@ -26,7 +26,7 @@ const bodyNewPost = {
     post_info: {
       type: "object",
       properties: {
-        data: { type: "string", format: "date-time" },
+        data: { type: "string" },
         image: { type: "string" },
       },
       required: ["data", "image"],
@@ -56,9 +56,45 @@ const responseError = {
   },
 };
 
+const successResponse = {
+  type: "object",
+  properties: {
+    post: {
+      type: "object",
+      properties: {
+        post_id: { type: "integer" },
+        language: { type: "object" },
+        post_content: { type: "string" },
+        title: { type: "string" },
+        data: { type: "string", format: "date-time" },
+      },
+      required: ["post_id", "language", "post_content", "title", "data"],
+    },
+    interests: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          interest_id: { type: "integer" },
+          name: { type: "string" },
+        },
+        required: ["interest_id", "name"],
+      },
+    },
+    user: {
+      type: "object",
+      properties: {
+        username: { type: "string" }, // Zakładając, że `usernameResponse.rows[0]` zwraca obiekt
+      },
+      required: ["username"],
+    },
+  },
+  required: ["post", "interests", "user"],
+};
+
 const newPostSchema = {
   body: bodyNewPost,
-  200: bodyNewPost,
+  200: successResponse,
   401: responseError,
 };
 

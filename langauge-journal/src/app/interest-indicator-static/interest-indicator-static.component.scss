@@ -1,0 +1,22 @@
+
+.interests-container {
+  display: flex;
+  gap: 7px;
+  justify-content: center;
+  min-height: 20px;
+}
+
+.language-badge {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  line-height: 1;
+  padding: 2px 5px;
+  color: white;
+  text-transform: uppercase;
+  border: 2px solid white;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 12px;
+
+}

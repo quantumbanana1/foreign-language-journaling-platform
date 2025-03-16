@@ -1,7 +1,7 @@
 <div class="header-post-container"  [ngStyle]="{'background-image': 'url(' + postImageUrl+ ')' + ', linear-gradient(rgba(0, 0, 0, 0.74), rgba(0,0,0,0.74))'}">
   <div class="top-block">
     <app-language-indicator [selectedLanguage]="selectedLanguage"></app-language-indicator>
-    <div class="container-bttn">
+    <div class="container-bttn" *ngIf="isButtonActive">
       <button (click)="chooseImg($event)" class="button-img">Choose Image</button>
     </div>
   </div>
