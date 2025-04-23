@@ -1,0 +1,38 @@
+@import "../../global_settings";
+
+
+.container {
+  padding: 5px;
+  border: none;
+  border-radius: 5px;
+  background-color: $primary-color;
+
+  form {
+    width: 100%;
+    margin-bottom: 2em;
+    button {
+      @extend %buttons-default;
+      border-radius: 20px;
+      border: 1px solid #f3f1e7;
+      background-color: $primary-color;
+      color: white;
+    }
+
+    textarea {
+      border: none;
+      width: 100%;
+      outline: none;
+      overflow: auto;
+      white-space: normal;
+      font-family: Source Sans Pro, sans-serif;
+      font-size: 16px;
+      line-height: 24px;
+      background-color: #fff;
+      box-sizing: border-box;
+      padding: 0.5em 0.5em;
+    }
+
+  }
+
+
+}
