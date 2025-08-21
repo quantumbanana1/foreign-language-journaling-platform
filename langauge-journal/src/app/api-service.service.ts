@@ -26,6 +26,10 @@ import {
 import { IDeleteInterestResponse } from './types/Interests/interestTypes';
 import { INewPostRequest, NewPostResponse } from './types/newPost/newPostTypes';
 import { PostResponse } from './types/Response/postTypes';
+import {
+  INewComment,
+  IPostCommentsResponse,
+} from './types/newPost/commentTypes';
 
 // ApiService: Handles all HTTP requests to the backend API.
 
@@ -279,6 +283,36 @@ export class ApiService {
     const params = new HttpParams().set('post_id', postId);
     return this.httpClient
       .get<PostResponse>(`${this.API_URL}/get/post`, {
+        ...this.defaultOptions,
+        params: params,
+      })
+      .pipe(
+        catchError((error: HttpErrorResponse) =>
+          this.handleError(error, 'Fetching a post failed.'),
+        ),
+      );
+  }
+
+  public uploadNewComment(newComment: INewComment) {
+    return this.httpClient
+      .post<NewPostResponse>(
+        `${this.API_URL}/upload/post/comment`,
+        newComment,
+        {
+          ...this.defaultOptions,
+        },
+      )
+      .pipe(
+        catchError((error: HttpErrorResponse) =>
+          this.handleError(error, 'Uloading new post failed.'),
+        ),
+      );
+  }
+
+  public getPostComments(postId: number): Observable<IPostCommentsResponse> {
+    const params = new HttpParams().set('post_id', postId);
+    return this.httpClient
+      .get<IPostCommentsResponse>(`${this.API_URL}/get/post/comments`, {
         ...this.defaultOptions,
         params: params,
       })

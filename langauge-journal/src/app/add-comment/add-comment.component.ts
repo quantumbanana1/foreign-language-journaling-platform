@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -8,6 +8,7 @@ import {
 import { ApiService } from '../api-service.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { IPostComments } from '../types/newPost/commentTypes';
 
 @Component({
   selector: 'app-add-comment',
@@ -19,6 +20,7 @@ import { ActivatedRoute } from '@angular/router';
 export class AddCommentComponent implements OnInit {
   public textAreaForm: FormGroup;
   private postId: string;
+  @Output() commentCreated = new EventEmitter<IPostComments>();
 
   constructor(
     private fb: FormBuilder,
@@ -32,15 +34,24 @@ export class AddCommentComponent implements OnInit {
   }
 
   onSubmit() {
-    // const sanitizedHTML = this.sanitize.bypassSecurityTrustHtml(
-    //   this.textAreaForm.value.textarea.content,
-    // );
+    const sanitizedHTML = this.sanitize.bypassSecurityTrustHtml(
+      this.textAreaForm.value.textarea,
+    );
     const request = {
-      content: this.textAreaForm.value.textarea,
-      postId: this.postId,
+      content: sanitizedHTML as string,
+      postId: Number(this.postId),
     };
 
     console.log(request);
+
+    return this.apiService.uploadNewComment(request).subscribe({
+      next: (response) => {
+        this.commentCreated.emit(response);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 
   ngOnInit() {

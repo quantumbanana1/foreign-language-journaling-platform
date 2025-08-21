@@ -1,5 +1,3 @@
-import { IInterest } from '../Response/getInterestsResponse';
-
 export interface INewPostRequest {
   basicInfo: {
     title: string;
@@ -38,12 +36,16 @@ interface Post {
 
 interface User {
   username: string;
+  profile_photo_url: string;
 }
 
 export interface NewPostResponse {
-  post: Post;
-  interests: IInterest[];
-  user: User;
+  id: number;
+  post_id: number;
+  user_id: number;
+  content: string;
+  username: string;
+  profile_photo_url: string;
 }
 
 export interface INewPostResponse extends INewPostRequest {}

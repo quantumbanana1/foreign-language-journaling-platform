@@ -1,7 +1,6 @@
 import fp from "fastify-plugin";
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { handleResponse } from "../../helpers/handleResponse";
-import { IUserInterest } from "../../Types/interestsTypes";
 import { INewComment } from "../../Types/commentTypes";
 
 export default fp(async function uploadPostComment(app: FastifyInstance) {
@@ -10,16 +9,46 @@ export default fp(async function uploadPostComment(app: FastifyInstance) {
     reply: FastifyReply,
   ) {
     const postId = request.body.postId;
-    const content = request.body.content;
-
+    const content = request.body.content.changingThisBreaksApplicationSecurity;
+    const userId = request.session.userId;
+    const client = await app.pg.connect();
     try {
-      const client = await app.pg.connect();
-      try {
-      } finally {
-        client.release();
-      }
+      // let result = await client.query(
+      //   "INSERT INTO comments (post_id, user_id, content) VALUES ($1, $2, $3) ",
+      //   [postId, userId, content],
+      // )
+
+      const result = await client.query(
+        `
+  WITH inserted AS (
+    INSERT INTO comments (post_id, user_id, content)
+    VALUES ($1, $2, $3)
+    RETURNING id, post_id, user_id, content
+  )
+  SELECT 
+    i.id,
+    i.post_id,
+    i.user_id,
+    i.content,
+    u.username,
+    u.profile_photo_url
+  FROM inserted i
+  JOIN users u ON i.user_id = u.id
+  `,
+        [postId, userId, content],
+      );
+
+      console.log("uploadNewComments rows:", result.rows[0]);
+
+      return handleResponse(
+        reply,
+        200,
+        null,
+        "Comment updated successfully",
+        result.rows[0],
+      );
     } catch (error) {
-      console.error("Error updating user info: ", error);
+      console.error("Error uploading new comment: ", error);
 
       return handleResponse(
         reply,
@@ -27,6 +56,8 @@ export default fp(async function uploadPostComment(app: FastifyInstance) {
         error,
         "An unexpected error occurred. Please try again later.",
       );
+    } finally {
+      client.release();
     }
   }
 

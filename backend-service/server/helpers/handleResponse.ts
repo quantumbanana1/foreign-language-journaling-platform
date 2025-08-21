@@ -13,11 +13,13 @@ export function handleResponse(
       message:
         customMessage ||
         (error instanceof Error ? error.message : "Unknown error"),
+      success: false,
     });
   } else {
     return reply.status(status).send({
       data: responseObject,
       message: customMessage,
+      success: true,
     });
   }
 }

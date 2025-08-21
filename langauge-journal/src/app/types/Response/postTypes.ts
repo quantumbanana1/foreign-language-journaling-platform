@@ -16,4 +16,5 @@ export interface IPostObject {
 export interface PostResponse {
   data: IPostObject;
   message: string;
+  success: boolean;
 }

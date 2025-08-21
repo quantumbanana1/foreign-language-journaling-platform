@@ -1,4 +1,8 @@
 export interface INewComment {
-  content: string;
+  content: {
+    changingThisBreaksApplicationSecurity: string;
+  };
   postId: number;
 }
+
+export interface IPost {}

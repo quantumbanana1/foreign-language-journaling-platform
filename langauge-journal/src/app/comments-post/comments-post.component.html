@@ -2,15 +2,15 @@
   <div class="up">
       <a class="user" href="profile/nick">
         <div class="image-container">
-          <img  alt="profile picture" src="https://res.cloudinary.com/di6x5eceb/image/upload/v1741916999/51194a821edd213726a2d8f9138201a9.jpg">
+          <img  alt="profile picture" src="{{comment.profile_photo_url}}">
         </div>
       </a>
     <div class="comment-info">
-      <span class="nick">lubiecie</span>
+      <span class="nick">{{comment.username}}</span>
       <span class="data"> 2 years ago</span>
     </div>
   </div>
   <div class="down">
-    <p class="comment">Jakiś tam komentarz asldksakd lsa laksdl ksld kslk dlsk dlsk dlskdl ksd lksldk lskd lsk lskd lksl dksldk lskd lskd lskd lsk </p>
+    <p class="comment">{{comment.content}}</p>
   </div>
 </div>

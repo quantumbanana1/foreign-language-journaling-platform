@@ -77,6 +77,8 @@ declare module "fastify" {
     uploadPostImagePlugin: MyAsyncHandler;
     uploadNewPostPlugin: MyAsyncHandler;
     getPostPlugin: MyAsyncHandler;
+    uploadPostCommentPlugin: MyAsyncHandler;
+    getCommentsPlugin: MyAsyncHandler;
   }
   interface Session {
     username: string;
@@ -110,18 +112,18 @@ await app.register(fastifyEnv, {
     .valueOf(),
 });
 
-app.register(postgres, {
+await app.register(postgres, {
   connectionString: app.config.CONNECTION_STRING,
 });
 
-app.register(Cors, {
+await app.register(Cors, {
   origin: ["http://localhost:4200", "http://localhost:8080"],
   credentials: true,
 });
 
-app.register(fastifyCookie);
+await app.register(fastifyCookie);
 
-app.register(fastifySession, {
+await app.register(fastifySession, {
   cookieName: "sessionId",
   secret: "a secret with minimum length of 32 characters",
   saveUninitialized: false,
@@ -140,7 +142,7 @@ await app.register(fastifyCloudinaryWithAsync, {
   api_secret: app.config.CLOUDINARY_API_SECRET,
 });
 
-app.register(Multipart, {
+await app.register(Multipart, {
   limits: {
     fieldNameSize: 100, // Max field name size in bytes
     fieldSize: 100, // Max field value size in bytes
@@ -160,23 +162,6 @@ await app.register(AutoLoad, {
 await app.register(AutoLoad, {
   dir: join(import.meta.url, "routes"),
   dirNameRoutePrefix: false,
-});
-
-app.get("/test", async (request, reply) => {
-  try {
-    const client = await app.pg.connect();
-    const result = await client.query("SELECT 1");
-    client.release();
-    reply.send({
-      output: result.rows,
-      message: "Database connection successful",
-    });
-  } catch (error) {
-    reply.status(500).send({
-      error: error.message,
-      message: "Database connection failed",
-    });
-  }
 });
 
 app.listen({ port: 8080 }, (err, address) => {

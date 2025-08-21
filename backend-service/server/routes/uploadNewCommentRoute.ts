@@ -23,7 +23,13 @@ const resposneSchema = {
 const body = {
   type: "object",
   properties: {
-    content: { type: "string", minLength: 5, maxLength: 200 },
+    content: {
+      type: "object",
+      properties: {
+        changingThisBreaksApplicationSecurity: { type: "string" },
+      },
+      required: ["changingThisBreaksApplicationSecurity"],
+    },
     postId: { type: "number" },
   },
   additionalProperties: false,
@@ -38,7 +44,7 @@ export default async function uploadNewCommentRoute(app: FastifyInstance) {
   app.route({
     method: "POST",
     url: "/upload/post/comment",
-    handler: app.uploadPostImagePlugin,
+    handler: app.uploadPostCommentPlugin,
     preHandler: app.authorizeOnRequest,
     schema: schema,
   });
