@@ -1,0 +1,127 @@
+.user-view-container {
+  background-color: #ffffff;
+  box-shadow: 0 12px 24px 0 rgba(0, 0, 0, .09);
+  padding: 1.25em;
+  display: flex;
+  flex-direction: column;
+  max-height: 500px;
+  gap:0.2em;
+
+
+  .profile-info {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 3.5em;
+    margin-bottom: 2em;
+    border-bottom: 1px solid #dadada;
+    font-weight: 600;
+
+
+    .profile-image {
+
+      display: flex;
+      width: 100%;
+      align-items: center;
+      flex-direction: column;
+
+
+      a {
+
+        font-size: 16px;
+        line-height: 24px;
+        text-decoration: none;
+        color: #000;
+
+        img {
+
+          width: 60px;
+          height: 60px;
+          border-radius: 50%;
+          object-fit: cover;
+
+        }
+
+
+      }
+
+      button {
+
+        color: #4391C9;
+        background-color: transparent;
+        border: none;
+        padding: 0;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+
+        span {
+          padding: 0;
+          border: 0;
+          font-size: 100%;
+          font: inherit;
+          vertical-align: baseline;
+        }
+      }
+
+
+    }
+
+    .language-info {
+
+      width: 100%;
+      display: flex;
+      flex-flow: column;
+      justify-content: flex-start;
+      gap: 0.75em;
+
+      p {
+          font-size: 11px;
+          text-transform: uppercase;
+          line-height: 1;
+          font-weight: 600;
+          margin-top: 10px;
+      }
+
+
+
+      .lvl {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        gap: 0.75em;
+        justify-content: flex-start;
+        align-items: center;
+      }
+
+    }
+
+
+    .stats {
+      padding-top: 3.5em;
+      display: flex;
+      flex-flow: column;
+      gap: 0.4em;
+      justify-content: flex-start;
+      align-items: center;
+      width: 100%;
+
+      p {
+
+        font-size: 11px;
+        text-transform: uppercase;
+        line-height: 1;
+        font-weight: 600;
+        margin-top: 10px;
+        width: 100%;
+
+      }
+    }
+
+  }
+  }
+
+

@@ -40,6 +40,12 @@ interface User {
 }
 
 export interface NewPostResponse {
+  data: iPostUploadResponse;
+  success: boolean;
+  message: string;
+}
+
+export interface iPostUploadResponse {
   id: number;
   post_id: number;
   user_id: number;

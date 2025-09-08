@@ -1,6 +1,6 @@
 <div class="container-comments">
   <p>Comments</p>
-  @for (comment of comments; track comment.post_id) {
+  @for (comment of comments; track comment.id) {
     <app-comments-post [comment]="comment"></app-comments-post>
   }
   <app-add-comment (commentCreated)="onCommentCreated($event)"></app-add-comment>

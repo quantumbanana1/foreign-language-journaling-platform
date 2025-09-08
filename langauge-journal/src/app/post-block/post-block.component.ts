@@ -12,6 +12,6 @@ export class PostBlockComponent {
   constructor(private router: Router) {}
 
   navigateToPost($event: MouseEvent) {
-    this.router.navigateByUrl('post/12');
+    this.router.navigateByUrl('post/13');
   }
 }

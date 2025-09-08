@@ -39,7 +39,7 @@
   .bottom-container {
     width: 100%;
     display: grid;
-    grid-template-columns: 60% 40%;
+    grid-template-columns: 1fr minmax(auto, 40%);
     gap: 10px;
   }
 

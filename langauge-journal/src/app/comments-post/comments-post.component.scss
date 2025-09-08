@@ -1,3 +1,50 @@
+
+.container-comment {
+  display: flex;
+  justify-content: space-between;
+
+.icons {
+  display: flex;
+  gap: 0.3em;
+
+
+  span {
+
+    display: flex;
+    align-items: center;
+
+    img {
+
+      transition: filter .2s;
+      height: 2em;
+      width: 2em;
+      filter: brightness(0) saturate(100%) invert(64%) sepia(66%) saturate(602%) hue-rotate(7deg) brightness(106%) contrast(87%);
+
+    }
+
+  }
+
+
+  .delete:hover img {
+    filter: brightness(0) saturate(100%) invert(14%) sepia(100%) saturate(5295%) hue-rotate(355deg) brightness(98%) contrast(103%);
+
+  }
+
+  .edit:hover img {
+    filter: brightness(0) saturate(100%) invert(14%) sepia(100%) saturate(5295%) hue-rotate(355deg) brightness(98%) contrast(103%);
+
+  }
+
+}
+
+
+
+
+}
+
+
+
+
 .comment {
   margin-top: 0.3em;
   margin-bottom: 0.3em;

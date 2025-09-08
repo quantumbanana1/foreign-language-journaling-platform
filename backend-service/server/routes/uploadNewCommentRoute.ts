@@ -6,6 +6,25 @@ const resposneSchema = {
     properties: {
       message: { type: "string" },
       success: { type: "boolean" },
+      data: {
+        type: "object",
+        properties: {
+          id: { type: "integer" },
+          post_id: { type: "integer" },
+          user_id: { type: "integer" },
+          content: { type: "string" },
+          username: { type: "string" },
+          profile_photo_url: { type: "string", format: "uri" },
+        },
+        required: [
+          "id",
+          "post_id",
+          "user_id",
+          "content",
+          "username",
+          "profile_photo_url",
+        ],
+      },
     },
     additionalProperties: false,
   },

@@ -1,16 +1,27 @@
-<div class="comment">
-  <div class="up">
-      <a class="user" href="profile/nick">
-        <div class="image-container">
-          <img  alt="profile picture" src="{{comment.profile_photo_url}}">
-        </div>
-      </a>
-    <div class="comment-info">
-      <span class="nick">{{comment.username}}</span>
-      <span class="data"> 2 years ago</span>
+
+<div class="container-comment">
+  <div class="comment">
+    <div class="up">
+        <a class="user" href="profile/nick">
+          <div class="image-container">
+            <img  #imageContent alt="profile picture" [src]="comment?.profile_photo_url">
+          </div>
+        </a>
+      <div class="comment-info">
+        <span #usernameContent class="nick">{{comment?.username}}</span>
+        <span #dataContent class="data"> 2 years ago</span>
+      </div>
+    </div>
+    <div class="down">
+      <p  #commentContent class="comment">{{comment?.content}}</p>
     </div>
   </div>
-  <div class="down">
-    <p class="comment">{{comment.content}}</p>
+  <div class="icons">
+    <span class="edit">
+      <img src="assets/icons/edit.svg" alt="icon to edit comment">
+    </span>
+    <span class="delete">
+      <img src="assets/icons/delete.svg" alt="icon to delete comment">
+    </span>
   </div>
 </div>
