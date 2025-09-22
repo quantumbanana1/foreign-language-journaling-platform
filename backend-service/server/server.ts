@@ -79,6 +79,10 @@ declare module "fastify" {
     getPostPlugin: MyAsyncHandler;
     uploadPostCommentPlugin: MyAsyncHandler;
     getCommentsPlugin: MyAsyncHandler;
+    updatePostCommentPlugin: MyAsyncHandler;
+    authorizeIfEdit: MyAsyncHandler;
+    deleteCommentPlugin: MyAsyncHandler;
+    canDelete: MyAsyncHandler;
   }
   interface Session {
     username: string;

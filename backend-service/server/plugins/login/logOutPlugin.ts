@@ -15,7 +15,6 @@ export default fp(async function loggingOut(app: FastifyInstance, opts) {
         await request.session.destroy();
         reply.clearCookie("sessionId");
       } catch (err) {
-        console.error(err);
         return reply
           .status(401)
           .send({ logout: false, message: "logout failed" });
@@ -25,7 +24,6 @@ export default fp(async function loggingOut(app: FastifyInstance, opts) {
         .send({ logout: true, message: "logout success" });
     } else {
       const error = new Error("session not found");
-      console.error(error);
       return reply.status(401).send({ message: "session not found" });
     }
   }

@@ -32,7 +32,6 @@ export default fp(async function user(app: FastifyInstance) {
     );
 
     client.release();
-    console.log(result.rows[0]);
     return reply.status(200).send(result.rows[0]);
   }
 

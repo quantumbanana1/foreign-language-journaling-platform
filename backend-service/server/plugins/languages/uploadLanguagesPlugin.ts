@@ -21,9 +21,6 @@ export default fp(async function updateLanguagesPlugin(app: FastifyInstance) {
       proficiency.toLowerCase(),
     ]);
 
-    console.log(values);
-    console.log(queryParams);
-
     const dbquery = `INSERT INTO user_learns (user_id, language_id, proficiency) VALUES ${values} ON CONFLICT  (user_id, language_id) DO UPDATE SET proficiency = EXCLUDED.proficiency`;
     try {
       const client = await app.pg.connect();

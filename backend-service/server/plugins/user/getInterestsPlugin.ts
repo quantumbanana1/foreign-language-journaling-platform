@@ -22,7 +22,6 @@ export default fp(async function interestsPlugin(app: FastifyInstance) {
         result.rows,
       );
     } catch (error) {
-      console.error(error);
       handleResponse(reply, 500, error, "Internal Server Error", null);
       throw error;
     } finally {

@@ -29,8 +29,6 @@ export default fp(async function updateUserInterests(app: FastifyInstance) {
         client.release();
       }
     } catch (error) {
-      console.error("Error updating user info: ", error);
-
       if (error.constraint === "user_interests_pkey") {
         return handleResponse(
           reply,

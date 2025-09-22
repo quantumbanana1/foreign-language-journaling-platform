@@ -27,7 +27,6 @@ export default fp(async function deleteLanguagePlugin(app: FastifyInstance) {
         success: true,
       });
     } catch (error) {
-      console.error(error);
       return handleResponse(reply, 500, error, "Internal Server Error", {
         success: false,
       });

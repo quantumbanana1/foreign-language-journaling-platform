@@ -19,7 +19,7 @@ const comment = {
       posts: {
         type: "object",
         properties: {
-          id: { type: "number" },
+          comment_id: { type: "number" },
           post_id: { type: "number" },
           user_id: { type: "number" },
           username: { type: "string" },
@@ -27,6 +27,7 @@ const comment = {
           content: { type: "string" },
           created_at: { type: "string", format: "date-time" },
           updated_at: { type: "string", format: "date-time" },
+          canEdit: { type: "boolean" },
         },
       },
     },

@@ -13,14 +13,21 @@
       </div>
     </div>
     <div class="down">
-      <p  #commentContent class="comment">{{comment?.content}}</p>
+      <p *ngIf="!isEditMode"  #commentContent class="comment">{{comment?.content}}</p>
+      <textarea [(ngModel)]="comment.content" *ngIf="isEditMode">{{comment?.content}}</textarea>
     </div>
   </div>
   <div class="icons">
-    <span class="edit">
+    <div *ngIf="isEditMode" class="buttons">
+      <button (click)="updateComment()" class="save">Save</button>
+      <button (click)="setEditMode()" class="cancel">Cancel</button>
+
+    </div>
+
+    <span (click)="setEditMode()" *ngIf="!isEditMode" class="edit">
       <img src="assets/icons/edit.svg" alt="icon to edit comment">
     </span>
-    <span class="delete">
+    <span *ngIf="!isEditMode"  (click)="popUpState(true)"  class="delete">
       <img src="assets/icons/delete.svg" alt="icon to delete comment">
     </span>
   </div>

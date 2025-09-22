@@ -40,7 +40,6 @@ GROUP BY p.post_id, u.username, p.image_url, p.time_created,
       );
 
       const responseData = postResponse.rows[0];
-      console.log(responseData);
       return handleResponse(
         reply,
         200,
@@ -49,7 +48,6 @@ GROUP BY p.post_id, u.username, p.image_url, p.time_created,
         responseData,
       );
     } catch (error) {
-      console.error(error);
       return handleResponse(
         reply,
         500,

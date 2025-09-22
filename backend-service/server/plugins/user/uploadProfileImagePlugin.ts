@@ -17,6 +17,7 @@ export default fp(async function uploadProfileImage(app: FastifyInstance) {
       const image: cloudinaryResponseImage = await uploadToCloudinary(
         app,
         data,
+        "profile-picture",
       );
 
       const dbresult = await updateUserProfilePhoto(

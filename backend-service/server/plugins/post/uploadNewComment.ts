@@ -38,8 +38,6 @@ export default fp(async function uploadPostComment(app: FastifyInstance) {
         [postId, userId, content],
       );
 
-      console.log("uploadNewComments rows:", result.rows[0]);
-
       return handleResponse(
         reply,
         200,

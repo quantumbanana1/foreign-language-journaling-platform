@@ -46,7 +46,7 @@ export interface NewPostResponse {
 }
 
 export interface iPostUploadResponse {
-  id: number;
+  comment_id: number;
   post_id: number;
   user_id: number;
   content: string;

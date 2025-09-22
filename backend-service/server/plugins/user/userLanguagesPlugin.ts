@@ -17,7 +17,6 @@ export default fp(async function userLanguagesPlugin(app: FastifyInstance) {
         request.session.userId,
       ]);
 
-      console.log(result.rows);
       return handleResponse(
         reply,
         200,
@@ -26,7 +25,6 @@ export default fp(async function userLanguagesPlugin(app: FastifyInstance) {
         result.rows,
       );
     } catch (error) {
-      console.error(error);
       return handleResponse(reply, 500, error, "Internal Server Error", null);
     } finally {
       client.release();

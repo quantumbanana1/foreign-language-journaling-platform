@@ -29,6 +29,8 @@ import { PostResponse } from './types/Response/postTypes';
 import {
   INewComment,
   IPostCommentsResponse,
+  IUpdatedCommentResponse,
+  IUpdatedPostComment,
 } from './types/newPost/commentTypes';
 
 // ApiService: Handles all HTTP requests to the backend API.
@@ -293,7 +295,7 @@ export class ApiService {
       );
   }
 
-  public uploadNewComment(newComment: INewComment) {
+  public uploadNewComment(newComment: IUpdatedPostComment) {
     return this.httpClient
       .post<NewPostResponse>(
         `${this.API_URL}/upload/post/comment`,
@@ -319,6 +321,24 @@ export class ApiService {
       .pipe(
         catchError((error: HttpErrorResponse) =>
           this.handleError(error, 'Fetching a post failed.'),
+        ),
+      );
+  }
+
+  public updateComment(
+    comment: Partial<INewComment>,
+    postId: string,
+    commentId: number,
+  ): Observable<IUpdatedCommentResponse> {
+    return this.httpClient
+      .patch<IUpdatedCommentResponse>(
+        `${this.API_URL}/update/post/${postId}/comment/${commentId}`,
+        comment,
+        this.defaultOptions,
+      )
+      .pipe(
+        catchError((error: HttpErrorResponse) =>
+          this.handleError(error, 'Updating comment failed'),
         ),
       );
   }

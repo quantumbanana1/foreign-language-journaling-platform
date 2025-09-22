@@ -14,7 +14,6 @@ export default fp(async function languagesPlugin(app: FastifyInstance) {
         `SELECT language_id, name from languages ORDER BY language_id ASC`,
       );
 
-      console.log(result.rows);
       return handleResponse(
         reply,
         200,

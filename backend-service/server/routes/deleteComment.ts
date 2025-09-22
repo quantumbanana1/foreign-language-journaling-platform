@@ -3,7 +3,8 @@ import { FastifyInstance } from "fastify";
 const queryStringJsonSchema = {
   type: "object",
   properties: {
-    language_id: { type: "number" },
+    comment_id: { type: "number" },
+    post_id: { type: "number" },
   },
   additionalProperties: false,
 };
@@ -36,12 +37,13 @@ const schema = {
   querystring: queryStringJsonSchema,
   response: responseSchema,
 };
-export default async function deleteLanguage(app: FastifyInstance) {
+export default async function deleteCommentRoute(app: FastifyInstance) {
   app.route({
     method: "DELETE",
-    url: "/delete/language",
-    handler: app.deleteLanguagePlugin,
-    preValidation: app.authorizeOnRequest,
+    url: "/delete/post/:id/comment/:comment_id",
+    handler: app.deleteCommentPlugin,
+    onRequest: app.authorizeOnRequest,
+    preHandler: app.canDelete,
     schema: schema,
   });
 }
