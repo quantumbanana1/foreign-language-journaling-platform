@@ -32,6 +32,7 @@ import {
   IUpdatedCommentResponse,
   IUpdatedPostComment,
 } from './types/newPost/commentTypes';
+import { DeleteCommentResponse200 } from './types/comments/commentTypes';
 
 // ApiService: Handles all HTTP requests to the backend API.
 
@@ -193,6 +194,22 @@ export class ApiService {
         ),
       );
   }
+
+  public getUserLanguagesById(
+    userId: number,
+  ): Observable<IResponseUserLanguages> {
+    return this.httpClient
+      .get<IResponseUserLanguages>(
+        `${this.API_URL}/get/user/${userId}/languages`,
+        this.defaultOptions,
+      )
+      .pipe(
+        catchError((error: HttpErrorResponse) =>
+          this.handleError(error, 'Fetching user languages failed'),
+        ),
+      );
+  }
+
   // Deletes a language associated with the current user.
   public deleteLanguage(
     language: IChooseLanguageWithLevel,
@@ -339,6 +356,29 @@ export class ApiService {
       .pipe(
         catchError((error: HttpErrorResponse) =>
           this.handleError(error, 'Updating comment failed'),
+        ),
+      );
+  }
+
+  public deleteComment(
+    post_id: number,
+    comment_id: number,
+  ): Observable<DeleteCommentResponse200> {
+    const params = new HttpParams()
+      .set('post_id', post_id)
+      .set('comment_id', comment_id);
+
+    return this.httpClient
+      .delete<DeleteCommentResponse200>(
+        `${this.API_URL}/delete/post/${post_id}/comment/${comment_id}`,
+        {
+          ...this.defaultOptions,
+          params: params,
+        },
+      )
+      .pipe(
+        catchError((error: HttpErrorResponse) =>
+          this.handleError(error, 'Deleting comment failed.'),
         ),
       );
   }

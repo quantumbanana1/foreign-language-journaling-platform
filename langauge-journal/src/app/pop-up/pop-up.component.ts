@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgClass, NgIf } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { InputPostBindingService } from '../input-post-binding.service';
 import { Subject, takeUntil } from 'rxjs';
+import { DeleteCommentBindingService } from '../delete-comment-binding.service';
 
 @Component({
   selector: 'app-pop-up',
@@ -13,7 +13,13 @@ import { Subject, takeUntil } from 'rxjs';
 })
 export class PopUpComponent implements OnInit, OnDestroy {
   popUpState: boolean;
-  constructor(private inputBindingsService: InputPostBindingService) {}
+
+  constructor(
+    private deleteCommentBindingService: DeleteCommentBindingService,
+  ) {}
+
+  private commentId: number;
+
   closePopUp() {
     this.popUpState = false;
   }
@@ -21,10 +27,13 @@ export class PopUpComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   subscribeToPopUpState() {
-    this.inputBindingsService.popUpStateSubject
+    this.deleteCommentBindingService.popUpStateSubject
       .pipe(takeUntil(this.destroy$))
       .subscribe((data) => {
         this.popUpState = true;
+        this.commentId = data.commentId;
+
+        console.log('commentId emitted :', this.commentId);
       });
   }
 
@@ -35,5 +44,10 @@ export class PopUpComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  startCommentDelete() {
+    this.deleteCommentBindingService.setStartDeletingOfComment(this.commentId);
+    this.closePopUp();
   }
 }

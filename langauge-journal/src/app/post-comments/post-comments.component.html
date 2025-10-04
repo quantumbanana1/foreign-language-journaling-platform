@@ -1,7 +1,7 @@
 <div class="container-comments">
   <p>Comments</p>
   @for (comment of comments; track comment.comment_id) {
-    <app-comments-post [comment]="comment"></app-comments-post>
+    <app-comments-post (commentDeleted)="onCommentDeleted($event)" [comment]="comment"></app-comments-post>
   }
   <app-add-comment (commentCreated)="onCommentCreated($event)"></app-add-comment>
 </div>

@@ -1,7 +1,6 @@
 @import "../../global_settings";
 
 .lvl-lang {
-  width: 93px;
   line-height: 1;
   padding: 2px 5px;
   color: #313131;
@@ -12,19 +11,18 @@
   font-size: 12px;
   display: flex;
   flex: 1;
-  gap: 7px;
+  gap: 1.75em;
   align-items: center;
 
   .advance {
     display: flex;
     margin-left: 2px;
+    justify-self: flex-end;
 
     .lvl-item {
       height: 10px;
       width: 2px;
       background: $primary-color;
-      -webkit-border-radius: 1px;
-      -moz-border-radius: 1px;
       border-radius: 1px;
       margin-right: 4px;
     }

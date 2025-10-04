@@ -1,11 +1,13 @@
 
 <div class="lvl-lang">
-  GERMAN
+<p>
+  {{language.name.toLocaleUpperCase()}}
+  </p>
   <div class="advance">
     <span class="lvl-item"></span>
-    <span class="lvl-item"></span>
-    <span class="lvl-item"></span>
-    <span class="lvl-item stop"></span>
+    <span class="lvl-item" [ngClass]="{'stop': shouldStop(1)}"></span>
+    <span class="lvl-item" [ngClass]="{'stop': shouldStop(2)}"></span>
+    <span class="lvl-item " [ngClass]="{'stop': shouldStop(3)}" ></span>
 
   </div>
 </div>

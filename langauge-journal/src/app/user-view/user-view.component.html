@@ -2,9 +2,9 @@
   <div class="profile-info">
     <div class="profile-image">
       <a>
-        <img alt="profile-photo" src="https://res.cloudinary.com/di6x5eceb/image/upload/v1752244252/c271e6d49bba09e2352fbf41a90ba2c1.jpg">
+        <img alt="profile-photo" ngSrc='{{postInfo.profile_photo_url'>
       </a>
-      <p class="username">username</p>
+      <p class="username">{{postInfo.username}}</p>
       <button>
         <span>Follow</span>
       </button>
@@ -12,9 +12,11 @@
     <div class="language-info">
       <p>LANGUAGES</p>
       <div class="lvl">
-        <app-lng-level></app-lng-level>
-        <app-lng-level></app-lng-level>
-        <app-lng-level></app-lng-level>
+
+        @for (language of languages; track language.language_id) {
+          <app-lng-level [language]="language"></app-lng-level>
+        }
+
       </div>
     </div>
     <div class="stats">

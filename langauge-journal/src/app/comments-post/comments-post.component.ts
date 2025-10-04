@@ -1,9 +1,12 @@
 import {
   Component,
   ElementRef,
+  EventEmitter,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
+  Output,
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
@@ -13,7 +16,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../api-service.service';
 import { toastrService } from '../toastr.service';
-import { InputPostBindingService } from '../input-post-binding.service';
+import { DeleteCommentBindingService } from '../delete-comment-binding.service';
 
 @Component({
   selector: 'app-comments-post',
@@ -22,7 +25,7 @@ import { InputPostBindingService } from '../input-post-binding.service';
   templateUrl: './comments-post.component.html',
   styleUrl: './comments-post.component.scss',
 })
-export class CommentsPostComponent implements OnChanges, OnInit {
+export class CommentsPostComponent implements OnChanges, OnInit, OnDestroy {
   @Input() comment!: IPostComments;
 
   public isEditMode: boolean = false;
@@ -37,22 +40,10 @@ export class CommentsPostComponent implements OnChanges, OnInit {
     private route: ActivatedRoute,
     private apiService: ApiService,
     private toastr: toastrService,
-    private inputBindingsService: InputPostBindingService,
+    private deleteCommentBindingService: DeleteCommentBindingService,
   ) {}
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['comment']) {
-      console.log('Card got comment:', this.comment);
-    }
-  }
-
-  ngOnInit() {
-    this.postId = this.route.snapshot.paramMap.get('id');
-  }
-
-  public setEditMode() {
-    this.isEditMode = !this.isEditMode;
-  }
+  @Output() commentDeleted = new EventEmitter<IPostComments>();
 
   updateComment() {
     const data = {
@@ -89,6 +80,25 @@ export class CommentsPostComponent implements OnChanges, OnInit {
   }
 
   popUpState(b: boolean) {
-    this.inputBindingsService.updatePopUpState(b);
+    this.deleteCommentBindingService.updatePopUpState(
+      b,
+      this.comment.comment_id,
+    );
+  }
+
+  public setEditMode() {
+    this.isEditMode = !this.isEditMode;
+  }
+
+  ngOnInit() {
+    this.postId = this.route.snapshot.paramMap.get('id');
+  }
+
+  ngOnDestroy() {}
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['comment']) {
+      console.log('Card got comment:', this.comment);
+    }
   }
 }

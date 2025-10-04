@@ -21,7 +21,9 @@ const successResponse = {
   properties: {
     post_id: { type: "integer" },
     username: { type: "string" },
+    user_id: { type: "integer" },
     image_url: { type: ["string", "null"] },
+    profile_photo_url: { type: ["string", "null"] },
     time_created: { type: "string", format: "date-time" },
     like_count: { type: "integer" },
     post_content: { type: "string" },
@@ -58,6 +60,7 @@ const successResponse = {
     "title",
     "interests",
     "language_object",
+    "user_id",
   ],
 };
 

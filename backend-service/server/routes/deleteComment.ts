@@ -14,6 +14,7 @@ const responseSchema = {
     type: "object",
     properties: {
       message: { type: "string" },
+      success: { type: "boolean" },
       data: {
         type: "object",
         properties: {

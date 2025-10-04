@@ -13,7 +13,7 @@ import { LanguageIndicatorComponent } from '../language-indicator/language-indic
 import { DatePipe, NgIf, NgStyle } from '@angular/common';
 import { ApiService } from '../api-service.service';
 import { InterestIndicatorStaticComponent } from '../interest-indicator-static/interest-indicator-static.component';
-import { IPostObject, PostResponse } from '../types/Response/postTypes';
+import { IPostObject } from '../types/Response/postTypes';
 import { LikesComponent } from '../likes/likes.component';
 
 @Component({
@@ -39,28 +39,15 @@ export class PostViewComponent implements OnInit, AfterViewInit {
     private renderer: Renderer2,
   ) {}
   title: string;
-  formattedData: string;
   username: string;
   selectedLanguage: string;
-  postImageUrl: string;
   postContent: string;
   @Input() postId!: string;
-  public postInfo: IPostObject;
-  public formattedDate: string;
-  public postDate;
+
   @ViewChild('postContent') postContentElement: ElementRef;
 
-  private getPost() {
-    this.apiService.getPost(Number(this.postId)).subscribe({
-      next: (response) => {
-        this.postInfo = response.data;
-        this.postDate = new Date(this.postInfo.time_created);
-      },
-      error: (response) => {
-        console.log(response);
-      },
-    });
-  }
+  @Input() postInfo!: IPostObject;
+  @Input() postDate!: Date;
 
   setPostContent() {
     if (this.postContentElement) {
@@ -74,9 +61,7 @@ export class PostViewComponent implements OnInit, AfterViewInit {
     console.log(this.postContentElement.nativeElement.innerHTML);
   }
 
-  ngOnInit(): void {
-    this.getPost();
-  }
+  ngOnInit(): void {}
 
   ngAfterViewInit() {
     this.setPostContent();

@@ -8,7 +8,6 @@ export function handleResponse(
   responseObject?: object | object[],
 ) {
   if (!responseObject && error) {
-    console.log("error while updating");
     return reply.status(status).send({
       message:
         customMessage ||
