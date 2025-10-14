@@ -97,7 +97,7 @@ export class HeaderPostComponent implements OnInit, OnDestroy {
     this.nameSubscription = this.apiService
       .getUserInfo({ username: true })
       .subscribe((response) => {
-        this.username = response.username;
+        this.username = response.data.username;
       });
   }
 

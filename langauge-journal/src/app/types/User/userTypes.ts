@@ -18,7 +18,6 @@ export interface IUserAttributes {
   updated_at?: Date;
   profile_photo_url?: string;
   description?: string;
-  friends?: string[];
   city?: string;
   country?: string;
   name?: string;
@@ -31,7 +30,6 @@ export interface IUserAttrToFetch {
   created_at?: boolean;
   profile_photo_url?: boolean;
   description?: boolean;
-  friends?: boolean;
   city?: boolean;
   country?: boolean;
   name?: boolean;
@@ -45,4 +43,10 @@ export interface userLogging {
 export interface IUserProfile extends IUserAttributes {
   user_learns: string[];
   user_speaks: string[];
+}
+
+export interface IUserAttributesResponse {
+  data: IUserAttributes;
+  message: string;
+  success: boolean;
 }

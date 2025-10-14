@@ -8,6 +8,7 @@ import {
 import IRUser, {
   ILUser,
   IUserAttributes,
+  IUserAttributesResponse,
   IUserAttrToFetch,
 } from './types/User/userTypes';
 import { catchError, Observable, of, throwError } from 'rxjs';
@@ -33,6 +34,7 @@ import {
   IUpdatedPostComment,
 } from './types/newPost/commentTypes';
 import { DeleteCommentResponse200 } from './types/comments/commentTypes';
+import { IResponseUserPostCounts } from './types/post/postAttributes';
 
 // ApiService: Handles all HTTP requests to the backend API.
 
@@ -73,21 +75,31 @@ export class ApiService {
 
   // Fetches user information based on the specified attributes.
   public getUserInfo(attributes: IUserAttrToFetch) {
-    const params = new HttpParams({
-      fromObject: attributes as Record<string, any>,
+    let params = new HttpParams();
+
+    // only send flags that are true
+    (
+      Object.entries(attributes) as [
+        keyof IUserAttrToFetch,
+        boolean | undefined,
+      ][]
+    ).forEach(([key, val]) => {
+      if (val === true) {
+        params = params.set(String(key), 'true'); // send "true"
+      }
     });
-    let options = {
-      ...this.defaultOptions,
-      params: params,
-    };
+
+    const options = { ...this.defaultOptions, params };
+
     return this.httpClient
-      .get<IUserAttributes>(`${this.API_URL}/user`, options)
+      .get<IUserAttributesResponse>(`${this.API_URL}/get/user`, options)
       .pipe(
         catchError((error: HttpErrorResponse) =>
           this.handleError(error, 'Fetching user information failed'),
         ),
       );
   }
+
   // Uploads a profile image by sending a POST request with multipart form data.
   public uploadProfileImage(img: File): Observable<uploadImageResponse> {
     const formData = new FormData();
@@ -379,6 +391,21 @@ export class ApiService {
       .pipe(
         catchError((error: HttpErrorResponse) =>
           this.handleError(error, 'Deleting comment failed.'),
+        ),
+      );
+  }
+
+  public countUserPost(user_id: number): Observable<IResponseUserPostCounts> {
+    return this.httpClient
+      .get<IResponseUserPostCounts>(
+        `${this.API_URL}/get/user/${user_id}/amount/posts`,
+        {
+          ...this.defaultOptions,
+        },
+      )
+      .pipe(
+        catchError((error: HttpErrorResponse) =>
+          this.handleError(error, 'counting  user posts and likes  failed'),
         ),
       );
   }

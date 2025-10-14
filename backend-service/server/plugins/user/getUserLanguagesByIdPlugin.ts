@@ -20,7 +20,6 @@ export default fp(async function userLanguagesByIdPlugin(app: FastifyInstance) {
         userId,
       ]);
 
-      console.log("xddddddddd", result);
       return handleResponse(
         reply,
         200,

@@ -7,7 +7,7 @@
     <div class="left-panel">
       <input type="file" class="file-input" multiple accept="image/*" (change)="onFileSelected($event)" #fileUpload>
       <div class="upload-img-container">
-        <img alt="profile photo" ngSrc="{{photoUrl}}">
+        <img alt="profile photo" [src]='photoUrl'>
         <button type="button" class="img-upload-button" (click)="fileUpload.click()">Upload Image</button>
       </div>
     </div>

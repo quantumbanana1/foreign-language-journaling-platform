@@ -6,7 +6,10 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { IUserAttributes } from '../types/User/userTypes';
+import {
+  IUserAttributes,
+  IUserAttributesResponse,
+} from '../types/User/userTypes';
 import { ApiService } from '../api-service.service';
 import { ImageUploadService } from '../image-upload.service';
 import { failedUploadImageResponse } from '../types/Response/uploadImageResponse';
@@ -108,9 +111,11 @@ export class ProfileDetailsFormComponent implements OnInit {
         description: true,
         name: true,
       })
-      .subscribe((response: IUserAttributes) => {
-        this.userInfo = response;
+      .subscribe((response: IUserAttributesResponse) => {
+        console.log(response);
+        this.userInfo = response.data;
         if (this.userInfo) {
+          console.log('this.userinfo', this.userInfo);
           this.buildForm();
         }
       });
@@ -119,8 +124,8 @@ export class ProfileDetailsFormComponent implements OnInit {
   getUserPhoto() {
     this.apiService
       .getUserInfo({ profile_photo_url: true })
-      .subscribe((response: IUserAttributes) => {
-        this.photoUrl = response.profile_photo_url;
+      .subscribe((response: IUserAttributesResponse) => {
+        this.photoUrl = response.data.profile_photo_url;
       });
   }
   buildForm() {

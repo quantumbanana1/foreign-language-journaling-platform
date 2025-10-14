@@ -2,7 +2,7 @@
   <div class="profile-info">
     <div class="profile-image">
       <a>
-        <img alt="profile-photo" ngSrc='{{postInfo.profile_photo_url'>
+        <img alt="profile-photo" [src]='postInfo.profile_photo_url'>
       </a>
       <p class="username">{{postInfo.username}}</p>
       <button>
@@ -20,8 +20,8 @@
       </div>
     </div>
     <div class="stats">
-      <p>25 posts written
-      <p>28l likes</p>
+      <p>{{createdPostCount}} posts written</p>
+      <p>{{userPostLikesCount}} likes</p>
     </div>
   </div>
 

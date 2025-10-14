@@ -14,6 +14,7 @@ import {
   IResponseUserLanguages,
 } from '../types/Language/languageOptionTypes';
 import { NgOptimizedImage } from '@angular/common';
+import { IResponseUserPostCounts } from '../types/post/postAttributes';
 
 @Component({
   selector: 'app-user-view',
@@ -30,14 +31,16 @@ export class UserViewComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public languages: IChooseLanguageWithLevel[];
 
+  public createdPostCount: number;
+  public userPostLikesCount: number;
+
   private destroy$ = new Subject<void>();
+  private postAttributesDestroy$ = new Subject<void>();
 
   getUserLanguages() {
-    console.log('czy to kurwaaa działa/?????');
-    console.log(this.postInfo.user_id);
     this.apiService
       .getUserLanguagesById(Number(this.postInfo.user_id))
-      .pipe()
+      .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response: IResponseUserLanguages) => {
           console.log('response from server: ', response);
@@ -49,14 +52,34 @@ export class UserViewComponent implements OnInit, OnDestroy, AfterViewInit {
       });
   }
 
+  getCountedPostAttributes() {
+    this.apiService
+      .countUserPost(this.postInfo.user_id)
+      .pipe(takeUntil(this.postAttributesDestroy$))
+      .subscribe({
+        next: (response: IResponseUserPostCounts) => {
+          this.createdPostCount = response.data.post_count;
+          this.userPostLikesCount = response.data.likes_count;
+        },
+
+        error: (err) => {
+          console.error(err);
+        },
+      });
+  }
+
   ngOnInit() {}
 
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+
+    this.postAttributesDestroy$.next();
+    this.postAttributesDestroy$.complete();
   }
 
   ngAfterViewInit(): void {
     this.getUserLanguages();
+    this.getCountedPostAttributes();
   }
 }

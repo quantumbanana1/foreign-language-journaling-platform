@@ -84,6 +84,7 @@ declare module "fastify" {
     deleteCommentPlugin: MyAsyncHandler;
     canDelete: MyAsyncHandler;
     userLanguagesByIdPlugin: MyAsyncHandler;
+    countUserPostsPlugin: MyAsyncHandler;
   }
   interface Session {
     username: string;

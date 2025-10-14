@@ -3,7 +3,10 @@ import { Router } from '@angular/router';
 import { ApiService } from '../api-service.service';
 import { NgOptimizedImage } from '@angular/common';
 import { ImageUploadService } from '../image-upload.service';
-import { IUserAttributes } from '../types/User/userTypes';
+import {
+  IUserAttributes,
+  IUserAttributesResponse,
+} from '../types/User/userTypes';
 
 @Component({
   selector: 'app-nav-profle',
@@ -28,7 +31,7 @@ export class NavProfleComponent implements OnInit {
 
   getUsername() {
     this.apiService.getUserInfo({ username: true }).subscribe((res) => {
-      this.username = res.username;
+      this.username = res.data.username;
     });
   }
 
@@ -41,8 +44,8 @@ export class NavProfleComponent implements OnInit {
   getProfilePhoto() {
     this.apiService
       .getUserInfo({ profile_photo_url: true })
-      .subscribe((response: IUserAttributes) => {
-        this.photo_url = response.profile_photo_url;
+      .subscribe((response: IUserAttributesResponse) => {
+        this.photo_url = response.data.profile_photo_url;
       });
   }
 

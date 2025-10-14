@@ -37,7 +37,7 @@ export class BioProfileFormComponent implements OnInit {
     return this.apiService.getUserInfo({ description: true }).subscribe({
       next: (value) => {
         this.bioForm.patchValue({
-          description: value.description || '',
+          description: value.data.description || '',
         });
       },
     });

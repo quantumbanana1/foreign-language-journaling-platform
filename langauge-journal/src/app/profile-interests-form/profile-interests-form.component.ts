@@ -10,10 +10,11 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { NgClass } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { toastrService } from '../toastr.service';
 import { InterestService } from '../interest.service';
+import { BadgeButtonFromSelectionComponent } from '../badge-button-from-selection/badge-button-from-selection.component';
 
 @Component({
   selector: 'app-profile-interests-form',
@@ -24,12 +25,13 @@ import { InterestService } from '../interest.service';
     SelectInterestsInputComponent,
     ReactiveFormsModule,
     NgClass,
+    BadgeButtonFromSelectionComponent,
+    NgIf,
   ],
   templateUrl: './profile-interests-form.component.html',
   styleUrl: './profile-interests-form.component.scss',
 })
 export class ProfileInterestsFormComponent implements OnInit {
-  public arrayOfInterests: IInterest[] = [];
   public interestForm!: FormGroup;
   public isLoading = false;
   private toastr: toastrService;
@@ -40,6 +42,10 @@ export class ProfileInterestsFormComponent implements OnInit {
     private interestService: InterestService,
   ) {
     this.toastr = new toastrService(this.toastrs);
+
+    this.interestForm = this.fb.group({
+      interest: ['', Validators.required],
+    });
   }
 
   // addInterestToList(interest: IInterest) {
@@ -54,9 +60,13 @@ export class ProfileInterestsFormComponent implements OnInit {
   //       type: 'language',
   //     });
   // }
+  selectedOptionRowState = false;
+  selectedInterest: IInterest | null = null;
+  arrayOfInterests: IInterest[] = [];
+  userInterests: IInterest[] = [];
 
   onSubmit() {
-    console.log(this.interestForm.value.interest);
+    console.log('helllo', this.interestForm.value.interest);
     this.isLoading = true;
     const request: IInterest = {
       interest_id: this.interestForm.value.interest.interest_id,
@@ -65,9 +75,12 @@ export class ProfileInterestsFormComponent implements OnInit {
     };
     this.apiService.uploadUserInterest(request).subscribe({
       next: (response) => {
-        this.interestService.setNewInterestToList(request);
-        this.interestForm.reset();
-        this.isLoading = false;
+        console.log(response);
+        setTimeout(() => {
+          this.userInterests.push(request);
+          this.interestForm.reset();
+          this.isLoading = false;
+        }, 2500);
       },
       error: (error) => {
         this.isLoading = false;
@@ -76,9 +89,50 @@ export class ProfileInterestsFormComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-    this.interestForm = this.fb.group({
-      interest: ['', Validators.required],
+  //methods binded to selection option
+
+  private getInterests() {
+    return this.apiService.getInterests().subscribe((value) => {
+      this.arrayOfInterests = value.data;
     });
+  }
+
+  private getUserInterests() {
+    this.apiService.getUserInterests().subscribe({
+      next: (response) => {
+        console.log(response);
+        this.userInterests = response.data.map((interest: IInterest) => ({
+          ...interest,
+          type: 'interest',
+        }));
+        if (this.userInterests.length > 0) {
+          this.selectedOptionRowState = true;
+        }
+      },
+    });
+  }
+
+  // private updateUserInterestList() {
+  //   return this.interestService.notifyOfNewInterest.subscribe((value) => {
+  //     this.userInterests.push(value);
+  //   });
+  // }
+
+  private deleteInterest() {
+    return this.interestService.notifyOfDeletion.subscribe((value) => {
+      this.userInterests = this.userInterests.filter(
+        (item) => item.name !== value.name,
+      );
+    });
+  }
+
+  selected() {
+    console.log(this.selectedInterest);
+  }
+
+  ngOnInit() {
+    this.getInterests();
+    this.getUserInterests();
+    this.deleteInterest();
   }
 }
