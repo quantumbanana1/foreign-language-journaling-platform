@@ -1,15 +1,15 @@
  <div class="container">
   <div class="left-side">
     <div class="information">
-      <p class="username">Username</p>
-      <p><span>speaks: </span>Polish</p>
-      <p><span>learns: </span>English, German</p>
-      <p><span>likes: </span>reading, science, biology, philosophy, programming</p>
-      <p><span>comes from: </span>Poland</p>
+      <p class="username">{{user.username}}</p>
+      <p><span>speaks: </span>{{user.user_speaks}}</p>
+      <p><span>learns: </span>{{user.user_learns}}</p>
+      <p><span>likes: </span>{{user.user_likes}}</p>
+      <p><span>comes from: </span>{{user.country}}</p>
     </div>
     <div class="profile-img-description">
       <div class="container-img">
-        <img alt="avatar"  src="https://e1.pxfuel.com/desktop-wallpaper/309/9/desktop-wallpaper-69318-anime-forum-avatars-cool-profile-anime.jpg">
+        <img alt="avatar"  [src]="user.profile_photo_url">
       </div>
       <div class="butt-stats-con">
         <button class="followers-bttn">
@@ -20,7 +20,7 @@
         </button>
       </div>
       <div class="description">
-        <p>My description is here..</p>
+        <p>{{user.description}}</p>
       </div>
     </div>
   </div>
@@ -33,132 +33,11 @@
       </div>
     </div>
     <div class="post-container">
-      <a class="post">
-        <img class="post-img"  src="assets/images/boat.jpg" alt="post image">
-        <div class="information">
-          <p class="Title">Importane of ability</p>
-          <p class="description">blalbalbl blblb blblb lblbba sdsdsd sd sd sdsd sds dsd s dsd sd sd sd sd s dsdsdsds sdsds sdsdsd sdsdsdsd sd</p>
-          <div class="post-stats">
-            <div class="post-stat-likes">
-              <img alt="like icon" class="icon-likes" src="assets/icons/heart.svg">
-              <span class="likes">12</span>
-            </div>
-            <div class="post-stat-com">
-              <img  alt="comment icon" class="icon-com" src="assets/icons/likes.svg">
-              <span class="comments">5</span>
-            </div>
-          </div>
-          <div class="sub-text">
-            <span class="text">Jul 11 - 3 min. read</span>
-            <span class="read">READ POST</span>
-          </div>
-        </div>
-      </a>
-      <a class="post">
-        <img class="post-img"  src="assets/images/boat.jpg" alt="post image">
-        <div class="information">
-          <p class="Title">Importane of ability</p>
-          <p class="description">blalbalbl blblb blblb lblbba sdsdsd sd sd sdsd sds dsd s dsd sd sd sd sd s dsdsdsds sdsds sdsdsd sdsdsdsd sd</p>
-          <div class="post-stats">
-            <div class="post-stat-likes">
-              <img alt="like icon" class="icon-likes" src="assets/icons/heart.svg">
-              <span class="likes">12</span>
-            </div>
-            <div class="post-stat-com">
-              <img  alt="comment icon" class="icon-com" src="assets/icons/likes.svg">
-              <span class="comments">5</span>
-            </div>
-          </div>
-          <div class="sub-text">
-            <span class="text">Jul 11 - 3 min. read</span>
-            <span class="read">READ POST</span>
-          </div>
-        </div>
-      </a>
-      <a class="post">
-        <img class="post-img"  src="assets/images/boat.jpg" alt="post image">
-        <div class="information">
-          <p class="Title">Importane of ability</p>
-          <p class="description">blalbalbl blblb blblb lblbba sdsdsd sd sd sdsd sds dsd s dsd sd sd sd sd s dsdsdsds sdsds sdsdsd sdsdsdsd sd</p>
-          <div class="post-stats">
-            <div class="post-stat-likes">
-              <img  alt="like icon" class="icon-likes" src="assets/icons/heart.svg">
-              <span class="likes">12</span>
-            </div>
-            <div class="post-stat-com">
-              <img alt="comment icon" class="icon-com" src="assets/icons/likes.svg">
-              <span class="comments">5</span>
-            </div>
-          </div>
-          <div class="sub-text">
-            <span class="text">Jul 11 - 3 min. read</span>
-            <span class="read">READ POST</span>
-          </div>
-        </div>
-      </a>
-      <a class="post">
-        <img class="post-img"  src="assets/images/boat.jpg" alt="post image">
-        <div class="information">
-          <p class="Title">Importane of ability</p>
-          <p class="description">blalbalbl blblb blblb lblbba sdsdsd sd sd sdsd sds dsd s dsd sd sd sd sd s dsdsdsds sdsds sdsdsd sdsdsdsd sd</p>
-          <div class="post-stats">
-            <div class="post-stat-likes">
-              <img  alt="icon like" class="icon-likes" src="assets/icons/heart.svg">
-              <span class="likes">12</span>
-            </div>
-            <div class="post-stat-com">
-              <img alt="comment icon" class="icon-com" src="assets/icons/likes.svg">
-              <span class="comments">5</span>
-            </div>
-          </div>
-          <div class="sub-text">
-            <span class="text">Jul 11 - 3 min. read</span>
-            <span class="read">READ POST</span>
-          </div>
-        </div>
-      </a>
-      <a class="post">
-        <img class="post-img"  src="assets/images/boat.jpg" alt="post image">
-        <div class="information">
-          <p class="Title">Importane of ability</p>
-          <p class="description">blalbalbl blblb blblb lblbba sdsdsd sd sd sdsd sds dsd s dsd sd sd sd sd s dsdsdsds sdsds sdsdsd sdsdsdsd sd</p>
-          <div class="post-stats">
-            <div class="post-stat-likes">
-              <img alt="like icon" class="icon-likes" src="assets/icons/heart.svg">
-              <span class="likes">12</span>
-            </div>
-            <div class="post-stat-com">
-              <img  alt="comment icon" class="icon-com" src="assets/icons/likes.svg">
-              <span class="comments">5</span>
-            </div>
-          </div>
-          <div class="sub-text">
-            <span class="text">Jul 11 - 3 min. read</span>
-            <span class="read">READ POST</span>
-          </div>
-        </div>
-      </a>
-      <a class="post">
-        <img class="post-img"  src="assets/images/boat.jpg" alt="post image">
-        <div class="information">
-          <p class="Title">Importane of ability</p>
-          <p class="description">blalbalbl blblb blblb lblbba sdsdsd sd sd sdsd sds dsd s dsd sd sd sd sd s dsdsdsds sdsds sdsdsd sdsdsdsd sd</p>
-          <div class="post-stats">
-            <div class="post-stat-likes">
-              <img alt="like icon" class="icon-likes" src="assets/icons/heart.svg">
-              <span class="likes">12</span>
-            </div>
-            <div class="post-stat-com">
-              <img alt="comment icon" class="icon-com" src="assets/icons/likes.svg">
-              <span class="comments">5</span>
-            </div>
-          </div>
-          <div class="sub-text">
-            <span class="text">Jul 11 - 3 min. read</span>
-            <span class="read">READ POST</span>
-          </div>
-        </div>
-      </a>
+
+      @for (post of arrayOfUserPosts; track post.post_id) {
+        <app-published-posts [post]="post"></app-published-posts>
+      }
+
     </div>
   </div>
 </div>

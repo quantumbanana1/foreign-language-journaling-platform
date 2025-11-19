@@ -26,7 +26,11 @@ import {
 } from './types/Response/getInterestsResponse';
 import { IDeleteInterestResponse } from './types/Interests/interestTypes';
 import { INewPostRequest, NewPostResponse } from './types/newPost/newPostTypes';
-import { PostResponse } from './types/Response/postTypes';
+import {
+  IGetUserPostOptions,
+  IGetUserPostsResponse,
+  PostResponse,
+} from './types/Response/postTypes';
 import {
   INewComment,
   IPostCommentsResponse,
@@ -320,6 +324,35 @@ export class ApiService {
       .pipe(
         catchError((error: HttpErrorResponse) =>
           this.handleError(error, 'Fetching a post failed.'),
+        ),
+      );
+  }
+
+  public getUserPosts(
+    nickname: string,
+    options: IGetUserPostOptions,
+  ): Observable<IGetUserPostsResponse> {
+    let params = new HttpParams();
+
+    if (options) {
+      Object.entries(options).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          params = params.set(key, String(value));
+        }
+      });
+    }
+
+    return this.httpClient
+      .get<IGetUserPostsResponse>(
+        `${this.API_URL}/get/user/${nickname}/posts`,
+        {
+          ...this.defaultOptions,
+          params: params,
+        },
+      )
+      .pipe(
+        catchError((error: HttpErrorResponse) =>
+          this.handleError(error, 'fetching new post information.'),
         ),
       );
   }

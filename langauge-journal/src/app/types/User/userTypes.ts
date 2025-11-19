@@ -41,8 +41,9 @@ export interface userLogging {
 }
 
 export interface IUserProfile extends IUserAttributes {
-  user_learns: string[];
-  user_speaks: string[];
+  user_learns: string;
+  user_speaks: string;
+  user_likes: string;
 }
 
 export interface IUserAttributesResponse {

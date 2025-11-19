@@ -80,13 +80,15 @@ export class AuthService {
       const status = this.status();
       console.log(status);
 
-      if (status === 'initial' || status === 'unauthenticated') {
-        this.router.navigateByUrl('login');
+      if (status === 'initial') {
+        this.router.navigate(['/login']).then((r) => console.log(r));
       }
-
+      if (status === 'unauthenticated') {
+        this.router.navigate(['/login']).then((r) => console.log(r));
+      }
       if (status === 'authenticated') {
         console.log('xxddxdxd');
-        this.router.navigateByUrl('my-feed');
+        this.router.navigate(['/my-feed']).then((r) => console.log(r));
       }
     });
   }

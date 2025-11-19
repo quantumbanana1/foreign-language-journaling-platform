@@ -26,7 +26,9 @@ export class NavProfleComponent implements OnInit {
   ) {}
 
   goToProfile() {
-    this.router.navigate(['profile']);
+    if (this.username) {
+      this.router.navigate(['/profile', this.username]);
+    }
   }
 
   getUsername() {

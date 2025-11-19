@@ -1,0 +1,21 @@
+<a class="post" (click)="goToPost(post.post_id)">
+  <img class="post-img"  [src]="post.image_url" alt="post image">
+  <div class="information">
+    <p class="Title">{{post.title}}</p>
+    <p class="description">{{postContent}}</p>
+    <div class="post-stats">
+      <div class="post-stat-likes">
+        <img alt="like icon" class="icon-likes" src="assets/icons/heart.svg">
+        <span class="likes">{{post.like_count}}</span>
+      </div>
+      <div class="post-stat-com">
+        <img  alt="comment icon" class="icon-com" src="assets/icons/likes.svg">
+        <span class="comments">{{post.comments_count}}</span>
+      </div>
+    </div>
+    <div class="sub-text">
+      <span class="text">Jul 11 - 3 min. read</span>
+      <span class="read">READ POST</span>
+    </div>
+  </div>
+</a>

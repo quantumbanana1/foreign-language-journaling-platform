@@ -3,7 +3,6 @@ import { SelectLanguagesInpuntComponent } from '../select-languages-inpunt/selec
 import { SelectInputComponent } from '../select-input/select-input.component';
 import { ApiService } from '../api-service.service';
 import { IInterest } from '../types/Response/getInterestsResponse';
-import { SelectInterestsInputComponent } from '../select-interests-input/select-interests-input.component';
 import {
   FormBuilder,
   FormGroup,
@@ -22,11 +21,10 @@ import { BadgeButtonFromSelectionComponent } from '../badge-button-from-selectio
   imports: [
     SelectLanguagesInpuntComponent,
     SelectInputComponent,
-    SelectInterestsInputComponent,
-    ReactiveFormsModule,
     NgClass,
     BadgeButtonFromSelectionComponent,
     NgIf,
+    ReactiveFormsModule,
   ],
   templateUrl: './profile-interests-form.component.html',
   styleUrl: './profile-interests-form.component.scss',

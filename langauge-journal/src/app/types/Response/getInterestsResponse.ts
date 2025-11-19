@@ -1,6 +1,7 @@
 export interface IGetInterestsResponse {
   data?: IInterest[];
   message: string;
+  boolean: true;
 }
 export enum InterestType {
   Interest = 'interest',

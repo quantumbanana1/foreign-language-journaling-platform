@@ -1,6 +1,11 @@
 
 @import "../../global_settings";
 
+$bp-xl: 1200px;
+$bp-lg: 992px;
+$bp-md: 768px;
+$bp-sm: 576px;
+
 $padding : 1.5em;
 
 .container {
@@ -165,13 +170,13 @@ $padding : 1.5em;
     }
 
 
-    .post-img {
-      object-fit: cover;
-      //width: 125px !important;
-      height: 155px !important;
-      width: 45% !important;
-
-    }
+    //.post-img {
+    //  object-fit: cover;
+    //  //width: 125px !important;
+    //  height: 155px !important;
+    //  width: 45% !important;
+    //
+    //}
 
 
     .post-container {
@@ -183,111 +188,111 @@ $padding : 1.5em;
       width: 100%;
 
 
-      .post {
-        max-height: 155px;
-        max-width: 988px;
-        cursor: pointer;
-        margin-bottom: 25px;
-        margin-top: 25px;
-        //padding: $padding;
-        width: 100%;
-        display: flex;
-        gap: 10px;
-        //box-shadow: 0px 8px 10px #00000029;
-        -webkit-box-shadow: 0 0 15px -7px rgba(78, 78, 76, 1);
-        -moz-box-shadow: 0 0 15px -7px rgba(78, 78, 76, 1);
-        box-shadow: 0 0 15px -7px rgba(78, 78, 76, 1);
-
-
-        .information {
-          width: 100%;
-          display: flex;
-          flex-flow: column;
-          gap: 10px;
-          padding-top: 10px;
-          max-height: 155px;
-          padding-right: 10px;
-
-
-          .Title {
-            //font-size: 1.3em;
-            //font-weight: 500;
-            font-size: 24px;
-            font-weight: map-get($font-weights, "light");
-          }
-
-          .description {
-            //line-height: 19px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 2; /* number of lines to show */
-            line-clamp: 2;
-            -webkit-box-orient: vertical;
-            //min-height: 50px;
-          }
-
-          .sub-text {
-
-            display: flex;
-            justify-content: space-between;
-            .text {
-              font-family: "Source Sans Pro", sans-serif;
-              font-size: 12px;
-              //line-height: 20px;
-              color: #95989a;
-              white-space: nowrap;
-            }
-
-            .read {
-              //display: block;
-              font-family: "Source Sans Pro", sans-serif;
-              font-size: 12px;
-              //line-height: 20px;
-              color: $primary-color;
-              text-transform: uppercase;
-            }
-          }
-        }
-
-
-      }
-
-
-
-    }
-
-
-    .post-stats {
-      span {
-        width: 19px !important;
-        height: 19px !important;
-      }
-
-      .post-stat-likes img,
-      .post-stat-com img {
-        width: 19px !important;
-        height: 19px !important;
-        filter: brightness(0) saturate(100%) invert(88%) sepia(80%) saturate(1375%) hue-rotate(333deg) brightness(91%) contrast(92%);
-      }
-    }
-
-    .post-stats {
-      display: flex;
-      align-items: center;
-      gap: 25px;
-
-
-      .post-stat-com, .post-stat-likes {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-
-      }
+      //.post {
+      //  max-height: 155px;
+      //  max-width: 988px;
+      //  cursor: pointer;
+      //  margin-bottom: 25px;
+      //  margin-top: 25px;
+      //  //padding: $padding;
+      //  width: 100%;
+      //  display: flex;
+      //  gap: 10px;
+      //  //box-shadow: 0px 8px 10px #00000029;
+      //  -webkit-box-shadow: 0 0 15px -7px rgba(78, 78, 76, 1);
+      //  -moz-box-shadow: 0 0 15px -7px rgba(78, 78, 76, 1);
+      //  box-shadow: 0 0 15px -7px rgba(78, 78, 76, 1);
+      //
+      //
+      //  .information {
+      //    width: 100%;
+      //    display: flex;
+      //    flex-flow: column;
+      //    gap: 10px;
+      //    padding-top: 10px;
+      //    max-height: 155px;
+      //    padding-right: 10px;
+      //
+      //
+      //    .Title {
+      //      //font-size: 1.3em;
+      //      //font-weight: 500;
+      //      font-size: 24px;
+      //      font-weight: map-get($font-weights, "light");
+      //    }
+      //
+      //    .description {
+      //      //line-height: 19px;
+      //      overflow: hidden;
+      //      text-overflow: ellipsis;
+      //      display: -webkit-box;
+      //      -webkit-line-clamp: 2; /* number of lines to show */
+      //      line-clamp: 2;
+      //      -webkit-box-orient: vertical;
+      //      //min-height: 50px;
+      //    }
+      //
+      //    .sub-text {
+      //
+      //      display: flex;
+      //      justify-content: space-between;
+      //      .text {
+      //        font-family: "Source Sans Pro", sans-serif;
+      //        font-size: 12px;
+      //        //line-height: 20px;
+      //        color: #95989a;
+      //        white-space: nowrap;
+      //      }
+      //
+      //      .read {
+      //        //display: block;
+      //        font-family: "Source Sans Pro", sans-serif;
+      //        font-size: 12px;
+      //        //line-height: 20px;
+      //        color: $primary-color;
+      //        text-transform: uppercase;
+      //      }
+      //    }
+      //  }
+      //
+      //
+      //}
 
 
 
     }
+
+
+    //.post-stats {
+    //  span {
+    //    width: 19px !important;
+    //    height: 19px !important;
+    //  }
+    //
+    //  .post-stat-likes img,
+    //  .post-stat-com img {
+    //    width: 19px !important;
+    //    height: 19px !important;
+    //    filter: brightness(0) saturate(100%) invert(88%) sepia(80%) saturate(1375%) hue-rotate(333deg) brightness(91%) contrast(92%);
+    //  }
+    //}
+
+    //.post-stats {
+    //  display: flex;
+    //  align-items: center;
+    //  gap: 25px;
+    //
+    //
+    //  .post-stat-com, .post-stat-likes {
+    //    display: flex;
+    //    align-items: center;
+    //    gap: 10px;
+    //
+    //  }
+    //
+    //
+    //
+    //}
 
 
   }
@@ -296,3 +301,132 @@ $padding : 1.5em;
 
 
 
+@media (max-width: $bp-lg) {
+  .container {
+    .left-side, .right-side { width: 50%; }
+    .right-side .post-container { max-height: none; }
+  }
+
+  .post .post-img {
+    flex-basis: 40%;
+    max-width: 40%;
+    min-width: 40%;
+  }
+}
+
+@media (max-width: 1018px) {
+
+  .container {
+    flex-direction: column;          /* stack columns */
+    align-items: stretch;
+    gap: 20px;
+
+    .left-side, .right-side {
+      width: 100%;
+      height: auto;
+      margin: 0;
+    }
+
+    .left-side {
+      padding: 1.25rem;
+      .information { margin-bottom: 1.5rem; }
+    }
+
+    .right-side .header .text-container {
+      width: 80%;
+    }
+  }
+
+  .post {
+    gap: 8px;
+    .post-img {
+      flex-basis: 35%;
+      max-width: 35%;
+      min-width: 35%;
+      height: 140px;
+    }
+  }
+}
+
+
+
+
+@media (max-width: $bp-md) {
+  .container {
+    flex-direction: column;          /* stack columns */
+    align-items: stretch;
+    gap: 20px;
+
+    .left-side, .right-side {
+      width: 100%;
+      height: auto;
+      margin: 0;
+    }
+
+    .left-side {
+      padding: 1.25rem;
+      .information { margin-bottom: 1.5rem; }
+    }
+
+    .right-side .header .text-container {
+      width: 80%;
+    }
+  }
+
+  .post {
+    gap: 8px;
+    .post-img {
+      flex-basis: 35%;
+      max-width: 35%;
+      min-width: 35%;
+      height: 140px;
+    }
+  }
+}
+
+/* Phones */
+@media (max-width: $bp-sm) {
+  .container {
+    padding-inline: 8px;
+
+    .left-side {
+      padding: 1rem;
+      background-position: center;
+    }
+
+    .right-side .header {
+      margin: 0.75rem 0.5rem;
+      .text-container { width: 100%; padding: 0.75rem; }
+    }
+  }
+
+  /* Make each post a column so text has room and image stays consistent */
+  .post {
+    flex-direction: column;
+    align-items: stretch;
+
+    .post-img {
+      width: 100%;
+      min-width: 100%;
+      max-width: 100%;
+      height: clamp(160px, 38vw, 220px); /* responsive height */
+    }
+
+    .information {
+      padding: 12px;
+      .description {
+        -webkit-line-clamp: 3; /* a bit more room on phones */
+        line-clamp: 3;
+      }
+    }
+  }
+
+  .post-stats { gap: 16px; }
+}
+
+/* ===== Minor polish for the left gradient overlay on small screens ===== */
+@media (max-width: $bp-md) {
+  .left-side::before {
+    opacity: 0.5; /* reduce overlay strength on smaller displays */
+  }
+}

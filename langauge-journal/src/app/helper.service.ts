@@ -63,4 +63,13 @@ export class HelperService {
   public getPropertyFromArray(arr: object[], property: string) {
     return arr.map((object) => object[property]);
   }
+
+  public estimateReadingTime(text: string) {
+    const wordsPerMinute = 200;
+
+    const amountOfWords = text.split(' ').length;
+    const minutes = Math.round(amountOfWords / wordsPerMinute);
+
+    console.log(minutes);
+  }
 }

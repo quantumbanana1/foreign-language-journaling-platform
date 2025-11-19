@@ -85,6 +85,8 @@ declare module "fastify" {
     canDelete: MyAsyncHandler;
     userLanguagesByIdPlugin: MyAsyncHandler;
     countUserPostsPlugin: MyAsyncHandler;
+    getUserPosts: MyAsyncHandler;
+    getAllPostsPlugin: MyAsyncHandler;
   }
   interface Session {
     username: string;
