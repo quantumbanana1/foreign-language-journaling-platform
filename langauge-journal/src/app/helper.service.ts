@@ -68,8 +68,35 @@ export class HelperService {
     const wordsPerMinute = 200;
 
     const amountOfWords = text.split(' ').length;
-    const minutes = Math.round(amountOfWords / wordsPerMinute);
 
-    console.log(minutes);
+    console.log('ammounbt fo words', amountOfWords);
+    console.log(Math.round(amountOfWords / wordsPerMinute));
+    return Math.round(amountOfWords / wordsPerMinute);
+  }
+
+  public sterylizeHTMLtoGetContent(postContent: string) {
+    const matches = [...postContent.matchAll(/>([^<]+)</g)].map((m) => m[1]);
+    let text: string = '';
+
+    matches.forEach((string, index) => {
+      text += string;
+      if (index !== matches.length - 1) {
+        text += ' ';
+      }
+    });
+    console.log(text);
+    return text;
+  }
+
+  public formatDate(dateToFormat: string) {
+    const date = new Date(dateToFormat);
+
+    const formatted = new Intl.DateTimeFormat('en-US', {
+      day: 'numeric',
+      month: 'long', // March
+      year: 'numeric',
+    }).format(date);
+
+    return formatted;
   }
 }

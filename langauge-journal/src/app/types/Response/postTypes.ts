@@ -9,14 +9,21 @@ export interface IPostObject {
   profile_photo_url: string | null;
   time_created: string;
   like_count: number;
+  comment_count: number;
   post_content: string;
   title: string;
-  interests: IInterest[];
+  interests?: IInterest[];
   language_object: IUserLanguage;
 }
 
 export interface PostResponse {
   data: IPostObject;
+  message: string;
+  success: boolean;
+}
+
+export interface IGetAllPostsResponse {
+  data: IPostObject[];
   message: string;
   success: boolean;
 }

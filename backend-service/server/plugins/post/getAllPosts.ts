@@ -2,25 +2,6 @@ import fp from "fastify-plugin";
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { PoolClient, QueryResult } from "pg";
 import { handleResponse } from "../../helpers/handleResponse";
-import * as querystring from "node:querystring";
-
-interface IPostAttrToFetch {
-  id?: boolean;
-  title?: boolean;
-  post_content?: boolean;
-  time_created?: boolean;
-  image_url?: boolean;
-  like_count?: boolean;
-  comments_count?: boolean;
-}
-
-interface IPostQuery extends IPostAttrToFetch {
-  limit?: number;
-  offset?: number;
-  order?: "asc" | "desc";
-}
-
-type MyRequest = FastifyRequest<{}>;
 
 export default fp(async function allPosts(app: FastifyInstance) {
   async function getAllPosts(request: FastifyRequest, reply: FastifyReply) {
@@ -45,12 +26,12 @@ export default fp(async function allPosts(app: FastifyInstance) {
   p.comment_count,
   p.like_count,
   u.username,
-  l.name,
-  ul.proficiency
+  u.profile_photo_url,
+  json_build_object('language_id', l.language_id, 'name', l.name, 'proficiency', ul.proficiency) as language_object
 FROM posts p
 JOIN users u ON u.id = p.user_id
 JOIN languages l on l.language_id = p.language_id
-JOIN  user_learns ul on ul.language_id = p.language_id and ul.user_id = p.user_id
+LEFT JOIN  user_learns ul on ul.language_id = p.language_id and ul.user_id = p.user_id
 WHERE p.status = $1`;
 
     console.log("sql query", sql);

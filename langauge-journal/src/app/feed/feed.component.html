@@ -92,6 +92,9 @@
   </div>
   <div class="post-container">
     <div class="posts">
+      @for ( post of fetchedPosts; track post.post_id) {
+        <app-feed-post [post]="post"></app-feed-post>
+      }
 
     </div>
 

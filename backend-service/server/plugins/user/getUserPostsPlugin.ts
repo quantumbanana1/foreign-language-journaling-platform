@@ -86,7 +86,6 @@ export default fp(async function getUserPosts(app: FastifyInstance) {
         offset,
       ]);
 
-      console.log("co jest kurwa", result.rows);
       return handleResponse(
         reply,
         200,

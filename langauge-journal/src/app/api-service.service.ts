@@ -27,6 +27,7 @@ import {
 import { IDeleteInterestResponse } from './types/Interests/interestTypes';
 import { INewPostRequest, NewPostResponse } from './types/newPost/newPostTypes';
 import {
+  IGetAllPostsResponse,
   IGetUserPostOptions,
   IGetUserPostsResponse,
   PostResponse,
@@ -310,6 +311,18 @@ export class ApiService {
       .pipe(
         catchError((error: HttpErrorResponse) =>
           this.handleError(error, 'Uloading new post failed.'),
+        ),
+      );
+  }
+
+  public getAllPost(): Observable<IGetAllPostsResponse> {
+    return this.httpClient
+      .get<IGetAllPostsResponse>(`${this.API_URL}/get/posts`, {
+        ...this.defaultOptions,
+      })
+      .pipe(
+        catchError((error: HttpErrorResponse) =>
+          this.handleError(error, 'Fetching a post failed.'),
         ),
       );
   }

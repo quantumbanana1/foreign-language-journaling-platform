@@ -11,35 +11,27 @@ import { HelperService } from '../helper.service';
   styleUrl: './published-posts.component.scss',
 })
 export class PublishedPostsComponent implements OnInit {
+  public date: string;
   constructor(
     private router: Router,
     private helper: HelperService,
   ) {}
   @Input() post!: IUserPost;
   public postContent: string;
+  public estimatedTimeToRead: number;
 
   goToPost(post_id: number) {
     this.router.navigate(['/post', post_id]);
   }
 
-  private sterylizeHTMLtoGetContent(postContent: string) {
-    let container = '';
-    let startAddingTextToContainer = false;
-    const str = '>one</ >two</ >three</';
-    const matches = [...postContent.matchAll(/>([^<]+)</g)].map((m) => m[1]);
-    let text: string = '';
-
-    matches.forEach((string, index) => {
-      text += string;
-      if (index !== matches.length - 1) {
-        text += ' ';
-      }
-    });
-    console.log(text);
-    return text;
-  }
-
   ngOnInit(): void {
-    this.postContent = this.sterylizeHTMLtoGetContent(this.post.post_content);
+    this.postContent = this.helper.sterylizeHTMLtoGetContent(
+      this.post.post_content,
+    );
+    this.estimatedTimeToRead = this.helper.estimateReadingTime(
+      this.postContent,
+    );
+
+    this.date = this.helper.formatDate(this.post.time_created);
   }
 }
