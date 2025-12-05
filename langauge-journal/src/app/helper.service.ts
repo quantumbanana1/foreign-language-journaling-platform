@@ -60,6 +60,22 @@ export class HelperService {
     return itemToDelete;
   }
 
+  public removeItemFromArrayById<T extends Record<string, any>>(
+    arr: T[],
+    id: string,
+    key: string,
+  ) {
+    const index = arr.findIndex((item) => String(item[key]) === id);
+
+    if (index >= 0) {
+      const removed = arr[index];
+      arr.splice(index, 1);
+      return removed;
+    }
+
+    return null;
+  }
+
   public getPropertyFromArray(arr: object[], property: string) {
     return arr.map((object) => object[property]);
   }

@@ -59,6 +59,7 @@ const successResponseSchema = {
       },
     },
     message: { type: "string" },
+    success: { type: "boolean" },
   },
   required: ["data"],
 };

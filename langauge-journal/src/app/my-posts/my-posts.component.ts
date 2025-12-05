@@ -1,7 +1,18 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { PostBlockComponent } from '../post-block/post-block.component';
 import { FiltersBlockComponent } from '../filters-block/filters-block.component';
 import { RouterLink } from '@angular/router';
+import { PublishedPostsComponent } from '../published-posts/published-posts.component';
+import { ApiService } from '../api-service.service';
+import { forkJoin, of, Subject, switchMap, takeUntil } from 'rxjs';
+import { IGetUserPostsResponse, IUserPost } from '../types/Response/postTypes';
+import { IUserAttributesResponse } from '../types/User/userTypes';
 
 interface activeToggleButtons {
   published: boolean;
@@ -32,13 +43,21 @@ function isActiveClass(element: any): element is activeToggleButtons {
 @Component({
   selector: 'app-my-posts',
   standalone: true,
-  imports: [PostBlockComponent, FiltersBlockComponent, RouterLink],
+  imports: [
+    PostBlockComponent,
+    FiltersBlockComponent,
+    RouterLink,
+    PublishedPostsComponent,
+  ],
   templateUrl: './my-posts.component.html',
   styleUrl: './my-posts.component.scss',
 })
-export class MyPostsComponent {
+export class MyPostsComponent implements OnInit, OnDestroy {
   @ViewChild('ContainerButtons') ContainerButtons: ElementRef;
   @ViewChild('activeBttn') activeBttn: ElementRef;
+  $destroySubscription = new Subject<void>();
+
+  constructor(private apiService: ApiService) {}
 
   activeButtons: activeToggleButtons = {
     published: true,
@@ -57,6 +76,47 @@ export class MyPostsComponent {
     eff2: false,
     eff3: false,
   };
+
+  arrayOfUserPosts: IUserPost[];
+  public username: string;
+
+  private getUserPosts() {
+    this.apiService
+      .getUserInfo({ username: true })
+      .pipe(
+        takeUntil(this.$destroySubscription),
+        switchMap((userInfo: IUserAttributesResponse) => {
+          if (userInfo?.success) {
+            this.username = userInfo.data.username;
+            return this.apiService.getUserPosts(this.username, {
+              limit: 20,
+              offset: 0,
+              order: 'asc',
+              time_created: true,
+              id: true,
+              like_count: true,
+              comments_count: true,
+              image_url: true,
+              post_content: true,
+              title: true,
+              status: this.getActiveStatus,
+            });
+          } else {
+            return null;
+          }
+        }),
+      )
+      .subscribe({
+        next: (response: IGetUserPostsResponse) => {
+          if (response.success) {
+            this.arrayOfUserPosts = response.data;
+          }
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
+  }
 
   setClass(event: Event) {
     // Add a class active to the element that triggered the event
@@ -95,5 +155,20 @@ export class MyPostsComponent {
     });
 
     element.classList.add(activeClass);
+  }
+
+  get getActiveStatus() {
+    return Object.keys(this.activeButtons).find(
+      (key) => this.activeButtons[key],
+    );
+  }
+
+  ngOnInit() {
+    this.getUserPosts();
+  }
+
+  ngOnDestroy(): void {
+    this.$destroySubscription.next();
+    this.$destroySubscription.complete();
   }
 }

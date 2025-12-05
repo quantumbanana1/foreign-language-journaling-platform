@@ -9,7 +9,11 @@
   </div>
   <app-filters-block></app-filters-block>
   <div class="post-container">
-    <app-post-block ></app-post-block>
+<!--    <app-post-block ></app-post-block>-->
+
+    @for (post of arrayOfUserPosts; track post.post_id) {
+      <app-published-posts [post]="post"></app-published-posts>
+    }
   </div>
 
 </div>
