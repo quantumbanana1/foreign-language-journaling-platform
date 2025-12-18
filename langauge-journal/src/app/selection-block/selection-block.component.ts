@@ -23,7 +23,6 @@ export class SelectionBlockComponent<T> {
 
   selected(eventTarget: EventTarget) {
     const selectedOption = (eventTarget as HTMLSelectElement).value;
-    console.log(selectedOption);
     let selectedItem: T;
 
     if (this.typeOfItem === 'language') {

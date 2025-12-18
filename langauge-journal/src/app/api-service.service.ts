@@ -14,7 +14,10 @@ import IRUser, {
 import { catchError, Observable, of, throwError } from 'rxjs';
 import { IUserUpdateResponse } from './types/Response/updateUserInfoResponse';
 import { uploadImageResponse } from './types/Response/uploadImageResponse';
-import { ILanguageResponse } from './types/Language/langaugeResponse';
+import {
+  ILanguage,
+  ILanguageResponse,
+} from './types/Language/langaugeResponse';
 import {
   IChooseLanguageWithLevel,
   IDeleteLanguageResponse,
@@ -30,6 +33,7 @@ import {
   IGetAllPostsResponse,
   IGetUserPostOptions,
   IGetUserPostsResponse,
+  ISearchResponse,
   PostResponse,
 } from './types/Response/postTypes';
 import {
@@ -319,6 +323,32 @@ export class ApiService {
     return this.httpClient
       .get<IGetAllPostsResponse>(`${this.API_URL}/get/posts`, {
         ...this.defaultOptions,
+      })
+      .pipe(
+        catchError((error: HttpErrorResponse) =>
+          this.handleError(error, 'Fetching a post failed.'),
+        ),
+      );
+  }
+
+  public searchPosts(
+    searchResult: string,
+    followedAuthors: boolean,
+    needsFeedback: boolean,
+    myLanguages: boolean,
+    commentedPost: boolean,
+  ): Observable<ISearchResponse> {
+    const params = new HttpParams()
+      .set('followedAuthors', followedAuthors)
+      .set('needsFeedback', needsFeedback)
+      .set('searchResult', searchResult)
+      .set('myLanguages', myLanguages)
+      .set('commentedPost', commentedPost);
+
+    return this.httpClient
+      .get<ISearchResponse>(`${this.API_URL}/search/posts`, {
+        ...this.defaultOptions,
+        params: params,
       })
       .pipe(
         catchError((error: HttpErrorResponse) =>

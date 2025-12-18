@@ -57,8 +57,6 @@ export class PostViewComponent implements OnInit, AfterViewInit {
         this.postInfo.post_content,
       );
     }
-
-    console.log(this.postContentElement.nativeElement.innerHTML);
   }
 
   ngOnInit(): void {}

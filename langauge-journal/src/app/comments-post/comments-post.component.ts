@@ -53,8 +53,6 @@ export class CommentsPostComponent implements OnChanges, OnInit, OnDestroy {
       postId: this.comment.post_id,
     };
 
-    console.log(data);
-
     if (this.comment.content !== '') {
       this.apiService
         .updateComment(data, this.postId, this.comment.comment_id)
@@ -98,7 +96,6 @@ export class CommentsPostComponent implements OnChanges, OnInit, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['comment']) {
-      console.log('Card got comment:', this.comment);
     }
   }
 }

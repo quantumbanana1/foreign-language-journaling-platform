@@ -85,8 +85,6 @@ export class HelperService {
 
     const amountOfWords = text.split(' ').length;
 
-    console.log('ammounbt fo words', amountOfWords);
-    console.log(Math.round(amountOfWords / wordsPerMinute));
     return Math.round(amountOfWords / wordsPerMinute);
   }
 
@@ -100,7 +98,7 @@ export class HelperService {
         text += ' ';
       }
     });
-    console.log(text);
+
     return text;
   }
 

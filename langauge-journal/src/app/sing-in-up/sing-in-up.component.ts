@@ -89,7 +89,6 @@ export class SingInUpComponent implements AfterViewInit, OnInit {
 
   signUpClick() {
     this.container.nativeElement.classList.add('right-panel-active');
-    console.log(this.container.nativeElement.classList);
   }
 
   signInClick() {
@@ -134,9 +133,7 @@ export class SingInUpComponent implements AfterViewInit, OnInit {
     this.authService.login$.next(this.loggingForm.value);
   }
 
-  ngAfterViewInit() {
-    console.log(this.container.nativeElement.classList);
-  }
+  ngAfterViewInit() {}
 
   ngOnInit() {
     this.registrationForm = this.formBuilder.group({

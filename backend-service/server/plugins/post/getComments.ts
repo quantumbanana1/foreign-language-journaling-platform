@@ -26,8 +26,6 @@ export default fp(async function getCommentsPlugin(app: FastifyInstance) {
         [postId],
       );
 
-      console.log(result.rows);
-
       result.rows = result.rows.map((row) => ({
         ...row,
         canEdit: row.user_id === currentUserId,

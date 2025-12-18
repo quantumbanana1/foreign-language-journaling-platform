@@ -30,7 +30,6 @@ export class LoggedinService {
   public isLoggedIn$: Observable<Status> = this.authorized$.pipe(
     switchMap(() =>
       this.http.get(`${this.API_URL}/auth`, { withCredentials: true }).pipe(
-        tap((val) => console.log(val)),
         map(() => 'authenticated' as const),
         catchError(() => of('fail' as const)),
       ),

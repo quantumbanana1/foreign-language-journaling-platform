@@ -10,8 +10,6 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 })
 export class SideBarProfileComponent {
   constructor(private router: Router) {
-    this.router.events.subscribe((event) => {
-      console.log(event);
-    });
+    this.router.events.subscribe((event) => {});
   }
 }

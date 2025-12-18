@@ -69,7 +69,6 @@ export class PostCommentsComponent implements OnDestroy, OnInit {
       .pipe(takeUntil(this.destroyOFdeleteCommentApiSub))
       .subscribe({
         next: (response) => {
-          console.log(response);
           if (response.success === true) {
             this.comments = this.comments.filter(
               (comment) => Number(comment.comment_id) !== Number(commentId),

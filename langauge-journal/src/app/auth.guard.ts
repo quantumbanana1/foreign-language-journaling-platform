@@ -16,7 +16,6 @@ export const authGuard: CanActivateFn = (
   let isLoggedIn: boolean;
   authService.authorized$.next();
   authService.isLoggedIn$.subscribe((status) => {
-    console.log(status);
     if (status === 'authenticated') {
       isLoggedIn = true;
       return true;

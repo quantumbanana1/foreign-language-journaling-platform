@@ -43,7 +43,6 @@ export class UserViewComponent implements OnInit, OnDestroy, AfterViewInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response: IResponseUserLanguages) => {
-          console.log('response from server: ', response);
           this.languages = response.data;
         },
         error: (err) => {

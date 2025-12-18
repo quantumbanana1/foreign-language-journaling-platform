@@ -62,9 +62,7 @@ export class BadgeButtonFromSelectionComponent implements OnInit, OnChanges {
     );
     if (this.isLanguage(itemToDelete)) {
       this.apiService.deleteLanguage(itemToDelete).subscribe({
-        next: (value) => {
-          console.log(value);
-        },
+        next: (value) => {},
         error: (error) => {
           console.log(error);
         },

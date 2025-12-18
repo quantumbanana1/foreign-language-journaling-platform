@@ -112,10 +112,8 @@ export class ProfileDetailsFormComponent implements OnInit {
         name: true,
       })
       .subscribe((response: IUserAttributesResponse) => {
-        console.log(response);
         this.userInfo = response.data;
         if (this.userInfo) {
-          console.log('this.userinfo', this.userInfo);
           this.buildForm();
         }
       });

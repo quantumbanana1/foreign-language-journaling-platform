@@ -31,7 +31,6 @@ export class AuthService {
           withCredentials: true,
         })
         .pipe(
-          tap((val) => console.log(val)),
           map(() => 'authenticated' as const),
           catchError(() => of('fail' as const)),
           startWith('authenticating' as const),
@@ -65,10 +64,7 @@ export class AuthService {
     private router: Router,
   ) {
     merge(this.LoggedInState, this.logoutStatus$)
-      .pipe(
-        tap((status) => console.log('status emitted', status)),
-        takeUntilDestroyed(),
-      )
+      .pipe(takeUntilDestroyed())
       .subscribe((status) =>
         this.state.update((currentState) => ({
           ...currentState,
@@ -78,7 +74,6 @@ export class AuthService {
 
     effect(() => {
       const status = this.status();
-      console.log(status);
 
       if (status === 'initial') {
         this.router.navigate(['/login']).then((r) => console.log(r));
@@ -87,7 +82,6 @@ export class AuthService {
         this.router.navigate(['/login']).then((r) => console.log(r));
       }
       if (status === 'authenticated') {
-        console.log('xxddxdxd');
         this.router.navigate(['/my-feed']).then((r) => console.log(r));
       }
     });

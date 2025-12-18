@@ -18,8 +18,6 @@ export class ProfileLanguagesFormComponent implements OnInit {
 
   getDataFromLanguageInput($event: IChooseLanguageWithLevel[]) {
     this.selectedLanguages = $event;
-    console.log(this.selectedLanguages);
-    console.log('getting lang from inpunt');
   }
 
   submitData() {
@@ -30,9 +28,7 @@ export class ProfileLanguagesFormComponent implements OnInit {
     return this.apiService
       .uploadUserLanguage(this.selectedLanguages)
       .subscribe({
-        next: (value) => {
-          console.log(value);
-        },
+        next: (value) => {},
         error: (error) => {
           console.log(error);
         },

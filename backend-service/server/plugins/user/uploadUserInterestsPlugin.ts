@@ -8,7 +8,6 @@ export default fp(async function updateUserInterests(app: FastifyInstance) {
     request: FastifyRequest<{ Body: IUserInterest }>,
     reply: FastifyReply,
   ) {
-    console.log(request);
     const interest_id = request.body.interest_id;
     const userId = request.session.userId;
 

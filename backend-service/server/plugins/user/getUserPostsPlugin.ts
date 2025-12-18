@@ -66,7 +66,6 @@ export default fp(async function getUserPosts(app: FastifyInstance) {
     const orderDir = order === "asc" ? "ASC" : "DESC";
 
     const selectList = [...baseCols].join(", ");
-    console.log(selectList);
 
     const sql = `
         SELECT ${selectList}

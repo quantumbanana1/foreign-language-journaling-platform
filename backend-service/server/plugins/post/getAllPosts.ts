@@ -34,14 +34,11 @@ JOIN languages l on l.language_id = p.language_id
 LEFT JOIN  user_learns ul on ul.language_id = p.language_id and ul.user_id = p.user_id
 WHERE p.status = $1`;
 
-    console.log("sql query", sql);
-
     let client: PoolClient | null = null;
     try {
       client = await app.pg.connect();
       const result: QueryResult = await client.query(sql, ["published"]);
 
-      console.log(result.rows);
       return handleResponse(
         reply,
         200,

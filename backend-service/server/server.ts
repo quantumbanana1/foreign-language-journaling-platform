@@ -87,6 +87,7 @@ declare module "fastify" {
     countUserPostsPlugin: MyAsyncHandler;
     getUserPosts: MyAsyncHandler;
     getAllPostsPlugin: MyAsyncHandler;
+    searchForPostsFunction: MyAsyncHandler;
   }
   interface Session {
     username: string;

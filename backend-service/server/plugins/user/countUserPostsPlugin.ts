@@ -24,8 +24,6 @@ export default fp(async function countUserPosts(app: FastifyInstance) {
         ...countPostResult.rows[0],
       };
 
-      console.log("finalRewsut", finalResult);
-
       return handleResponse(
         reply,
         200,

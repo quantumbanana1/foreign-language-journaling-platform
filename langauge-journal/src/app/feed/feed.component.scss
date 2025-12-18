@@ -213,6 +213,14 @@ input[type=text]:focus {
         cursor: pointer;
       }
 
+
+      .active {
+        border: 1px solid #000000;
+        background-color: #eccb37;
+        color: #FFFFFF;
+
+      }
+
     }
 
   }

@@ -64,7 +64,6 @@ export class ProfileInterestsFormComponent implements OnInit {
   userInterests: IInterest[] = [];
 
   onSubmit() {
-    console.log('helllo', this.interestForm.value.interest);
     this.isLoading = true;
     const request: IInterest = {
       interest_id: this.interestForm.value.interest.interest_id,
@@ -73,7 +72,6 @@ export class ProfileInterestsFormComponent implements OnInit {
     };
     this.apiService.uploadUserInterest(request).subscribe({
       next: (response) => {
-        console.log(response);
         setTimeout(() => {
           this.userInterests.push(request);
           this.interestForm.reset();
@@ -98,7 +96,6 @@ export class ProfileInterestsFormComponent implements OnInit {
   private getUserInterests() {
     this.apiService.getUserInterests().subscribe({
       next: (response) => {
-        console.log(response);
         this.userInterests = response.data.map((interest: IInterest) => ({
           ...interest,
           type: 'interest',
@@ -124,9 +121,7 @@ export class ProfileInterestsFormComponent implements OnInit {
     });
   }
 
-  selected() {
-    console.log(this.selectedInterest);
-  }
+  selected() {}
 
   ngOnInit() {
     this.getInterests();

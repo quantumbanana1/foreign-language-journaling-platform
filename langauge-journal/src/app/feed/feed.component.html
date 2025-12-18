@@ -18,7 +18,7 @@
       <span class="fa fa-search">
         <img src="assets/icons/magnifying.png">
       </span>
-      <input class="search-post" type="text" placeholder="Search posts">
+      <input #searchBox (input)="onSearch($event.target)" class="search-post" type="text" placeholder="Search posts">
         <div class="container-input">
     </div>
   </div>
@@ -27,26 +27,29 @@
   <div class="button-container">
     <ul class="list-buttons">
       <li>
-        <button>Clear filters</button>
+        <button (click)="toggleFiltersStatus('clearFilters')">Clear filters</button>
       </li>
       <li>
-        <button>followed journalers</button>
+        <button [class.active]="filters().followedAuthors"  (click)="toggleFiltersStatus('followedAuthors')">followed journalers</button>
       </li>
       <li>
-        <button>needs feedback</button>
+        <button [class.active]="filters().needsFeedback" (click)="toggleFiltersStatus('needsFeedback')">needs feedback</button>
       </li>
       <li>
-        <button>saved posts</button>
+        <button [class.active]="filters().myLanguages" (click)="toggleFiltersStatus('myLanguages')">my languages</button>
       </li>
       <li>
-        <button>commented posts</button>
+        <button [class.active]="filters().savedPosts" (click)="toggleFiltersStatus('savedPosts')">saved posts</button>
+      </li>
+      <li>
+        <button [class.active]="filters().commentedPosts" (click)="toggleFiltersStatus('commentedPosts')">commented posts</button>
       </li>
     </ul>
   </div>
   </div>
   <div class="post-container">
     <div class="posts">
-      @for ( post of fetchedPosts; track post.post_id) {
+      @for ( post of currentPostsSignal().currentPosts; track post.post_id) {
         <app-feed-post [post]="post"></app-feed-post>
       }
 

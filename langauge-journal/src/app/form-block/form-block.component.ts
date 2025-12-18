@@ -45,7 +45,6 @@ export class FormBlockComponent implements OnInit {
 
   getNotification(emittedData: string) {
     this.selectedLanguage = emittedData;
-    console.log(this.selectedLanguage);
   }
 
   private buildForm() {
@@ -78,9 +77,7 @@ export class FormBlockComponent implements OnInit {
     };
 
     this.apiService.uploadNewPost(request).subscribe({
-      next: (response) => {
-        console.log(response);
-      },
+      next: (response) => {},
       error: (error) => {
         console.log(error);
       },

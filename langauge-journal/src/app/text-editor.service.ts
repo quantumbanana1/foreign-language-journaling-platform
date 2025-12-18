@@ -45,8 +45,6 @@ export class TextEditorService {
   }
 
   setBold() {
-    console.log(defaultState);
-
     if (defaultState.values.includes('bold')) {
       defaultState.values = defaultState.values.filter(
         (value) => value !== 'bold',
@@ -100,4 +98,3 @@ export class TextEditorService {
     }
   }
 }
-

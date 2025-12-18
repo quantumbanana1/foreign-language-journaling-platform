@@ -101,8 +101,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   private getUserPosts(username: string, options: IGetUserPostOptions) {
-    console.log(username);
-
     this.api
       .getUserPosts(username, options)
       .pipe(takeUntil(this.$destroySubscription))

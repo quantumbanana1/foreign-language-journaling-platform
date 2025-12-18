@@ -60,12 +60,10 @@ export class SelectInputComponent implements OnInit {
   }
 
   getNotification(emittedData: IInterest[]) {
-    console.log(emittedData);
     this.selectedInterests = emittedData;
     if (this.selectedInterests.length < 5) {
       this.isSelectActive = false;
     }
-    console.log(this.isSelectActive);
   }
 
   ngOnInit() {

@@ -21,7 +21,6 @@ export class InputPostBindingService {
   }
 
   updateValueInterests(value: string[]) {
-    console.log(value);
     this.inputValuesInterests.next(value);
   }
 

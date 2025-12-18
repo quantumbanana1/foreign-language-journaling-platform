@@ -32,8 +32,6 @@ export class PopUpComponent implements OnInit, OnDestroy {
       .subscribe((data) => {
         this.popUpState = true;
         this.commentId = data.commentId;
-
-        console.log('commentId emitted :', this.commentId);
       });
   }
 

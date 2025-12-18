@@ -71,10 +71,7 @@ export default fp(async function user(app: FastifyInstance) {
       client = await app.pg.connect();
       const result: QueryResult = await client.query(sql, [userId]);
 
-      // If user not found, return empty object (or 404 if you prefer)
       const row = result.rows[0] ?? {};
-
-      console.log("THIS IS ROOOW!!!", row);
 
       return handleResponse(
         reply,
@@ -88,7 +85,6 @@ export default fp(async function user(app: FastifyInstance) {
       return handleResponse(reply, 500, error, "Internal Server Error", null);
     } finally {
       if (client) {
-        console.log("cancelowanie");
         client.release();
       }
     }

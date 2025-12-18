@@ -42,7 +42,6 @@ GROUP BY p.post_id, u.username, u.id, u.profile_photo_url, p.image_url, p.time_c
 
       const responseData = postResponse.rows[0];
 
-      console.log(responseData);
       return handleResponse(
         reply,
         200,

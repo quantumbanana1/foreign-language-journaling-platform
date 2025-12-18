@@ -98,14 +98,11 @@ export class SelectionBlockPostComponent implements OnInit, OnDestroy {
 
   private removeInterestFromFromArray(interest: IInterest) {
     if (this.isInterestValid(interest)) {
-      console.log(this.formInterest.controls);
       const index = this.formInterest.controls.findIndex(
         (control) => control.value.interest_id === interest.interest_id,
       );
       this.formInterest.removeAt(index);
     }
-
-    console.log(this.formInterest);
   }
 
   private isInterestValid(interest: IInterest): boolean {

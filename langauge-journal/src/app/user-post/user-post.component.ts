@@ -31,12 +31,10 @@ export class UserPostComponent implements OnInit {
   ) {}
 
   private getPost() {
-    console.log(this.postId);
     this.apiService.getPost(Number(this.postId)).subscribe({
       next: (response) => {
         this.postInfo = response.data;
         this.postDate = new Date(this.postInfo.time_created);
-        console.log(response);
       },
       error: (response) => {
         console.log(response);

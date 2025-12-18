@@ -62,3 +62,13 @@ export interface IGetUserPostOptions {
   order?: 'asc' | 'desc';
   status: string;
 }
+
+export interface ISearchPostObject extends IPostObject {
+  rank: number;
+}
+
+export interface ISearchResponse {
+  data: ISearchPostObject[];
+  message: 'string';
+  success: boolean;
+}
