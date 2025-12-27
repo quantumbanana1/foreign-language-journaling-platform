@@ -16,18 +16,26 @@ import { ApiService } from '../api-service.service';
 import {
   IGetAllPostsResponse,
   IPostObject,
+  ISearchResponse,
   PostResponse,
 } from '../types/Response/postTypes';
 import {
+  catchError,
+  combineLatest,
   debounceTime,
   distinctUntilChanged,
+  elementAt,
   fromEvent,
   map,
   Observable,
+  of,
   pairwise,
+  startWith,
   Subject,
   Subscription,
+  switchMap,
   takeUntil,
+  tap,
 } from 'rxjs';
 import { FeedPostComponent } from '../feed-post/feed-post.component';
 import {
@@ -40,6 +48,7 @@ import {
   IInterest,
 } from '../types/Response/getInterestsResponse';
 import { toObservable } from '@angular/core/rxjs-interop';
+import { PostSearchParams } from '../types/apiTypes';
 
 interface singalForBoxToggle {
   value: boolean;
@@ -58,6 +67,11 @@ interface SearchFilters {
 interface ISignalCurrentPostsState {
   currentPosts: IPostObject[];
 }
+
+type SearchStreamResponse = {
+  data: IPostObject[] | [];
+  revertToFetchedPosts: boolean;
+};
 
 @Component({
   selector: 'app-feed',
@@ -105,7 +119,6 @@ export class FeedComponent implements OnDestroy, OnInit, AfterViewInit {
       clearFilters: false,
     });
   filters: WritableSignal<SearchFilters> = this.filtersStatus;
-  private lastQuery: string = '';
   private filters$: Observable<SearchFilters> = toObservable(this.filters);
 
   private readonly currentPostsState = signal<ISignalCurrentPostsState>({
@@ -114,6 +127,14 @@ export class FeedComponent implements OnDestroy, OnInit, AfterViewInit {
   currentPostsSignal = this.currentPostsState;
 
   private search$: Subject<string> = new Subject<string>();
+
+  private readonly query$ = this.search$.pipe(
+    map((v) => v ?? ''),
+    map((v) => v.trim()),
+    debounceTime(300),
+    distinctUntilChanged(),
+    startWith(''),
+  );
 
   private getAllPosts() {
     this.apiService
@@ -184,50 +205,59 @@ export class FeedComponent implements OnDestroy, OnInit, AfterViewInit {
 
     if (this.filters().clearFilters) {
       this.setFiltersToDefaultState();
-      this.currentPostsSignal.set({ currentPosts: this.fetchedPosts });
+      // this.currentPostsSignal.set({ currentPosts: this.fetchedPosts });
     }
   }
 
   onSearch(element: EventTarget) {
     const value = (element as HTMLInputElement).value;
-    this.lastQuery = value;
     this.search$.next(value);
   }
 
-  SearchPosts(value: string) {
-    this.apiService
-      .searchPosts(
-        value,
-        this.filtersStatus().followedAuthors,
-        this.filtersStatus().needsFeedback,
-        this.filtersStatus().myLanguages,
-        this.filtersStatus().commentedPosts,
-      )
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (response) => {
-          if (response.data.length > 0) {
-            this.currentPostsSignal.set({ currentPosts: response.data });
-          } else {
-            this.currentPostsSignal.set({ currentPosts: this.fetchedPosts });
+  createStreamForSearchPosts() {
+    combineLatest([this.query$, this.filters$])
+      .pipe(
+        takeUntil(this.destroy$),
+        switchMap(([query, filters]) => {
+          const isFalse = this.isAllFalse(filters);
+          console.log('query', query);
+
+          if (isFalse && query.trim() === '') {
+            const streamResponse: SearchStreamResponse = {
+              data: [],
+              revertToFetchedPosts: true,
+            };
+
+            return of(streamResponse);
           }
-        },
-        error: (err) => {
-          this.error.set(err);
-        },
+
+          return this.apiService.searchPosts(query, filters).pipe(
+            map(
+              (response: ISearchResponse): SearchStreamResponse => ({
+                ...response,
+                data: response.data ?? [],
+                revertToFetchedPosts: false,
+              }),
+            ),
+
+            catchError((err) => {
+              this.error.set(err);
+              const response: SearchStreamResponse = {
+                data: [],
+                revertToFetchedPosts: false,
+              };
+              return of(response);
+            }),
+          );
+        }),
+      )
+      .subscribe((response) => {
+        if (!response.revertToFetchedPosts) {
+          this.currentPostsSignal.set({ currentPosts: response.data });
+        } else {
+          this.currentPostsSignal.set({ currentPosts: this.fetchedPosts });
+        }
       });
-  }
-
-  createKeyUpEvent() {
-    this.search$
-      .pipe(takeUntil(this.destroy$), debounceTime(300), distinctUntilChanged())
-      .subscribe((v: string) => this.SearchPosts(v));
-  }
-
-  subscribeToChangeFilterStates() {
-    this.filters$.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      this.SearchPosts(this.lastQuery);
-    });
   }
 
   isAllFalse(object: any): boolean {
@@ -238,8 +268,7 @@ export class FeedComponent implements OnDestroy, OnInit, AfterViewInit {
     this.getAllPosts();
     this.getLanguages();
     this.getInterests();
-    this.createKeyUpEvent();
-    this.subscribeToChangeFilterStates();
+    this.createStreamForSearchPosts();
   }
 
   ngOnDestroy(): void {

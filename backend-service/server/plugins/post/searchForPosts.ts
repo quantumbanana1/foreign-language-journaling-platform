@@ -8,7 +8,7 @@ interface IGetPostQueryString {
   languages: [];
   needsFeedback: boolean;
   searchResult: string;
-  commentedPost: boolean;
+  commentedPosts: boolean;
   myLanguages: boolean;
 }
 
@@ -33,7 +33,7 @@ export default fp(async function searchPostPlugin(app: FastifyInstance) {
           condition.push(con);
         }
 
-        if (key === "commentedPost" && value === true) {
+        if (key === "commentedPosts" && value === true) {
           con = `p.comment_count > 0`;
           condition.push(con);
         }

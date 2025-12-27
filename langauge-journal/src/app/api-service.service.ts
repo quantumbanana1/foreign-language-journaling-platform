@@ -44,6 +44,7 @@ import {
 } from './types/newPost/commentTypes';
 import { DeleteCommentResponse200 } from './types/comments/commentTypes';
 import { IResponseUserPostCounts } from './types/post/postAttributes';
+import { PostSearchParams } from './types/apiTypes';
 
 // ApiService: Handles all HTTP requests to the backend API.
 
@@ -332,23 +333,27 @@ export class ApiService {
   }
 
   public searchPosts(
-    searchResult: string,
-    followedAuthors: boolean,
-    needsFeedback: boolean,
-    myLanguages: boolean,
-    commentedPost: boolean,
+    query: string,
+    params: PostSearchParams,
   ): Observable<ISearchResponse> {
-    const params = new HttpParams()
-      .set('followedAuthors', followedAuthors)
-      .set('needsFeedback', needsFeedback)
-      .set('searchResult', searchResult)
-      .set('myLanguages', myLanguages)
-      .set('commentedPost', commentedPost);
+    let httpParams = new HttpParams();
+
+    httpParams = httpParams
+      .set('followedAuthors', String(params.followedAuthors))
+      .set('needsFeedback', String(params.needsFeedback))
+      .set('myLanguages', String(params.myLanguages))
+      .set('commentedPosts', String(params.commentedPosts))
+      .set('savedPost', String(params.savedPosts));
+
+    const q = query.trim();
+    if (q !== '') {
+      httpParams = httpParams.set('searchResult', q);
+    }
 
     return this.httpClient
       .get<ISearchResponse>(`${this.API_URL}/search/posts`, {
         ...this.defaultOptions,
-        params: params,
+        params: httpParams,
       })
       .pipe(
         catchError((error: HttpErrorResponse) =>
