@@ -1,5 +1,5 @@
 <div class="search-container">
-  <app-selected-item [trackKey]="trackKey" [selectedItems]="selectedItems" [typeOfItem]="typeOfItem"></app-selected-item>
+  <app-selected-item (remove)="this.removeItem($event)" [trackKey]="trackKey" [selectedItems]="selectedItems" [typeOfItem]="typeOfItem"></app-selected-item>
   <select class="search-select" id="search-select" name="search-select" (change)="selected($event.target)">
 
     @for (item of items; track item[trackKey]) {

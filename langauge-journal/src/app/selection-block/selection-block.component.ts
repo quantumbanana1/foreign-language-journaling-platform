@@ -1,4 +1,11 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { SelectedItemComponent } from '../selected-item/selected-item.component';
 import { ApiService } from '../api-service.service';
 import {
@@ -7,6 +14,8 @@ import {
 } from '../types/Language/langaugeResponse';
 import { response } from 'express';
 import { SelectionHelperService } from '../selection-helper.service';
+import { emit } from '@angular-devkit/build-angular/src/tools/esbuild/angular/compilation/parallel-worker';
+import { LanguageTableService } from '../language-table.service';
 
 @Component({
   selector: 'app-selection-block',
@@ -20,6 +29,11 @@ export class SelectionBlockComponent<T> {
   @Input() trackKey!: keyof T;
   @Input() typeOfItem!: string;
   selectedItems: T[] = [];
+
+  @Output() selectedItemsChange = new EventEmitter<{
+    selectedItem: T;
+    action: string;
+  }>();
 
   selected(eventTarget: EventTarget) {
     const selectedOption = (eventTarget as HTMLSelectElement).value;
@@ -39,10 +53,21 @@ export class SelectionBlockComponent<T> {
 
     if (selectedItem) {
       this.selectedItems.push(selectedItem);
+      this.selectedItemsChange.emit({
+        selectedItem: selectedItem,
+        action: 'adding',
+      });
     } else {
       return null;
     }
   }
 
-  constructor(public selectionHelperService: SelectionHelperService<T>) {}
+  constructor(
+    public selectionHelperService: SelectionHelperService<T>,
+    private serviceLangT: LanguageTableService,
+  ) {}
+
+  removeItem($event: { selectedItem: T; action: 'removing' }) {
+    this.selectedItemsChange.emit($event);
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SelectionHelperService } from '../selection-helper.service';
 import { HelperService } from '../helper.service';
 
@@ -13,6 +13,10 @@ export class SelectedItemComponent<T> {
   @Input() selectedItems!: T[];
   @Input() trackKey!: keyof T;
   @Input() typeOfItem!: string;
+  @Output() remove = new EventEmitter<{
+    selectedItem: T;
+    action: 'removing';
+  }>();
 
   constructor(
     public selectionHelperService: SelectionHelperService<T>,
@@ -40,5 +44,7 @@ export class SelectedItemComponent<T> {
         'interest_id',
       );
     }
+
+    this.remove.emit({ selectedItem: itemToDelete, action: 'removing' });
   }
 }

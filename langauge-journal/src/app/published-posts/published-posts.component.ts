@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { IUserPost } from '../types/Response/postTypes';
+import { IPostObject, IUserPost } from '../types/Response/postTypes';
 import { Router } from '@angular/router';
 import { HelperService } from '../helper.service';
 

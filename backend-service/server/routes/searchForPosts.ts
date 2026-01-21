@@ -3,13 +3,25 @@ import { FastifyInstance } from "fastify";
 const paramsSchema = {
   type: "object",
   properties: {
-    // operationName: { type: ["string"] },
     followedAuthors: { type: ["boolean"] },
-    languages: { type: ["boolean"] },
     needsFeedback: { type: ["boolean"] },
     searchResult: { type: ["string"] },
     myLanguages: { type: ["boolean"] },
     commentedPost: { type: ["boolean"] },
+    status: { type: ["string"] },
+    language_ids: {
+      anyOf: [
+        { type: "array", items: { type: "integer" } },
+        { type: "integer" }, // allow single value
+      ],
+    },
+
+    interest_ids: {
+      anyOf: [
+        { type: "array", items: { type: "integer" } },
+        { type: "integer" },
+      ],
+    },
   },
 
   additionalProperties: false,

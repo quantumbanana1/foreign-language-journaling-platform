@@ -7,11 +7,61 @@
     <div #activeBttn class="btn eff1"></div>
 
   </div>
-  <app-filters-block></app-filters-block>
+  <div class="main-search-container">
+  <app-selection-block (selectedItemsChange)="this.selectedItemsChange($event)"  typeOfItem="language" [items]="languages"  trackKey="language_id"></app-selection-block>
+  <div class="button-container">
+    <button class="advanced-filters" (click)="toggleAdvancedSearchBox()">{{advancedBox().action}} Advanced Filters</button>
+  </div>
+
+  <div class="additional" *ngIf="advancedBox().value">
+    <div class="main-search-container" >
+      <app-selection-block typeOfItem="interest" [items]="interests" trackKey="interest_id"></app-selection-block>
+      <div class="search-container">
+        <div class="container-input">
+      <span class="fa fa-search">
+        <img src="assets/icons/magnifying.png">
+      </span>
+          <input #searchBox (input)="onSearch($event.target)" class="search-post" type="text" placeholder="Search posts">
+          <div class="container-input">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="button-container">
+      <ul class="list-buttons">
+        <li>
+          <button (click)="toggleFiltersStatus('clearFilters')">Clear filters</button>
+        </li>
+        <li>
+          <button [class.active]="filters().followedAuthors"  (click)="toggleFiltersStatus('followedAuthors')">followed journalers</button>
+        </li>
+        <li>
+          <button [class.active]="filters().needsFeedback" (click)="toggleFiltersStatus('needsFeedback')">needs feedback</button>
+        </li>
+        <li>
+          <button [class.active]="filters().myLanguages" (click)="toggleFiltersStatus('myLanguages')">my languages</button>
+        </li>
+        <li>
+          <button [class.active]="filters().savedPosts" (click)="toggleFiltersStatus('savedPosts')">saved posts</button>
+        </li>
+        <li>
+          <button [class.active]="filters().commentedPosts" (click)="toggleFiltersStatus('commentedPosts')">commented posts</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+  </div>
+
+
+
   <div class="post-container">
 <!--    <app-post-block ></app-post-block>-->
 
-    @for (post of arrayOfUserPosts; track post.post_id) {
+<!--    @for (post of arrayOfUserPosts; track post.post_id) {-->
+<!--      <app-published-posts [post]="post"></app-published-posts>-->
+<!--    }-->
+
+    @for ( post of currentPostsSignal().currentPosts; track post.post_id) {
       <app-published-posts [post]="post"></app-published-posts>
     }
   </div>

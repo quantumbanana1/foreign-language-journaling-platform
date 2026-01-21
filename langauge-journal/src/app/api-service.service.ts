@@ -343,7 +343,13 @@ export class ApiService {
       .set('needsFeedback', String(params.needsFeedback))
       .set('myLanguages', String(params.myLanguages))
       .set('commentedPosts', String(params.commentedPosts))
-      .set('savedPost', String(params.savedPosts));
+      .set('savedPost', String(params.savedPosts))
+      .set('interests', String(params.interests))
+      .set('status', String(params.status));
+
+    for (const l of params.languages) {
+      httpParams = httpParams.append('language_ids', String(l.language_id));
+    }
 
     const q = query.trim();
     if (q !== '') {

@@ -40,7 +40,7 @@ export interface IUserPost {
   time_created: string | null;
   image_url: string | null;
   like_count: number | null;
-  comments_count: number | null;
+  comment_count: number | null;
 }
 
 export interface IGetUserPostsResponse {

@@ -4,6 +4,7 @@ import {
   LevelLanguage,
 } from './types/Language/languageOptionTypes';
 import { IInterest } from './types/Response/getInterestsResponse';
+import { SearchFilters } from './feed/feed.component';
 
 type ItemFromBadge =
   | {
@@ -112,5 +113,21 @@ export class HelperService {
     }).format(date);
 
     return formatted;
+  }
+
+  // helpers for search post function 0_0
+
+  isAllFalse(filters: SearchFilters): boolean {
+    return Object.entries(filters).every(([key, value]) => {
+      if (typeof value === 'boolean') {
+        return value === false;
+      }
+
+      if (Array.isArray(value)) {
+        return value.length === 0;
+      }
+
+      return true;
+    });
   }
 }

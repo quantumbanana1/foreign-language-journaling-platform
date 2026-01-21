@@ -17,6 +17,7 @@ import {
   IGetAllPostsResponse,
   IPostObject,
   ISearchResponse,
+  IUserPost,
   PostResponse,
 } from '../types/Response/postTypes';
 import {
@@ -50,25 +51,28 @@ import {
 import { toObservable } from '@angular/core/rxjs-interop';
 import { PostSearchParams } from '../types/apiTypes';
 
-interface singalForBoxToggle {
+export interface singalForBoxToggle {
   value: boolean;
   action: string;
 }
 
-interface SearchFilters {
+export interface SearchFilters {
   followedAuthors: boolean;
   needsFeedback: boolean;
   savedPosts: boolean;
   commentedPosts: boolean;
   myLanguages: boolean;
   clearFilters: boolean;
+  status: string;
+  languages: ILanguage[];
+  interests: IInterest[];
 }
 
-interface ISignalCurrentPostsState {
+export interface ISignalCurrentPostsState {
   currentPosts: IPostObject[];
 }
 
-type SearchStreamResponse = {
+export type SearchStreamResponse = {
   data: IPostObject[] | [];
   revertToFetchedPosts: boolean;
 };
@@ -117,6 +121,9 @@ export class FeedComponent implements OnDestroy, OnInit, AfterViewInit {
       commentedPosts: false,
       myLanguages: false,
       clearFilters: false,
+      status: 'published',
+      languages: [],
+      interests: [],
     });
   filters: WritableSignal<SearchFilters> = this.filtersStatus;
   private filters$: Observable<SearchFilters> = toObservable(this.filters);
@@ -194,6 +201,9 @@ export class FeedComponent implements OnDestroy, OnInit, AfterViewInit {
       commentedPosts: false,
       myLanguages: false,
       clearFilters: false,
+      status: 'published',
+      languages: [],
+      interests: [],
     }));
   }
 
