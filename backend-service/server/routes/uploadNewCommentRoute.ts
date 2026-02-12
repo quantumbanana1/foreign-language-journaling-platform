@@ -9,7 +9,7 @@ const resposneSchema = {
       data: {
         type: "object",
         properties: {
-          id: { type: "integer" },
+          comment_id: { type: "integer" },
           post_id: { type: "integer" },
           user_id: { type: "integer" },
           content: { type: "string" },
@@ -17,7 +17,7 @@ const resposneSchema = {
           profile_photo_url: { type: "string", format: "uri" },
         },
         required: [
-          "id",
+          "comment_id",
           "post_id",
           "user_id",
           "content",

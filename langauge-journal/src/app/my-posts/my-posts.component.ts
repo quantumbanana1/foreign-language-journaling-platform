@@ -82,7 +82,7 @@ interface ISignalCurrentPostsState {
   currentPosts: IUserPost[];
 }
 
-type SelectedItemEvent =
+export type SelectedItemEvent =
   | { selectedItem: ILanguage; action: string }
   | { selectedItem: IInterest; action: string };
 
@@ -124,6 +124,7 @@ export class MyPostsComponent implements OnInit, OnDestroy {
       status: 'published',
       languages: [],
       interests: [],
+      mine: true,
     });
   filters: WritableSignal<SearchFilters> = this.filtersStatus;
   private filters$: Observable<SearchFilters> = toObservable(this.filters);
@@ -160,9 +161,6 @@ export class MyPostsComponent implements OnInit, OnDestroy {
   ) {
     effect(() => {
       const selected = this.serviceLangT.selected();
-      console.log('Zmiana języków:', selected);
-      // tu np. odpal pobieranie wyników:
-      // this.loadResults(selected);
     });
   }
 
@@ -327,6 +325,7 @@ export class MyPostsComponent implements OnInit, OnDestroy {
       status: 'published',
       languages: [],
       interests: [],
+      mine: true,
     }));
   }
 
@@ -388,14 +387,23 @@ export class MyPostsComponent implements OnInit, OnDestroy {
   selectedItemsChange<T>($event: SelectedItemEvent) {
     if ($event.selectedItem['language_id']) {
       const exists = this.filters().languages.some(
-        (l: ILanguage) => l.language_id === $event['language_id'],
+        (l: ILanguage) => l.language_id === $event.selectedItem['language_id'],
       );
 
-      if (!exists) {
+      if (!exists && $event.action === 'adding') {
         this.filters.update((current: SearchFilters) => {
           return {
             ...current,
             languages: [...current.languages, $event.selectedItem as ILanguage],
+          };
+        });
+      } else if (exists && $event.action === 'removing') {
+        this.filters.update((current: SearchFilters) => {
+          return {
+            ...current,
+            languages: current.languages.filter(
+              (l) => l.language_id !== $event.selectedItem['language_id'],
+            ),
           };
         });
       }
@@ -403,14 +411,23 @@ export class MyPostsComponent implements OnInit, OnDestroy {
 
     if ($event.selectedItem['interest_id']) {
       const exists = this.filters().interests.some(
-        (i) => i.interest_id === $event['interest_id'],
+        (i) => i.interest_id === $event.selectedItem['interest_id'],
       );
 
-      if (!exists) {
+      if (!exists && $event.action === 'adding') {
         this.filters.update((current: SearchFilters) => {
           return {
             ...current,
             interests: [...current.interests, $event.selectedItem as IInterest],
+          };
+        });
+      } else if (exists && $event.action === 'removing') {
+        this.filters.update((current: SearchFilters) => {
+          return {
+            ...current,
+            interests: current.interests.filter(
+              (i) => i.interest_id !== $event.selectedItem['interest_id'],
+            ),
           };
         });
       }

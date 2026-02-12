@@ -13,13 +13,13 @@ import {
   IChooseLanguageWithLevel,
   IResponseUserLanguages,
 } from '../types/Language/languageOptionTypes';
-import { NgOptimizedImage } from '@angular/common';
+import { NgIf, NgOptimizedImage } from '@angular/common';
 import { IResponseUserPostCounts } from '../types/post/postAttributes';
 
 @Component({
   selector: 'app-user-view',
   standalone: true,
-  imports: [LngLevelComponent, NgOptimizedImage],
+  imports: [LngLevelComponent, NgOptimizedImage, NgIf],
   templateUrl: './user-view.component.html',
   styleUrl: './user-view.component.scss',
 })

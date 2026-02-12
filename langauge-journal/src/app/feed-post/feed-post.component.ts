@@ -3,6 +3,7 @@ import { IPostObject } from '../types/Response/postTypes';
 import { HelperService } from '../helper.service';
 import { LevelLanguage } from '../types/Language/languageOptionTypes';
 import { NgClass } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-feed-post',
@@ -17,7 +18,14 @@ export class FeedPostComponent implements OnInit {
   public estimatedTimeToRead: number;
   public dateOfPublished: string;
 
-  constructor(private helperService: HelperService) {}
+  constructor(
+    private helperService: HelperService,
+    private router: Router,
+  ) {}
+
+  goToPost(post_id: number) {
+    this.router.navigate(['/post', post_id]);
+  }
 
   public shouldStop(index: number) {
     switch (this.post.language_object.proficiency) {

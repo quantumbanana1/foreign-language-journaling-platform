@@ -27,6 +27,12 @@ export interface IUpdatedPostComment {
   updated_at?: Date;
 }
 
+export interface IResponseUpdatedComment {
+  message: string;
+  success: boolean;
+  data: IPostComments;
+}
+
 export interface IPostCommentsResponse {
   message: string;
   success: boolean;

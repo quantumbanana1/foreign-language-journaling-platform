@@ -26,7 +26,7 @@ export default fp(async function uploadPostComment(app: FastifyInstance) {
     RETURNING id, post_id, user_id, content
   )
   SELECT 
-    i.id,
+    i.id as comment_id,
     i.post_id,
     i.user_id,
     i.content,

@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container"  *ngIf="postInfo as p">
   <div class="header-post-container"  [ngStyle]="{'background-image': 'url(' + postInfo.image_url+ ')' + ', linear-gradient(rgba(0, 0, 0, 0.74), rgba(0,0,0,0.74))'}">
     <div class="top-block">
       <app-language-indicator [selectedLanguage]="postInfo.language_object.name"></app-language-indicator>

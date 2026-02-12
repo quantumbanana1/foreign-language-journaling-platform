@@ -15,7 +15,7 @@
 
   <div class="additional" *ngIf="advancedBox().value">
     <div class="main-search-container" >
-      <app-selection-block typeOfItem="interest" [items]="interests" trackKey="interest_id"></app-selection-block>
+      <app-selection-block  (selectedItemsChange)="this.selectedItemsChange($event)" typeOfItem="interest" [items]="interests" trackKey="interest_id"></app-selection-block>
       <div class="search-container">
         <div class="container-input">
       <span class="fa fa-search">

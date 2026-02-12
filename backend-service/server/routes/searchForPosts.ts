@@ -7,7 +7,8 @@ const paramsSchema = {
     needsFeedback: { type: ["boolean"] },
     searchResult: { type: ["string"] },
     myLanguages: { type: ["boolean"] },
-    commentedPost: { type: ["boolean"] },
+    commentedPosts: { type: ["boolean"] },
+    mine: { type: ["boolean"] },
     status: { type: ["string"] },
     language_ids: {
       anyOf: [

@@ -5,14 +5,13 @@ import { BehaviorSubject, Subject } from 'rxjs';
   providedIn: 'root',
 })
 export class DeleteCommentBindingService {
-  public startDeletingOfComment = new BehaviorSubject<{
+  private startDeletingOfCommentSubject = new Subject<{
     commentId: number;
     action: string;
-  }>({
-    commentId: 0,
-    action: '',
-  });
-  notifyStartDeletingOfComment = this.startDeletingOfComment.asObservable();
+  }>();
+
+  notifyStartDeletingOfComment =
+    this.startDeletingOfCommentSubject.asObservable();
 
   public popUpStateSubject = new Subject<{
     value: boolean;
@@ -21,7 +20,7 @@ export class DeleteCommentBindingService {
   popUpStateObservable = this.popUpStateSubject.asObservable();
 
   public setStartDeletingOfComment(commentId: number) {
-    this.startDeletingOfComment.next({
+    this.startDeletingOfCommentSubject.next({
       commentId: commentId,
       action: 'deleteComment',
     });

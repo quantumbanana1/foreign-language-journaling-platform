@@ -32,7 +32,11 @@ export default fp(async function authorization(app: FastifyInstance, opts) {
         [commentId, postId],
       );
 
+      console.log(result);
+      console.log(postId, commentId, userId);
+
       if (result.rows.length === 0) {
+        console.log("2");
         return handleResponse(
           reply,
           403,
@@ -43,6 +47,7 @@ export default fp(async function authorization(app: FastifyInstance, opts) {
       }
 
       if (result.rows[0].user_id !== userId) {
+        console.log("1");
         return handleResponse(
           reply,
           403,

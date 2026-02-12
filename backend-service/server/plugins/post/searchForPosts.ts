@@ -14,6 +14,7 @@ interface IGetPostQueryString {
   language_ids?: number[] | number;
   interest_ids?: number[] | number;
   status: string;
+  mine: boolean;
 }
 
 type MyRequest = FastifyRequest<{
@@ -88,19 +89,43 @@ export default fp(async function searchPostPlugin(app: FastifyInstance) {
           condition.push(con);
         }
 
+        if (key === "interest_ids" && interest_ids.length > 0) {
+          const placeholders_i: number[] = [];
+
+          for (let i = 0; i < interest_ids.length; i++) {
+            placeholders_i.push(indexForValue);
+            indexForValue++;
+
+            values.push(Number(language_ids[i]));
+          }
+
+          con = `p.interest_id IN (${placeholders_i
+            .map((i) => `$${i}`)
+            .join(", ")})`;
+          condition.push(con);
+        }
+
         if (key === "status") {
           con = `p.status = $${indexForValue}`;
           condition.push(con);
           values.push(value);
+          indexForValue++;
+        }
+
+        if (key === "mine" && value === true) {
+          con = `p.user_id = $${indexForValue}`;
+          condition.push(con);
+          values.push(request.session.userId);
+          indexForValue++;
         }
       });
 
       const whereClause = condition.join(" AND ");
-      console.log("WHERE CLAUSE", whereClause, values);
 
       const sqlQuery =
-        "SELECT p.post_id, p.title, p.image_url, p.status, p.time_created, p.post_content, p.comment_count, p.like_count, p.language_id, u.username, u.profile_photo_url, json_build_object('language_id', l.language_id, 'name', l.name, 'proficiency', ul.proficiency) AS language_object  FROM posts p JOIN users u ON u.id = p.user_id JOIN languages l ON l.language_id = p.language_id LEFT JOIN user_learns ul ON ul.language_id = p.language_id AND ul.user_id = p.user_id WHERE";
+        "SELECT p.post_id, p.title, p.image_url, p.status, p.time_created, p.post_content, p.comment_count, p.like_count, p.language_id, u.username, u.profile_photo_url, json_build_object('language_id', l.language_id, 'name', l.name, 'proficiency', ul.proficiency) AS language_object  FROM posts p JOIN users u ON u.id = p.user_id JOIN languages l ON l.language_id = p.language_id LEFT JOIN user_learns ul ON ul.language_id = p.language_id AND ul.user_id = p.user_id WHERE ";
       const finalSqlQuery = sqlQuery + whereClause;
+      console.log("final squary", finalSqlQuery);
       const responseData = await client.query(finalSqlQuery, [...values]);
       const data = responseData.rows;
 

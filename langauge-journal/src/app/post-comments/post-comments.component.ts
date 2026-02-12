@@ -65,7 +65,7 @@ export class PostCommentsComponent implements OnDestroy, OnInit {
 
   private deleteComment(commentId: number) {
     this.apiService
-      .deleteComment(Number(this.postId), commentId)
+      .deleteComment(Number(this.postId), Number(commentId))
       .pipe(takeUntil(this.destroyOFdeleteCommentApiSub))
       .subscribe({
         next: (response) => {

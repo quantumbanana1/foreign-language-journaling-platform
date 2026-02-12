@@ -38,7 +38,9 @@ import {
 } from './types/Response/postTypes';
 import {
   INewComment,
+  IPostComments,
   IPostCommentsResponse,
+  IResponseUpdatedComment,
   IUpdatedCommentResponse,
   IUpdatedPostComment,
 } from './types/newPost/commentTypes';
@@ -345,10 +347,15 @@ export class ApiService {
       .set('commentedPosts', String(params.commentedPosts))
       .set('savedPost', String(params.savedPosts))
       .set('interests', String(params.interests))
-      .set('status', String(params.status));
+      .set('status', String(params.status))
+      .set('mine', String(params.mine));
 
     for (const l of params.languages) {
       httpParams = httpParams.append('language_ids', String(l.language_id));
+    }
+
+    for (const l of params.interests) {
+      httpParams = httpParams.append('interest_ids', String(l.interest_id));
     }
 
     const q = query.trim();
@@ -413,7 +420,7 @@ export class ApiService {
 
   public uploadNewComment(newComment: IUpdatedPostComment) {
     return this.httpClient
-      .post<NewPostResponse>(
+      .post<IResponseUpdatedComment>(
         `${this.API_URL}/upload/post/comment`,
         newComment,
         {

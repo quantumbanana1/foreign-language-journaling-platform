@@ -50,6 +50,7 @@ import {
 } from '../types/Response/getInterestsResponse';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { PostSearchParams } from '../types/apiTypes';
+import { SelectedItemEvent } from '../my-posts/my-posts.component';
 
 export interface singalForBoxToggle {
   value: boolean;
@@ -66,6 +67,7 @@ export interface SearchFilters {
   status: string;
   languages: ILanguage[];
   interests: IInterest[];
+  mine: boolean;
 }
 
 export interface ISignalCurrentPostsState {
@@ -124,6 +126,7 @@ export class FeedComponent implements OnDestroy, OnInit, AfterViewInit {
       status: 'published',
       languages: [],
       interests: [],
+      mine: false,
     });
   filters: WritableSignal<SearchFilters> = this.filtersStatus;
   private filters$: Observable<SearchFilters> = toObservable(this.filters);
@@ -204,6 +207,7 @@ export class FeedComponent implements OnDestroy, OnInit, AfterViewInit {
       status: 'published',
       languages: [],
       interests: [],
+      mine: false,
     }));
   }
 
@@ -287,4 +291,54 @@ export class FeedComponent implements OnDestroy, OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {}
+
+  selectedItemsChange<T>($event: SelectedItemEvent) {
+    if ($event.selectedItem['language_id']) {
+      const exists = this.filters().languages.some(
+        (l: ILanguage) => l.language_id === $event.selectedItem['language_id'],
+      );
+
+      if (!exists && $event.action === 'adding') {
+        this.filters.update((current: SearchFilters) => {
+          return {
+            ...current,
+            languages: [...current.languages, $event.selectedItem as ILanguage],
+          };
+        });
+      } else if (exists && $event.action === 'removing') {
+        this.filters.update((current: SearchFilters) => {
+          return {
+            ...current,
+            languages: current.languages.filter(
+              (l) => l.language_id !== $event.selectedItem['language_id'],
+            ),
+          };
+        });
+      }
+    }
+
+    if ($event.selectedItem['interest_id']) {
+      const exists = this.filters().interests.some(
+        (i) => i.interest_id === $event['interest_id'],
+      );
+
+      if (!exists && $event.action === 'adding') {
+        this.filters.update((current: SearchFilters) => {
+          return {
+            ...current,
+            interests: [...current.interests, $event.selectedItem as IInterest],
+          };
+        });
+      } else if (exists && $event.action === 'removing') {
+        this.filters.update((current: SearchFilters) => {
+          return {
+            ...current,
+            interests: current.interests.filter(
+              (i) => i.interest_id !== $event.selectedItem['interest_id'],
+            ),
+          };
+        });
+      }
+    }
+  }
 }

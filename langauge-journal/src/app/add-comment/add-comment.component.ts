@@ -42,7 +42,7 @@ export class AddCommentComponent implements OnInit {
       postId: Number(this.postId),
     };
 
-    return this.apiService.uploadNewComment(request).subscribe({
+    this.apiService.uploadNewComment(request).subscribe({
       next: (response) => {
         this.commentCreated.emit(response.data);
       },

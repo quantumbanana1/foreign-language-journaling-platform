@@ -12,4 +12,5 @@ export interface PostSearchParams {
   status: string;
   interests: IInterest[];
   languages: ILanguage[];
+  mine: boolean;
 }
