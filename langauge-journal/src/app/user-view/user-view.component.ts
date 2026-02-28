@@ -15,6 +15,7 @@ import {
 } from '../types/Language/languageOptionTypes';
 import { NgIf, NgOptimizedImage } from '@angular/common';
 import { IResponseUserPostCounts } from '../types/post/postAttributes';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-view',
@@ -24,7 +25,10 @@ import { IResponseUserPostCounts } from '../types/post/postAttributes';
   styleUrl: './user-view.component.scss',
 })
 export class UserViewComponent implements OnInit, OnDestroy, AfterViewInit {
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    private router: Router,
+  ) {}
 
   @Input() postId!: string;
   @Input() postInfo!: IPostObject;
@@ -38,6 +42,8 @@ export class UserViewComponent implements OnInit, OnDestroy, AfterViewInit {
   private postAttributesDestroy$ = new Subject<void>();
 
   getUserLanguages() {
+    console.log(this.postInfo);
+
     this.apiService
       .getUserLanguagesById(Number(this.postInfo.user_id))
       .pipe(takeUntil(this.destroy$))
@@ -80,5 +86,20 @@ export class UserViewComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit(): void {
     this.getUserLanguages();
     this.getCountedPostAttributes();
+  }
+
+  goToProfile() {
+    this.router.navigate(['/profile', this.postInfo.username]);
+  }
+
+  followUser(user_id: number) {
+    this.apiService
+      .followUser(user_id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (r) => {},
+
+        error: (e) => {},
+      });
   }
 }

@@ -16,13 +16,11 @@ export default fp(async function uploadNewPostPlugin(app: FastifyInstance) {
         [request.query.comment_id, request.query.post_id],
       );
 
-      return handleResponse(
-        reply,
-        200,
-        null,
-        "comment deleted  correctly",
-        null,
-      );
+      return reply.status(200).send({
+        message: "Following is a success",
+        success: true,
+        followStatus: true,
+      });
     } catch (error) {
       console.error(error);
       return handleResponse(

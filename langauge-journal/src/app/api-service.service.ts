@@ -47,6 +47,11 @@ import {
 import { DeleteCommentResponse200 } from './types/comments/commentTypes';
 import { IResponseUserPostCounts } from './types/post/postAttributes';
 import { PostSearchParams } from './types/apiTypes';
+import {
+  IFollowingUserResponse,
+  IisUserFollowingResponse,
+  IUnfollowingUserResponse,
+} from './types/Response/FollowingResponses';
 
 // ApiService: Handles all HTTP requests to the backend API.
 
@@ -500,6 +505,57 @@ export class ApiService {
       .pipe(
         catchError((error: HttpErrorResponse) =>
           this.handleError(error, 'counting  user posts and likes  failed'),
+        ),
+      );
+  }
+
+  public followUser(user_id: Number): Observable<IFollowingUserResponse> {
+    return this.httpClient
+      .post<IFollowingUserResponse>(
+        `${this.API_URL}/follow/user/${user_id}`,
+        user_id,
+        {
+          ...this.defaultOptions,
+        },
+      )
+      .pipe(
+        catchError((error: HttpErrorResponse) =>
+          this.handleError(error, 'following user failed'),
+        ),
+      );
+  }
+
+  public unfollowUser(user_id: number): Observable<IUnfollowingUserResponse> {
+    const params: HttpParams = new HttpParams().set('userId', user_id);
+
+    return this.httpClient
+      .delete<IUnfollowingUserResponse>(
+        `${this.API_URL}/follow/user/${user_id}`,
+        {
+          ...this.defaultOptions,
+          params: params,
+        },
+      )
+      .pipe(
+        catchError((error: HttpErrorResponse) =>
+          this.handleError(error, 'unfollowing user  failed'),
+        ),
+      );
+  }
+
+  public isUserFollowing(
+    user_id: number,
+  ): Observable<IisUserFollowingResponse> {
+    const params = new HttpParams().set('userId', user_id);
+
+    return this.httpClient
+      .get<IisUserFollowingResponse>(`${this.API_URL}/get/follow/${user_id}`, {
+        ...this.defaultOptions,
+        params: params,
+      })
+      .pipe(
+        catchError((error: HttpErrorResponse) =>
+          this.handleError(error, 'The Checking of  follow status  failed'),
         ),
       );
   }
