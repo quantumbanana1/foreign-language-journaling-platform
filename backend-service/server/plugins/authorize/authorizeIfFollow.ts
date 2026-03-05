@@ -30,6 +30,8 @@ export default fp(async function onAuthIfFollow(app: FastifyInstance, opts) {
         });
       }
 
+      console.log(request.body);
+
       const result = await client.query(
         `
     SELECT EXISTS (
@@ -41,16 +43,19 @@ export default fp(async function onAuthIfFollow(app: FastifyInstance, opts) {
         [followerId, followingId],
       );
 
+      console.log(result.rows[0].is_following);
+
       if (result.rows[0].is_follwing) {
-        return;
-      } else {
         return reply.status(500).send({
           message: "You already followed this user",
           success: false,
           followingStatus: false,
         });
+      } else {
+        return;
       }
     } catch (error) {
+      console.log(error);
       return reply.status(500).send({
         success: false,
         message: "Something went wrong",

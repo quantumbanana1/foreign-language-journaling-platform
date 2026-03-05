@@ -513,7 +513,7 @@ export class ApiService {
     return this.httpClient
       .post<IFollowingUserResponse>(
         `${this.API_URL}/follow/user/${user_id}`,
-        user_id,
+        { user_id: user_id },
         {
           ...this.defaultOptions,
         },

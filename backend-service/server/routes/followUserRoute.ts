@@ -40,7 +40,7 @@ export default async function updateCommentRoute(app: FastifyInstance) {
     url: "/follow/user/:user_id",
     handler: app.followUserPlugin,
     onRequest: app.authorizeOnRequest,
-    preHandler: app.authorizeIfFollow,
+    preValidation: app.authorizeIfFollow,
     schema: schema,
   });
 }

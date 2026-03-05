@@ -15,7 +15,7 @@ export default fp(async function followUserPlugin(app: FastifyInstance) {
       const client = await app.pg.connect();
       try {
         const query =
-          "INSERT INTO user_follows (follower_id, following_id) VALUES ($1,$2) RETURNING follower_id, following_id, t√";
+          "INSERT INTO user_follows (follower_id, following_id) VALUES ($1,$2) RETURNING follower_id, following_id";
         const result = await client.query(query, [userId, followedUserId]);
 
         return handleResponse(
@@ -29,12 +29,21 @@ export default fp(async function followUserPlugin(app: FastifyInstance) {
         client.release();
       }
     } catch (error) {
-      return handleResponse(
-        reply,
-        500,
-        error,
-        "An unexpected error occurred. Please try again later.",
-      );
+      console.log(error);
+
+      if (error.constraint == "user_follows_pkey") {
+        return reply.status(500).send({
+          success: false,
+          message: "User already followed",
+          followingStatus: false,
+        });
+      } else {
+        return reply.status(500).send({
+          success: "false",
+          message: "An unexpected error occurred. Please try again later.",
+          followingStatus: false,
+        });
+      }
     }
   }
 
