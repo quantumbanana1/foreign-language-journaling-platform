@@ -12,6 +12,8 @@ const responseError = {
   type: "object",
   properties: {
     message: { type: "string" },
+    followingStatus: { type: "boolean" },
+    isSameUser: { type: "boolean" },
   },
 };
 
@@ -19,6 +21,7 @@ const successResponse = {
   type: "object",
   properties: {
     followingStatus: { type: "boolean" },
+    isSameUser: { type: "boolean" },
     message: { type: "string" },
   },
 };

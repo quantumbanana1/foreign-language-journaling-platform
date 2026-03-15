@@ -6,6 +6,7 @@ import { UserViewComponent } from '../user-view/user-view.component';
 import { PopUpComponent } from '../pop-up/pop-up.component';
 import { ApiService } from '../api-service.service';
 import { IPostObject } from '../types/Response/postTypes';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-user-post',
@@ -15,6 +16,7 @@ import { IPostObject } from '../types/Response/postTypes';
     PostCommentsComponent,
     UserViewComponent,
     PopUpComponent,
+    NgIf,
   ],
   templateUrl: './user-post.component.html',
   styleUrl: './user-post.component.scss',

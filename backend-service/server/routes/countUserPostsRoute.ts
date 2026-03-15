@@ -3,9 +3,9 @@ import { FastifyInstance } from "fastify";
 const paramsSchema = {
   type: "object",
   properties: {
-    userId: { type: "integer" },
+    user_id: { type: "integer" },
   },
-  required: ["userId"],
+  required: ["user_id"],
   additionalProperties: false,
 };
 
@@ -50,7 +50,7 @@ const schema = {
 export default async function countUserPostsRoute(app: FastifyInstance) {
   app.route({
     method: "GET",
-    url: "/get/user/:userId/amount/posts",
+    url: "/get/user/:user_id/amount/posts",
     handler: app.countUserPostsPlugin,
     preHandler: app.authorizeOnRequest,
     schema: schema,

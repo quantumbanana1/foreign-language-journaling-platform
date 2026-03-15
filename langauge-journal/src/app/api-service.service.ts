@@ -546,10 +546,10 @@ export class ApiService {
   public isUserFollowing(
     user_id: number,
   ): Observable<IisUserFollowingResponse> {
-    const params = new HttpParams().set('userId', user_id);
+    const params = new HttpParams().set('user_id', user_id);
 
     return this.httpClient
-      .get<IisUserFollowingResponse>(`${this.API_URL}/get/follow/${user_id}`, {
+      .get<IisUserFollowingResponse>(`${this.API_URL}/get/user/follow`, {
         ...this.defaultOptions,
         params: params,
       })

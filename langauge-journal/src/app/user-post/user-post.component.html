@@ -4,7 +4,7 @@
     <app-post-view [postInfo]="postInfo" [postDate]="postDate" [postId]="postId" ></app-post-view>
     <div class="bottom-container">
       <app-post-comments [postId]="postId"></app-post-comments>
-      <app-user-view [postInfo]="postInfo" [postId]="postId"></app-user-view>
+      <app-user-view *ngIf="postInfo"   [postInfo]="postInfo" [postId]="postId"></app-user-view>
     </div>
   </div>
 </div>

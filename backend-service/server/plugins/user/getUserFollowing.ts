@@ -1,25 +1,27 @@
 import fp from "fastify-plugin";
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
-import { handleResponse } from "../../helpers/handleResponse";
-import IFollowUserBody from "../../Types/followingUserTypes";
+
+interface ICheckFollowQuery {
+  user_id: number;
+}
 
 export default fp(async function checkIsUserFollowingPlugin(
   app: FastifyInstance,
 ) {
   async function onCheckIsUserFollowingPlugin(
-    request: FastifyRequest<{ Body: IFollowUserBody }>,
+    request: FastifyRequest<{ Querystring: ICheckFollowQuery }>,
     reply: FastifyReply,
   ) {
     const userId = request.session.userId;
-    const followedUserId = request.body.user_id;
+    const followedUserId = request.query.user_id;
 
     try {
       if (userId === followedUserId) {
         return reply.status(200).send({
-          success: false,
+          success: true,
           message: "Cannot follow yourself",
           followingStatus: false,
-          isSameUser: false,
+          isSameUser: true, // was incorrectly false
         });
       }
 
@@ -30,22 +32,33 @@ export default fp(async function checkIsUserFollowingPlugin(
         const result = await client.query(query, [userId, followedUserId]);
 
         if (result.rows.length > 0) {
-          return reply.status(400).send({
-            success: false,
+          return reply.status(200).send({
+            // 400 -> 200, this is not an error
+            success: true,
             message: "User already followed",
-            followingStatus: false,
+            followingStatus: true, // false -> true, user IS following
             isSameUser: false,
           });
         }
+
+        // not following
+        return reply.status(200).send({
+          success: true,
+          message: "User is not followed",
+          followingStatus: false,
+          isSameUser: false,
+        });
       } finally {
         client.release();
       }
     } catch (error) {
       console.log(error);
-      return reply.status(401).send({
+      return reply.status(500).send({
+        // 401 -> 500
         success: false,
         message: "An unexpected error occurred. Please try again later.",
         followingStatus: false,
+        isSameUser: false,
       });
     }
   }

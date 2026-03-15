@@ -4,7 +4,7 @@ import { PoolClient, QueryResult } from "pg";
 import { handleResponse } from "../../helpers/handleResponse";
 import { results } from "tap";
 
-type MyRequest = FastifyRequest<{ Params: { userId: number } }>;
+type MyRequest = FastifyRequest<{ Params: { user_id: number } }>;
 
 export default fp(async function countUserPosts(app: FastifyInstance) {
   async function onCountUserPosts(request: MyRequest, reply: FastifyReply) {
@@ -12,9 +12,11 @@ export default fp(async function countUserPosts(app: FastifyInstance) {
     try {
       const countPostQueryString = ` SELECT COUNT(*) as post_count from posts where user_id = $1`;
 
+      console.log(request.params.user_id);
+
       const countPostResult: QueryResult<any> = await client.query(
         countPostQueryString,
-        [request.session.userId],
+        [request.params.user_id],
       );
 
       const countLikesPostResult = ``;
