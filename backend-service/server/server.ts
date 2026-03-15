@@ -90,6 +90,8 @@ declare module "fastify" {
     searchForPostsFunction: MyAsyncHandler;
     followUserPlugin: MyAsyncHandler;
     authorizeIfFollow: MyAsyncHandler;
+    isUserFollowing: MyAsyncHandler;
+    checkIsUserFollowing: MyAsyncHandler;
   }
   interface Session {
     username: string;

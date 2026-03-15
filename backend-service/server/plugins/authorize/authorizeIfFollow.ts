@@ -26,7 +26,7 @@ export default fp(async function onAuthIfFollow(app: FastifyInstance, opts) {
         return reply.status(500).send({
           message: "You can't follow yourself",
           success: false,
-          followingStatus: true,
+          followingStatus: false,
         });
       }
 

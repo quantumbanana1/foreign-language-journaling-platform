@@ -5,8 +5,9 @@
         <img alt="profile-photo" [src]='postInfo.profile_photo_url'>
       </a>
       <p class="username">{{postInfo.username}}</p>
-      <button>
-        <span (click)="followUser(this.postInfo.user_id)">Follow</span>
+      <button *ngIf="!followingStatus().isSameUser">
+        <span (click)="followUser(this.postInfo.user_id)" *ngIf="!followingStatus().isFollow" >Follow</span>
+        <span (click)="unfollowUser(this.postInfo.user_id)" *ngIf="followingStatus().isFollow" >Unfollow</span>
       </button>
     </div>
     <div class="language-info">

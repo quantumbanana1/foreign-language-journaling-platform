@@ -4,6 +4,8 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  signal,
+  WritableSignal,
 } from '@angular/core';
 import { LngLevelComponent } from '../lng-level/lng-level.component';
 import { ApiService } from '../api-service.service';
@@ -16,6 +18,7 @@ import {
 import { NgIf, NgOptimizedImage } from '@angular/common';
 import { IResponseUserPostCounts } from '../types/post/postAttributes';
 import { Router } from '@angular/router';
+import { FollowingStatus } from '../types/followingStatus/followinStatus';
 
 @Component({
   selector: 'app-user-view',
@@ -40,6 +43,14 @@ export class UserViewComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private destroy$ = new Subject<void>();
   private postAttributesDestroy$ = new Subject<void>();
+
+  private readonly followStatus: WritableSignal<FollowingStatus> =
+    signal<FollowingStatus>({
+      isFollow: false,
+      isSameUser: false,
+    });
+
+  followingStatus: WritableSignal<FollowingStatus> = this.followStatus;
 
   getUserLanguages() {
     console.log(this.postInfo);
@@ -73,7 +84,46 @@ export class UserViewComponent implements OnInit, OnDestroy, AfterViewInit {
       });
   }
 
-  ngOnInit() {}
+  goToProfile() {
+    this.router.navigate(['/profile', this.postInfo.username]);
+  }
+
+  followUser(user_id: number) {
+    this.apiService
+      .followUser(user_id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (r) => {
+          if (r.followingStatus) {
+            this.followStatus.set({
+              isFollow: true,
+              isSameUser: false,
+            });
+          }
+        },
+
+        error: (e) => {},
+      });
+  }
+
+  unfollowUser(userId: number) {}
+
+  checkIfFollow(userId: number) {
+    this.apiService.isUserFollowing(userId).subscribe({
+      next: (r) => {
+        this.followingStatus.set({
+          isFollow: r.followingStatus,
+          isSameUser: r.isSameUser,
+        });
+      },
+
+      error: (e) => {},
+    });
+  }
+
+  ngOnInit() {
+    this.checkIfFollow(this.postInfo.user_id);
+  }
 
   ngOnDestroy() {
     this.destroy$.next();
@@ -86,20 +136,5 @@ export class UserViewComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit(): void {
     this.getUserLanguages();
     this.getCountedPostAttributes();
-  }
-
-  goToProfile() {
-    this.router.navigate(['/profile', this.postInfo.username]);
-  }
-
-  followUser(user_id: number) {
-    this.apiService
-      .followUser(user_id)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (r) => {},
-
-        error: (e) => {},
-      });
   }
 }
