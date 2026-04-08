@@ -92,6 +92,7 @@ declare module "fastify" {
     authorizeIfFollow: MyAsyncHandler;
     isUserFollowing: MyAsyncHandler;
     checkIsUserFollowing: MyAsyncHandler;
+    checkIfUserCanEdit: MyAsyncHandler;
   }
   interface Session {
     username: string;

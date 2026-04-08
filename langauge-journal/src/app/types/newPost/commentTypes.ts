@@ -44,3 +44,9 @@ export interface IUpdatedPostCommentResponse {
   message: string;
   success: boolean;
 }
+
+export interface CanUpdateCommenentResponse {
+  data: { canEdit: boolean };
+  message: string;
+  success: boolean;
+}

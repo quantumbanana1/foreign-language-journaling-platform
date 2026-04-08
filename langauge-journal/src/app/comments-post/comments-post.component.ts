@@ -10,7 +10,10 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { IPostComments } from '../types/newPost/commentTypes';
+import {
+  CanUpdateCommenentResponse,
+  IPostComments,
+} from '../types/newPost/commentTypes';
 import { NgIf } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -29,6 +32,7 @@ export class CommentsPostComponent implements OnChanges, OnInit, OnDestroy {
   @Input() comment!: IPostComments;
 
   public isEditMode: boolean = false;
+  public canEdit: boolean = false;
 
   @ViewChild('commentContent') commentContentElement: ElementRef;
   @ViewChild('usernameContent') usernameContentElement: ElementRef;
@@ -88,8 +92,24 @@ export class CommentsPostComponent implements OnChanges, OnInit, OnDestroy {
     this.isEditMode = !this.isEditMode;
   }
 
+  checkIfUsrCanEditComments(postId: number, commentId: number) {
+    this.apiService.CanUpdateComment(postId, commentId).subscribe({
+      next: (response: CanUpdateCommenentResponse) => {
+        this.canEdit = response.data.canEdit;
+      },
+      error: () => {},
+    });
+  }
+
   ngOnInit() {
     this.postId = this.route.snapshot.paramMap.get('id');
+
+    if (this.postId) {
+      this.checkIfUsrCanEditComments(
+        Number(this.postId),
+        this.comment.comment_id,
+      );
+    }
   }
 
   ngOnDestroy() {}

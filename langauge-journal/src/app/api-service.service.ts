@@ -37,6 +37,7 @@ import {
   PostResponse,
 } from './types/Response/postTypes';
 import {
+  CanUpdateCommenentResponse,
   INewComment,
   IPostComments,
   IPostCommentsResponse,
@@ -467,6 +468,23 @@ export class ApiService {
       .pipe(
         catchError((error: HttpErrorResponse) =>
           this.handleError(error, 'Updating comment failed'),
+        ),
+      );
+  }
+
+  public CanUpdateComment(
+    postId: number,
+    commentId: number,
+  ): Observable<CanUpdateCommenentResponse> {
+    return this.httpClient
+      .get<CanUpdateCommenentResponse>(
+        `${this.API_URL}/get/${postId}/comment/${commentId}/can-edit`,
+
+        this.defaultOptions,
+      )
+      .pipe(
+        catchError((error: HttpErrorResponse) =>
+          this.handleError(error, 'Getting Info failed'),
         ),
       );
   }

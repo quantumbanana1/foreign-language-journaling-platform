@@ -17,7 +17,7 @@
       <textarea [(ngModel)]="comment.content" *ngIf="isEditMode">{{comment?.content}}</textarea>
     </div>
   </div>
-  <div class="icons">
+  <div class="icons" *ngIf="canEdit">
     <div *ngIf="isEditMode" class="buttons">
       <button (click)="updateComment()" class="save">Save</button>
       <button (click)="setEditMode()" class="cancel">Cancel</button>
