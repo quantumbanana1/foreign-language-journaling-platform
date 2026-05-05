@@ -51,6 +51,7 @@ import { PostSearchParams } from './types/apiTypes';
 import {
   IFollowingUserResponse,
   IisUserFollowingResponse,
+  ILikePostResponse,
   IUnfollowingUserResponse,
 } from './types/Response/FollowingResponses';
 
@@ -574,6 +575,22 @@ export class ApiService {
       .pipe(
         catchError((error: HttpErrorResponse) =>
           this.handleError(error, 'The Checking of  follow status  failed'),
+        ),
+      );
+  }
+
+  public likePost(postId): Observable<ILikePostResponse> {
+    return this.httpClient
+      .post<ILikePostResponse>(
+        `${this.API_URL}/like/post/${postId}`,
+        { postId: postId },
+        {
+          ...this.defaultOptions,
+        },
+      )
+      .pipe(
+        catchError((error: HttpErrorResponse) =>
+          this.handleError(error, 'following user failed'),
         ),
       );
   }

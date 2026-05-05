@@ -25,8 +25,10 @@ const successResponse = {
     image_url: { type: ["string", "null"] },
     profile_photo_url: { type: ["string", "null"] },
     time_created: { type: "string", format: "date-time" },
-    like_count: { type: "integer" },
     post_content: { type: "string" },
+    comment_count: { type: "integer" },
+    is_liked: { type: "boolean" },
+    like_count: { type: "integer" },
     title: { type: "string" },
     interests: {
       type: "array",
@@ -61,6 +63,7 @@ const successResponse = {
     "interests",
     "language_object",
     "user_id",
+    "comment_count",
   ],
 };
 

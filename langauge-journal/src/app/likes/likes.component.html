@@ -1,12 +1,12 @@
 
-  <div class="post-stats">
+  <div class="post-stats" *ngIf="postInfo">
     <div class="post-stat-likes">
-      <img class="icon-likes" src="assets/icons/heart.svg">
-      <span class="likes">{{postLikes}}</span>
+      <img class="icon-likes" src="assets/icons/heart.svg" (click)="handleLikeClick()" [class.liked]="likeStatus().isLiked">
+      <span class="likes">{{postInfo.like_count}}</span>
     </div>
     <div class="post-stat-com">
       <img class="icon-com" src="assets/icons/likes.svg">
-      <span class="comments">{{postComments}}</span>
+      <span class="comments">{{postInfo.comment_count}}</span>
     </div>
   </div>
 

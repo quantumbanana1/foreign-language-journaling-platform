@@ -9,6 +9,7 @@ export interface IPostObject {
   profile_photo_url: string | null;
   time_created: string;
   like_count: number;
+  is_liked: boolean;
   comment_count: number;
   post_content: string;
   title: string;

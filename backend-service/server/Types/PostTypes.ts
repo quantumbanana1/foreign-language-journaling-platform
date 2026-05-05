@@ -18,3 +18,7 @@ export interface INewPostRequestPayload {
     };
   };
 }
+
+export interface IUserLikesPostBody {
+  postId: number;
+}
